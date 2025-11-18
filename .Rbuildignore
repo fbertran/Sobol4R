@@ -1,6 +1,10 @@
 genlogo.R
 .gitignore
 ^codecov\.yml$
+
+^extra-docs$
+
+
 ^revdep$
 ^_pkgdown\.yml$
 ^figure$
