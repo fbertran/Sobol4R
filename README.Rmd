@@ -1,0 +1,91 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  dpi=300,fig.width=7,
+  fig.keep="all"
+)
+```
+# Sobol4R <img src="man/figures/logo.png" align="right" width="200"/>
+
+# Sobol Indices for Models with Fixed and Stochastic Parameters
+## Frédéric Bertrand, Elizaveta Logosha and Myriam Maumy-Bertrand
+
+<!-- badges: start -->
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![R-CMD-check](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/SobolR4)](https://cran.r-project.org/package=SobolR4)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/SobolR4)](https://cran.r-project.org/package=SobolR4)
+[![GitHub Repo stars](https://img.shields.io/github/stars/fbertran/SobolR4?style=social)](https://github.com/fbertran/SobolR4/)
+[![DOI](https://zenodo.org/badge/18437255.svg)](https://zenodo.org/badge/latestdoi/18437255)
+[![Codecov test coverage](https://codecov.io/gh/fbertran/SobolR4/branch/master/graph/badge.svg)](https://codecov.io/gh/fbertran/SobolR4?branch=master)
+<!-- badges: end -->
+
+This site and the examples reproduced on it were created by F. Bertrand, E. Logosha and M. Maumy-Bertrand.
+
+## Installation
+
+You can install the latest version of the Sobol4R package from the [CRAN](https://CRAN.R-project.org) with:
+
+```{r, eval = FALSE}
+install.packages("Sobol4R")
+```
+
+You can install the latest version of the Sobol4R package from [github](https://github.com) with:
+
+```{r, eval = FALSE}
+devtools::install_github("fbertran/Sobol4R")
+```
+
+## Exemples
+
+### Context and non random case
+
+#### Test case : the non-monotonic Sobol g-function
+
+The method of sobol requires 2 samples (there are 2 variables, all following the uniform distribution on $[0,1$])
+
+```{r}
+library(Sobol4R)
+set.seed(4669)
+n <- 50000
+#X1_1 <- data.frame(matrix(runif(8 * n), nrow = n))
+data(X1_1, package="Sobol4R")
+#X2_1 <- data.frame(matrix(runif(8 * n), nrow = n))
+data(X2_1, package="Sobol4R")
+```
+
+
+```{r}
+library(sensitivity)
+if(requireNamespace("sensitivity", quietly = TRUE)){
+sensitivity::sobol.fun
+}
+```
+
+```{r}
+library(sensitivity)
+if(requireNamespace("sensitivity", quietly = TRUE)){
+gensol1 <- sensitivity::sobol(model = NULL, X1 = X1_1, X2 = X2_1, order = 2, nboot = 100)
+Y1 = sensitivity::sobol.fun(gensol1$X)
+data(Y1, package="Sobol4R")
+}
+```
+
+
+```{r}
+if(requireNamespace("sensitivity", quietly = TRUE)){
+x1 <- sensitivity::tell(gensol1, Y1)
+print(x1)
+ggplot2::ggplot(x1)
+rm(gensol1,X1_1,X2_1)
+}
+```
+
+

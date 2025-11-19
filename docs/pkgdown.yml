@@ -1,0 +1,7 @@
+pandoc: 3.1.1
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  fixed-and-random-parameters: fixed-and-random-parameters.html
+last_built: 2023-12-21T07:23Z
+

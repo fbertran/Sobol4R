@@ -1,0 +1,36 @@
+Package: Sobol4R
+Type: Package
+Title: Sobol Indices for Models with Fixed and Stochastic Parameters 
+Version: 0.1.0
+Date: 2025-11-18
+Depends: R (>= 3.50)
+Imports: 
+    ggplot2,
+    sensitivity,
+    stats
+Suggests: 
+    knitr,
+    markdown,
+    rmarkdown
+Authors@R: c(
+	person(given = "Frederic", family= "Bertrand", role = c("cre", "aut"), email = "frederic.bertrand@lecnam.net", comment = c(ORCID = "0000-0002-0837-8281")),
+	person(given = "Elizaveta", family= "Logosha", role = c("aut"), email = "elizaveta.logosha@utt.fr"),
+	person(given = "Myriam", family= "Maumy-Bertrand", role = c("aut"), email = "myriam.maumy@ehesp.fr", comment = c(ORCID = "0000-0002-4615-1512")))
+Author: Frederic Bertrand [cre, aut] (<https://orcid.org/0000-0002-0837-8281>), Elizaveta Logosha [aut], Myriam Maumy-Bertrand [aut] (<https://orcid.org/0000-0002-4615-1512>)
+Maintainer: Frederic Bertrand <frederic.bertrand@lecnam.net>
+Description: Tools to compute Sobol indices for deterministic models and for 
+             stochastic simulators using quantity-of-interest wrappers
+             and random distributional parameters, as described in  
+             Logosha, Maumy and Bertrand (2022) <doi:10.1063/5.0246026> and (2023) 
+             <doi:10.1063/5.0246024> or in Bertrand, Logosha and Maumy (2024) <https://hal.science/hal-05371803>, 
+             <https://hal.science/hal-05371795> and <https://hal.science/hal-05371798>.
+LazyLoad: yes
+LazyData: yes
+VignetteBuilder: knitr
+License: GPL-3
+Encoding: UTF-8
+Classification/MSC:
+URL: https://fbertran.github.io/Sobol4R/, https://github.com/fbertran/Sobol4R
+BugReports: https://github.com/fbertran/Sobol4R/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
