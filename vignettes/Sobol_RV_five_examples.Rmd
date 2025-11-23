@@ -1,0 +1,387 @@
+---
+title: "Exploring Sobol indices and randomness with Sobol4R"
+shorttitle: "Exploring Sobol indices and randomness with Sobol4R"
+author:
+- name: "Frédéric Bertrand"
+  affiliation:
+  - Cedric, Cnam, Paris
+  email: frederic.bertrand@lecnam.net
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Exploring Sobol indices and randomness with Sobol4R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/sobol-exploring-",
+  fig.width = 6,
+  fig.height = 4.5,
+  dpi = 150,
+  message = FALSE,
+  warning = FALSE,
+  eval=FALSE
+)
+
+LOCAL <- identical(Sys.getenv("LOCAL"), "TRUE")
+
+library(Sobol4R)
+library(sensitivity)
+library(ggplot2)
+set.seed(4669)
+```
+
+
+# Context and non random case
+
+Test case: the non monotonic Sobol g function.
+
+The method of Sobol requires two samples. In the reference case there are eight
+variables, all following the uniform distribution on [0,1].
+
+```{r det-design, cache=TRUE, eval=LOCAL}
+n <- 50000
+p <- 8
+X1_1 <- data.frame(matrix(runif(p * n), nrow = n))
+X2_1 <- data.frame(matrix(runif(p * n), nrow = n))
+```
+
+```{r det-g-run, cache=TRUE, eval=LOCAL}
+set.seed(4669)
+gensol1 <- sobol4r_design(
+  X1    = X1_1,
+  X2    = X2_1,
+  order = 2,
+  nboot = 100
+)
+
+Y1 <- sobol_g_function(gensol1$X)
+x1 <- tell(gensol1, Y1)
+```
+
+```{r det-g-plot, cache=TRUE, eval=LOCAL}
+print(x1)
+ggplot(x1)
+```
+
+```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
+rm(gensol1, X1_1, X2_1)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+ex1_results <- sobol_example_g_deterministic()
+print(ex1_results)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+ggplot(ex1_results)
+```
+
+```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
+rm(ex1_results)
+```
+
+
+# Sobol and randomness I: random effect on output variable
+
+## Generate data
+
+```{r r1-design, cache=TRUE, eval=LOCAL}
+n <- 50000
+X1_r1 <- data.frame(
+  C1 = runif(n),
+  C2 = runif(n)
+)
+X2_r1 <- data.frame(
+  C1 = runif(n),
+  C2 = runif(n)
+)
+```
+
+## Three settings, two input variables
+
+The deterministic model is `sobol4r_g2`. The noisy version with Gaussian noise
+N(0,1) is `sobol4r_g2_noise_const`. The quantity of interest based on the mean
+over replications is `sobol4r_g2_noise_const_qoi_mean`.
+
+```{r r1-sobol-design, cache=TRUE, eval=LOCAL}
+set.seed(4669)
+gensol2 <- sobol4r_design(
+  X1    = X1_r1,
+  X2    = X2_r1,
+  order = 2,
+  nboot = 100
+)
+```
+
+```{r r1-Y, cache=TRUE, eval=LOCAL}
+Y2 <- sobol_g2_function(gensol2$X)
+Y3 <- sobol_g2_additive_noise(gensol2$X)
+Y4 <- sobol_g2_qoi_mean(gensol2$X, nrep = 1000)
+```
+
+```{r r1-results, cache=TRUE, eval=LOCAL}
+x2 <- tell(gensol2, Y2)
+x3 <- tell(gensol2, Y3)
+x4 <- tell(gensol2, Y4)
+```
+
+```{r r1-print, cache=TRUE, eval=LOCAL}
+print(x2)
+print(x3)
+print(x4)
+```
+
+```{r r1-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(x2)
+ggplot(x3)
+ggplot(x4)
+```
+
+```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
+rm(gensol2)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+ex2_results <- sobol_example_random_output()
+ex2_results
+```
+
+```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(ex2_results$x_det)
+ggplot(ex2_results$x_noise)
+ggplot(ex2_results$x_qoi)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+rm(ex2_results)
+```
+
+
+# Sobol and randomness II: large random effect depending on an input variable
+
+We keep the previously generated values for C1 and C2 and add a third variable C3
+distributed as `runif(n, min = 1, max = 100)`. The third variable controls the
+mean of the Gaussian noise.
+
+```{r r2-design, cache=TRUE, eval=LOCAL}
+n <- 50000
+X1_r2 <- data.frame(
+  C1 = X1_r1$C1,
+  C2 = X1_r1$C2,
+  C3 = runif(n, min = 1, max = 100)
+)
+X2_r2 <- data.frame(
+  C1 = X2_r1$C1,
+  C2 = X2_r1$C2,
+  C3 = runif(n, min = 1, max = 100)
+)
+```
+
+```{r r2-head, cache=TRUE, eval=LOCAL}
+head(X1_r1)
+head(X1_r2)
+```
+
+```{r r2-sobol-design, cache=TRUE, eval=LOCAL}
+set.seed(4669)
+gensol3 <- sobol4r_design(
+  X1    = X1_r2,
+  X2    = X2_r2,
+  order = 2,
+  nboot = 100
+)
+```
+
+
+```{r r2-Y, cache=TRUE, eval=LOCAL}
+Y5 <- sobol_g2_with_covariate_noise(gensol3$X)
+Y6 <- sobol_g2_qoi_covariate_mean(gensol3$X, nrep = 1000)
+```
+
+```{r r2-results, cache=TRUE, eval=LOCAL}
+x5 <- tell(gensol3, Y5)
+x6 <- tell(gensol3, Y6)
+```
+
+```{r r2-print, cache=TRUE, eval=LOCAL}
+print(x5)
+print(x6)
+```
+
+```{r r2-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(x5)
+ggplot(x6)
+```
+
+```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
+rm(gensol3, X1_r2, X2_r2)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+ex3_results <- sobol_example_covariate_large()
+ex3_results
+```
+
+```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(ex3_results$x_single)
+ggplot(ex3_results$x_qoi)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+rm(ex3_results)
+```
+
+# Sobol and randomness III: slight random effect depending on an input variable
+
+We now take a third input C3 distributed as `runif(n, min = 1, max = 1.5)`,
+which induces a much smaller range for the mean of the noise.
+
+```{r r3-design, cache=TRUE, eval=LOCAL}
+n <- 50000
+X1_r3 <- data.frame(
+  C1 = X1_r1$C1,
+  C2 = X1_r1$C2,
+  C3 = runif(n, min = 1, max = 1.5)
+)
+X2_r3 <- data.frame(
+  C1 = X2_r1$C1,
+  C2 = X2_r1$C2,
+  C3 = runif(n, min = 1, max = 1.5)
+)
+```
+
+```{r r3-sobol-design, cache=TRUE, eval=LOCAL}
+set.seed(4669)
+gensol4 <- sobol4r_design(
+  X1    = X1_r3,
+  X2    = X2_r3,
+  order = 2,
+  nboot = 100
+)
+```
+
+```{r r3-Y, cache=TRUE, eval=LOCAL}
+Y7 <- sobol_g2_with_covariate_noise(gensol4$X)
+Y8 <- sobol_g2_qoi_covariate_mean(gensol4$X, nrep = 1000)
+```
+
+```{r r3-results, cache=TRUE, eval=LOCAL}
+x7 <- tell(gensol4, Y7)
+x8 <- tell(gensol4, Y8)
+```
+
+```{r r3-print, cache=TRUE, eval=LOCAL}
+print(x7)
+print(x8)
+```
+
+```{r r3-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(x7)
+ggplot(x8)
+```
+
+```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
+rm(gensol4, X1_r3, X2_r3)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+ex4_results <- sobol_example_covariate_small()
+ex4_results
+```
+
+```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(ex4_results$x_single)
+ggplot(ex4_results$x_qoi)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+rm(ex4_results)
+```
+
+# Sobol and randomness IV: random variables with fixed distribution parameters
+
+We now turn to the process model. The uncertain inputs are the distributional
+parameters of the individual unit model. The quantity of interest is the time
+needed to reach a given number of successes.
+
+```{r process-design, cache=TRUE, eval=LOCAL}
+n <- 100
+
+draw_params <- function(n) {
+  data.frame(t(replicate(
+    n,
+    c(
+      1 / runif(1, min = 20,  max = 100),
+      1 / runif(1, min = 24,  max = 2000),
+      1 / runif(1, min = 24,  max = 120),
+      runif(1,  min = 0.05, max = 0.3),
+      runif(1,  min = 0.3,  max = 0.7)
+    )
+  )))
+}
+
+X1_process <- draw_params(n)
+X2_process <- draw_params(n)
+```
+
+```{r process-sobol-design, cache=TRUE, eval=LOCAL}
+set.seed(4669)
+gensolp1 <- sobol4r_design(
+  X1    = X1_process,
+  X2    = X2_process,
+  order = 1,
+  nboot = 10
+)
+```
+
+```{r process-Y, cache=TRUE, eval=LOCAL}
+MM <- 50
+
+Yp1 <- process_fun_row_wise(gensolp1$X, M = MM)
+Yp2 <- process_fun_mean_to_M(gensolp1$X, M = MM, nrep = 10)
+```
+
+```{r process-results, cache=TRUE, eval=LOCAL}
+xp1 <- tell(gensolp1, Yp1)
+xp2 <- tell(gensolp1, Yp2)
+```
+
+```{r process-print, cache=TRUE, eval=LOCAL}
+print(xp1)
+print(xp2)
+```
+
+```{r process-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(xp1)
+ggplot(xp2)
+```
+
+```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
+rm(
+  X1_r1, X2_r1,
+  X1_process, X2_process,
+  gensolp1
+)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+ex5_results <- sobol_example_process()
+ex5_results
+```
+
+```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
+ggplot(ex5_results$xp_single)
+ggplot(ex5_results$xp_qoi)
+```
+
+```{r, cache=TRUE, eval=LOCAL}
+rm(ex5_results)
+```
+

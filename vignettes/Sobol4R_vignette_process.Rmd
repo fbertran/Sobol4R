@@ -25,7 +25,8 @@ knitr::opts_chunk$set(
   fig.height = 5,
   dpi = 150,
   message = FALSE,
-  warning = FALSE
+  warning = FALSE,
+  eval=FALSE
 )
 
 LOCAL <- identical(Sys.getenv("LOCAL"), "TRUE")
@@ -52,8 +53,8 @@ The elementary unit is implemented by `sobol4r_one_unit`. The individual level
 model `sobol4r_process_indiv` aggregates units up to a target number of
 successes.
 
-```{r process-demo}
-sobol4r_one_unit(
+```{r process-demo, cache=TRUE, eval=LOCAL}
+Sobol4R:::one_unit(
   lambda1 = 1 / 60,
   lambda2 = 1 / 1012,
   lambda3 = 1 / 72,
@@ -62,8 +63,8 @@ sobol4r_one_unit(
 )
 ```
 
-```{r process-indiv-demo}
-sobol4r_process_indiv(
+```{r process-indiv-demo, cache=TRUE, eval=LOCAL}
+process_fun_indiv(
   X_indiv = c(
     lambda1 = 1 / 60,
     lambda2 = 1 / 1012,
@@ -80,7 +81,7 @@ sobol4r_process_indiv(
 We build two designs `X1` and `X2` for the uncertain distributional parameters,
 which are interpreted row wise by the process model.
 
-```{r process-design}
+```{r process-design, cache=TRUE, eval=LOCAL}
 n <- 200
 
 draw_params <- function(n) {
@@ -100,22 +101,28 @@ X1 <- draw_params(n)
 X2 <- draw_params(n)
 ```
 
-# Sobol indices based on a single trajectory
-
-```{r process-sobol-single}
-sob_proc_single <- sobol4r_run(
-  model = sobol4r_process,
+```{r, cache=TRUE, eval=LOCAL}
+gensol_proc <- sobol4r_design(
   X1    = X1,
   X2    = X2,
-  order = 1,
-  nboot = 20,
-  M     = 50
+  order = 2,
+  nboot = 100
 )
 ```
 
-```{r process-sobol-single-plot}
-print(sob_proc_single)
-autoplot(sob_proc_single)
+# Sobol indices based on a single trajectory
+
+```{r process-sobol-single, cache=TRUE, eval=LOCAL}
+Yproc_1 <- process_fun_row_wise(gensol_proc$X, M = 50)
+```
+
+```{r process-sobol-single2, cache=TRUE, eval=LOCAL}
+xproc_1 <- tell(gensol_proc, Yproc_1)
+```
+
+```{r process-sobol-single-plot, cache=TRUE, eval=LOCAL}
+print(xproc_1)
+#autoplot(xproc_1)
 ```
 
 # Sobol indices based on a quantity of interest
@@ -124,26 +131,53 @@ Instead of relying on a single trajectory, we can define a quantity of interest
 for each parameter vector, for instance the mean time to reach the target number
 of successes. This is implemented by `sobol4r_process_qoi`.
 
-```{r process-sobol-qoi}
-sob_proc_qoi <- sobol4r_run(
-  model = sobol4r_process,
+```{r process-sobol-qoi, cache=TRUE, eval=LOCAL}
+Yproc_2 <- process_fun_mean_to_M(gensol_proc$X, M = 50)
+```
+
+```{r process-sobol-qoi2, cache=TRUE, eval=LOCAL}
+xproc_2 <- tell(gensol_proc, Yproc_2)
+```
+
+```{r process-sobol-qoi-plot, cache=TRUE, eval=LOCAL}
+print(xproc_2)
+#autoplot(xproc_2)
+```
+
+## Qoi Mean
+
+```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
+sobol4r_qoi_indices(
+  model = process_fun_row_wise,
   X1    = X1,
   X2    = X2,
-  order = 1,
+  qoi_fun = base::mean,
+  nrep = 2000,
+  order = 2,
   nboot = 20,
-  qoi   = mean,
-  n_rep = 20,
   M     = 50
 )
 ```
 
-```{r process-sobol-qoi-plot}
-print(sob_proc_qoi)
-autoplot(sob_proc_qoi)
+## Qoi Median
+
+```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
+sobol4r_qoi_indices(
+  model = process_fun_row_wise,
+  X1    = X1,
+  X2    = X2,
+  qoi_fun = base::median,
+  nrep = 2000,
+  order = 2,
+  nboot = 20,
+  M     = 50
+)
 ```
+
 
 # Summary
 
 This vignette illustrates how Sobol4R can be used to compute Sobol indices for
 models in which both the mechanisms and their distributional parameters are
-stochastic. The same workflow can be applied to more complex simulators.
+stochastic. The same workflow can be applied to more complex simulators and to 
+various quantities of interest (QoI).

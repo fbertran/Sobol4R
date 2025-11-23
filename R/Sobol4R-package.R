@@ -1,30 +1,6 @@
 #' Sobol4R-package
 #'
-#' A minimal benchmark for users with GPU access is:
 #'
-#' @examples
-#' 
-#' library(Sobol4R)
-#' if (!requireNamespace("sensitivity", quietly = TRUE)) {
-#' 
-#' set.seed(123)
-#' n <- 50000
-#' X1 <- data.frame(matrix(runif(2 * n), nrow = n))
-#' X2 <- data.frame(matrix(runif(2 * n), nrow = n))
-#' 
-#' res_det <- sobol4r_run(
-#'   model = sobol4r_g2,
-#'   X1 = X1,
-#'   X2 = X2,
-#'   order = 2,
-#'   nboot = 100
-#' )
-#' 
-#' print(res_det)
-#' ggplot2::ggplot(res_det)
-#' }
-#'
-#' @aliases Sobol4R-package Sobol4R NULL
 #'
 #' @references  Elizaveta Logosha, Myriam Maumy, Frederic Bertrand; Confidence interval determination using discrete event simulations for real estate sales case. AIP Conf. Proc. 31 March 2025; 3182 (1): 100008. <doi.org:10.1063/5.0246026>.
 #' 
@@ -36,14 +12,22 @@
 #' 
 #' Frédéric Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand. Global Sensitivity Analysis in Several Random Settings. 2024 Joint Statistical Meetings, American Statistical Association, Aug 2024, Portland (OR), United States. <https://hal.science/hal-05371798>
 #'
-#' @seealso TODO
+#' @seealso [sobol4r_design()], [sobol4r_qoi_indices()], 
+#'   `vignette("Sobol_RV_five_examples", package = "Sobol4R")`,
+#'   `vignette("Sobol4R_vignette_stochastic", package = "Sobol4R")`,
+#'   `vignette("Sobol4R_vignette_process", package = "Sobol4R")` and
+#'   `vignette("simmer_MM1_Sobol_example", package = "Sobol4R")`.
+#' 
+#' @examples
+#' ex1_results <- sobol_example_g_deterministic(n=100, nboot=10) 
+#' print(ex1_results)
+#' ggplot(ex1_results)
+#' rm(ex1_results)
 #' 
 "_PACKAGE"
 
-#' @importFrom stats rbinom rexp rnorm runif
-#' @importFrom sensitivity sobol tell
-# #' @useDynLib Sobol4R, .registration = TRUE
-# #' @importFrom Rcpp evalCpp
+# #' @importFrom 
+# #' @importFrom 
+#' @useDynLib Sobol4R, .registration = TRUE
+#' @importFrom Rcpp evalCpp
 NULL
-
-

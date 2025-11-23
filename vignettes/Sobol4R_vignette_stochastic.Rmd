@@ -25,7 +25,8 @@ knitr::opts_chunk$set(
   fig.height = 5,
   dpi = 150,
   message = FALSE,
-  warning = FALSE
+  warning = FALSE,
+  eval=FALSE
 )
 
 LOCAL <- identical(Sys.getenv("LOCAL"), "TRUE")
@@ -107,7 +108,7 @@ sob_noise_const_qoi <- sobol4r_run(
   order = 2,
   nboot = 50,
   qoi   = mean,
-  n_rep = 50
+  nrep = 50
 )
 ```
 
@@ -157,7 +158,7 @@ sob_cov_qoi <- sobol4r_run(
   order = 2,
   nboot = 50,
   qoi   = mean,
-  n_rep = 50
+  nrep = 50
 )
 ```
 
