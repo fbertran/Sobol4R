@@ -24,8 +24,11 @@ review/
 #doc
 Meta
 # User-specific files
+.RData
 .Ruserdata
 doc
 inst/doc
+*.tar.gz
 extra_docs
 Sobol4R.Rproj
+*_cache
