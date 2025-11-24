@@ -14,7 +14,8 @@ estimate_failure_probability(response, threshold, less = TRUE, weights = NULL)
 \item{less}{Logical, failure is defined as \code{response <= threshold} when
 \code{TRUE} and \code{response >= threshold} otherwise.}
 
-\item{weights}{Optional numeric vector of positive weights.}
+\item{weights}{Optional numeric vector of non-negative weights. The vector is
+normalised internally when supplied.}
 }
 \value{
 A list containing the estimated probability and its variance.

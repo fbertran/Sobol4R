@@ -7,20 +7,32 @@
 #' @param X2 Second sample (matrix or data.frame).
 #' @param order Maximum interaction order (1 or 2).
 #' @param nboot Number of bootstrap replicates for confidence intervals.
+#' @param type Type of Monte Carlo Estimation of Sobol' Indices to be used. 
+#'   At the moment, either `sensitivity::sobol()` or `sensitivity::sobol2007()`.
 #' @param ... Additional arguments passed to \code{sensitivity::sobol}.
 #'
 #' @return An object of class \code{"sobol"} whose \code{$X} field contains
 #'   the design matrix. You should evaluate your model on \code{$X} and
 #'   then call \code{sensitivity::tell()}.
 #' @export
-sobol4r_design <- function(X1, X2, order = 2, nboot = 0, ...) {
-  sensitivity::sobol(
-    model = NULL,
-    X1 = X1,
-    X2 = X2,
-    order = order,
-    nboot = nboot,
-    ...
+sobol4r_design <- function(X1, X2, order = 2, nboot = 0, type = c("sobol", "sobol2007"), ...) {
+  type = match.arg(type, c("sobol", "sobol2007"))
+  switch(type,
+         sobol = sensitivity::sobol(
+           model = NULL,
+           X1 = X1,
+           X2 = X2,
+           order = order,
+           nboot = nboot,
+           ...
+         ),
+         sobol2007 = sensitivity::sobol2007(
+           model = NULL,
+           X1 = X1,
+           X2 = X2,
+           nboot = nboot,
+           ...
+         )
   )
 }
 

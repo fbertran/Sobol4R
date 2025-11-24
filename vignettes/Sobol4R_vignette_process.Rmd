@@ -108,6 +108,12 @@ gensol_proc <- sobol4r_design(
   order = 2,
   nboot = 100
 )
+gensol_proc_s2007 <- sensitivity::sobol2007(
+  model=NULL,
+  X1    = X1,
+  X2    = X2,
+  nboot = 100
+)
 ```
 
 # Sobol indices based on a single trajectory
@@ -116,13 +122,23 @@ gensol_proc <- sobol4r_design(
 Yproc_1 <- process_fun_row_wise(gensol_proc$X, M = 50)
 ```
 
+
 ```{r process-sobol-single2, cache=TRUE, eval=LOCAL}
+Yproc_s2007 <- process_fun_row_wise(gensol_proc_s2007$X, M = 50)
+```
+
+```{r process-sobol-tell, cache=TRUE, eval=LOCAL}
 xproc_1 <- tell(gensol_proc, Yproc_1)
+xproc_s2007 <- tell(gensol_proc_s2007, Yproc_s2007)
 ```
 
 ```{r process-sobol-single-plot, cache=TRUE, eval=LOCAL}
 print(xproc_1)
-#autoplot(xproc_1)
+#plot(xproc_1)
+#Sobol4R:::autoplot.sobol(xproc_1)
+print(xproc_s2007)
+#plot(xproc_s2007)
+#Sobol4R:::autoplot.sobol(xproc_s2007)
 ```
 
 # Sobol indices based on a quantity of interest
@@ -147,31 +163,71 @@ print(xproc_2)
 ## Qoi Mean
 
 ```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
-sobol4r_qoi_indices(
+res_sobol_mean <- sobol4r_qoi_indices(
   model = process_fun_row_wise,
-  X1    = X1,
-  X2    = X2,
+  X1      = X1,
+  X2      = X2,
   qoi_fun = base::mean,
-  nrep = 2000,
-  order = 2,
-  nboot = 20,
-  M     = 50
+  nrep    = 1000, 
+  order   = 2,
+  nboot   = 20,
+  M       = 50,
+  type  = "sobol"
 )
+print(res_sobol_mean)
+plot(res_sobol_mean)
+```
+
+```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
+res_sobol2007_mean <- sobol4r_qoi_indices(
+  model = process_fun_row_wise,
+  X1      = X1,
+  X2      = X2,
+  qoi_fun = base::mean,
+  nrep    = 1000, 
+  order   = 2,
+  nboot   = 20,
+  M       = 50,
+  type  = "sobol2007"
+)
+print(res_sobol2007_mean)
+plot(res_sobol2007_mean)
+Sobol4R::autoplot(res_sobol2007_mean)
 ```
 
 ## Qoi Median
 
 ```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
-sobol4r_qoi_indices(
+res_sobol_median <- sobol4r_qoi_indices(
   model = process_fun_row_wise,
-  X1    = X1,
-  X2    = X2,
-  qoi_fun = base::median,
-  nrep = 2000,
-  order = 2,
-  nboot = 20,
-  M     = 50
+  X1      = X1,
+  X2      = X2,
+  qoi_fun = stats::median,
+  nrep    = 1000, 
+  order   = 2,
+  nboot   = 20,
+  M       = 50,
+  type    = "sobol"
 )
+print(res_sobol_median)
+plot(res_sobol_median)
+```
+
+```{r}
+res_sobol2007_median <- sobol4r_qoi_indices(
+  model = process_fun_row_wise,
+  X1      = X1,
+  X2      = X2,
+  qoi_fun = stats::median,
+  nrep    = 1000, 
+  order   = 2,
+  nboot   = 20,
+  M       = 50,
+  type    = "sobol2007"
+)
+print(res_sobol2007_median)
+plot(res_sobol2007_median)
+Sobol4R::autoplot(res_sobol2007_median)
 ```
 
 

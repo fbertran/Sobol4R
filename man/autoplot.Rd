@@ -7,9 +7,10 @@
 autoplot(object, ...)
 }
 \arguments{
-\item{object}{A \code{sobol_result} or \code{sobol_summary} instance.}
-
 \item{...}{Further arguments passed to the plotting backend.}
+
+\item{'}{@param object A \code{sobol_result}, \code{sobol_summary}, or
+\code{sensitivity::sobol} instance.}
 
 \item{show_uncertainty}{Logical, when \code{TRUE} bootstrap quantiles are
 computed (if available) and displayed as error bars.}
@@ -25,5 +26,7 @@ bar centres invisibly.
 }
 \description{
 Provide a ggplot visualisation when ggplot2 is available, otherwise fallback
-to a lightweight base R bar chart.
+to a lightweight base R bar chart. Supports the custom \code{sobol_result} class
+used in this package, compact \code{sobol_summary} data frames, and
+\code{sensitivity::sobol} objects.
 }

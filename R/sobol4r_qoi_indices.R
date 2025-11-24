@@ -24,8 +24,10 @@ sobol4r_qoi_indices <- function(model,
                                 nrep    = 1000,
                                 order   = 2,
                                 nboot   = 0,
+                                type    = c("sobol", "sobol2007"),
                                 ...) {
-  gensol <- sobol4r_design(X1 = X1, X2 = X2, order = order, nboot = nboot)
+  type = match.arg(type, c("sobol", "sobol2007"))
+  gensol <- sobol4r_design(X1 = X1, X2 = X2, order = order, nboot = nboot, type = type)
   X_all  <- as.matrix(gensol$X)
   
   n_all <- nrow(X_all)
@@ -58,4 +60,5 @@ sobol4r_qoi_indices <- function(model,
   qoi_vals <- apply(sims, 1L, qoi_fun)
   
   sensitivity::tell(gensol, qoi_vals)
+  return(gensol)
 }

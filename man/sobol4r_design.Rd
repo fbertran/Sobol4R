@@ -4,7 +4,14 @@
 \alias{sobol4r_design}
 \title{Design generation for Sobol indices}
 \usage{
-sobol4r_design(X1, X2, order = 2, nboot = 0, ...)
+sobol4r_design(
+  X1,
+  X2,
+  order = 2,
+  nboot = 0,
+  type = c("sobol", "sobol2007"),
+  ...
+)
 }
 \arguments{
 \item{X1}{First sample (matrix or data.frame).}
@@ -14,6 +21,9 @@ sobol4r_design(X1, X2, order = 2, nboot = 0, ...)
 \item{order}{Maximum interaction order (1 or 2).}
 
 \item{nboot}{Number of bootstrap replicates for confidence intervals.}
+
+\item{type}{Type of Monte Carlo Estimation of Sobol' Indices to be used.
+At the moment, either \code{sensitivity::sobol()} or \code{sensitivity::sobol2007()}.}
 
 \item{...}{Additional arguments passed to \code{sensitivity::sobol}.}
 }

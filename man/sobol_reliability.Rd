@@ -18,7 +18,7 @@ sobol_reliability(result, threshold, less = TRUE)
 }
 \value{
 A \code{sobol_result} instance storing the Sobol indices of the failure
-indicator along with the estimated failure probability.
+indicator along with the estimated failure probability and its variance.
 }
 \description{
 Transform stored simulator samples into Sobol indices for the binary failure
@@ -31,5 +31,5 @@ design <- sobol_design(n = 128, d = 3, lower = rep(-pi, 3), upper = rep(pi, 3))
 stochastic <- sobol_indices(ishigami_model, design, replicates = 3,
                             keep_samples = TRUE)
 failure <- sobol_reliability(stochastic, threshold = -1)
-autoplot(failure, show_uncertainty = TRUE)
+Sobol4R::autoplot(failure, show_uncertainty = TRUE)
 }

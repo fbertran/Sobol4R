@@ -12,13 +12,13 @@
 #'   `response <= threshold`; otherwise, failures correspond to
 #'   `response >= threshold`.
 #' @return A `sobol_result` instance storing the Sobol indices of the failure
-#'   indicator along with the estimated failure probability.
+#'   indicator along with the estimated failure probability and its variance.
 #' @examples
 #' design <- sobol_design(n = 128, d = 3, lower = rep(-pi, 3), upper = rep(pi, 3))
 #' stochastic <- sobol_indices(ishigami_model, design, replicates = 3,
 #'                             keep_samples = TRUE)
 #' failure <- sobol_reliability(stochastic, threshold = -1)
-#' autoplot(failure, show_uncertainty = TRUE)
+#' Sobol4R::autoplot(failure, show_uncertainty = TRUE)
 #' @export
 sobol_reliability <- function(result, threshold, less = TRUE) {
   stopifnot(inherits(result, "sobol_result"))
@@ -26,7 +26,13 @@ sobol_reliability <- function(result, threshold, less = TRUE) {
   if (is.null(samples)) {
     stop("sobol_reliability() requires 'keep_samples = TRUE' in sobol_indices().")
   }
-  stopifnot(length(threshold) == 1L)
+  if (length(threshold) != 1L || !is.finite(threshold)) {
+    stop("threshold must be a single finite numeric value.")
+  }
+  parameters <- result$parameters
+  if (is.null(parameters)) {
+    parameters <- names(samples$mixes)
+  }
   parameters <- result$parameters
   if (is.null(parameters)) {
     parameters <- paste0("X", seq_along(samples$mixes))
@@ -45,7 +51,14 @@ sobol_reliability <- function(result, threshold, less = TRUE) {
   total <- vapply(indicator_mixes, function(mix) {
     0.5 * mean((indicator_A - mix)^2) / va
   }, numeric(1L))
-  failure_probability <- mean(c(indicator_A, indicator_B))
+  weights_pb <- rep(1 / (length(indicator_A) + length(indicator_B)),
+                    length(indicator_A) + length(indicator_B))
+  failure_stats <- estimate_failure_probability(
+    response = c(indicator_A, indicator_B),
+    threshold = 0.5,
+    less = FALSE,
+    weights = weights_pb
+  )
   output <- list(
     call = match.call(),
     parameters = parameters,
@@ -56,7 +69,8 @@ sobol_reliability <- function(result, threshold, less = TRUE) {
     replicates = 1L,
     mean_A = mean(indicator_A),
     noise_variance = 0,
-    failure_probability = failure_probability,
+    failure_probability = failure_stats$probability,
+    failure_variance = failure_stats$variance,
     threshold = threshold,
     less = less,
     data = data.frame(parameter = parameters,
@@ -79,10 +93,14 @@ failure_indicator <- function(block, threshold, less) {
   if (is.null(values)) {
     stop("Stored samples are missing raw 'values'. Re-run sobol_indices() with keep_samples = TRUE.")
   }
-  averages <- rowMeans(values)
-  if (isTRUE(less)) {
-    as.numeric(averages <= threshold)
-  } else {
-    as.numeric(averages >= threshold)
+  values <- as.matrix(values)
+  if (!is.numeric(values)) {
+    stop("Stored samples must be numeric.")
   }
+  averages <- rowMeans(values, na.rm = TRUE)
+  if (any(is.na(averages))) {
+    stop("Failure indicator encountered rows with only missing values.")
+  }
+  indicator <- if (isTRUE(less)) averages <= threshold else averages >= threshold
+  as.numeric(indicator)
 }

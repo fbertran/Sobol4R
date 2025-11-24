@@ -107,6 +107,7 @@ sobol_g2_qoi_covariate_mean <- function(X, nrep = 1000,
 #' @param a Numeric scalar controlling the nonlinear term.
 #' @param b Numeric scalar controlling the interaction term.
 #' @return Numeric vector of simulator outputs.
+#' @export
 #' @examples
 #' x <- matrix(runif(30, -pi, pi), ncol = 3)
 #' ishigami_model(x)
