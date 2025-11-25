@@ -2,7 +2,8 @@ genlogo.R
 .gitignore
 ^codecov\.yml$
 
-^extra-docs$
+^extra_docs$
+^extra_docs
 
 
 ^revdep$
