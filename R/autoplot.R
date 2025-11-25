@@ -86,13 +86,15 @@ format_probabilities <- function(probs) {
   labels
 }
 
-#' Generic autoplot implementation
+#' Autoplot implementations
 #'
 #' Provide a ggplot visualisation when ggplot2 is available, otherwise fallback
 #' to a lightweight base R bar chart. Supports the custom `sobol_result` class
 #' used in this package, compact `sobol_summary` data frames, and
 #' `sensitivity::sobol` objects.
 #'
+#' @name Autoplot implementations
+#' @rdname autoplot
 #' @param ' @param object A \code{sobol_result}, \code{sobol_summary}, or
 #'   \code{sensitivity::sobol} instance.
 #' @param show_uncertainty Logical, when \code{TRUE} bootstrap quantiles are
@@ -104,10 +106,11 @@ format_probabilities <- function(probs) {
 #' @return A ggplot object when \code{ggplot2} is installed, otherwise the
 #'   bar centres invisibly.
 NULL 
-#' #' @export
-#' autoplot <- function(object, ...) {
-#'   UseMethod("autoplot")
-#' }
+
+# #' @export
+# autoplot <- function(object, ...) {
+#   UseMethod("autoplot")
+# }
 
 #' Autoplot for `sobol_result` class
 #' 
