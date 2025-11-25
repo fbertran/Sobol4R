@@ -45,33 +45,55 @@ for deterministic and stochastic versions of the classical Sobol g function.
 The designs are generated with `sensitivity::sobol` and the models are provided
 by Sobol4R, in particular
 
-- `sobol4r_g_function` for the deterministic g function  
-- `sobol4r_g2_noise_const` for a version of the model with additive Gaussian noise  
-- `sobol4r_g2_noise_covariate` for a version with covariate dependent noise  
+- `sobol_g_function` for the deterministic g function  
+- `sobol_g2_additive_noise` for a version of the model with additive Gaussian noise  
+- `sobol_g2_with_covariate_noise` for a version with covariate dependent noise  
 
 The stochastic models can be combined with the generic quantity of interest
 wrapper `sobol4r_qoi`.
 
 # Deterministic Sobol g function
 
-```{r g-det-design}
+## Order 1 and Total via `sensitivity::sobol()`
+```{r g-det-design, cache=TRUE, eval=LOCAL}
 n  <- 1e4
 p  <- 8
 X1 <- data.frame(matrix(runif(p * n), nrow = n))
 X2 <- data.frame(matrix(runif(p * n), nrow = n))
 
-sob_det <- sobol4r_run(
-  model = sobol4r_g_function,
-  X1    = X1,
-  X2    = X2,
-  order = 2,
-  nboot = 50
-)
+sob_det <- sobol4r_design(X1 = X1, X2 = X2, order = 2, nboot = 50)
+
+Y <- sobol_g_function(sob_det$X)
+sensitivity::tell(sob_det, Y)
 ```
 
-```{r g-det-plot}
+```{r g-det-plot, cache=TRUE, eval=LOCAL}
 print(sob_det)
-autoplot(sob_det)
+autoplot.sobol(sob_det, ncol = 1)
+```
+
+## Order 1 and Total via `sensitivity::sobol2007()`
+
+```{r}
+n  <- 1e4
+p  <- 8
+X1 <- data.frame(matrix(runif(p * n), nrow = n))
+X2 <- data.frame(matrix(runif(p * n), nrow = n))
+
+sob_det_2007 <- sobol4r_design(
+  X1    = X1,
+  X2    = X2,
+  nboot = 50,
+  type  = "sobol2007"
+)
+
+Y <- sobol_g_function(sob_det_2007$X)
+sensitivity::tell(sob_det_2007, Y)
+```
+
+```{r g-det-plot_2007, cache=TRUE, eval=LOCAL}
+head(sob_det_2007)
+autoplot.sobol2007(sob_det_2007)
 ```
 
 # Random effect on the output
@@ -79,19 +101,32 @@ autoplot(sob_det)
 We restrict the g function to the first two inputs and add a Gaussian noise term
 with zero mean and unit variance.
 
-```{r g-noise-const-run}
-sob_noise_const <- sobol4r_run(
-  model = sobol4r_g2_noise_const,
-  X1    = X1[, 1:2],
-  X2    = X2[, 1:2],
-  order = 2,
-  nboot = 50
-)
+## Order 1 and Total via `sensitivity::sobol()`
+
+```{r g-noise-const-run, cache=TRUE, eval=LOCAL}
+sob_noise_add <- sobol4r_design(X1 = X1[, 1:2], X2 = X2[, 1:2], order = 2, nboot = 50, type = "sobol")
+
+Y <- sobol_g2_additive_noise(sob_noise_add$X)
+sensitivity::tell(sob_noise_add, Y)
 ```
 
-```{r g-noise-const-plot}
-print(sob_noise_const)
-autoplot(sob_noise_const)
+```{r g-noise-const-plot, cache=TRUE, eval=LOCAL}
+print(sob_noise_add)
+autoplot.sobol(sob_noise_add)
+```
+
+## Order 1 and Total via `sensitivity::sobol2007()`
+
+```{r g-noise-const-run-2007, cache=TRUE, eval=LOCAL}
+sob_noise_add <- sobol4r_design(X1 = X1[, 1:2], X2 = X2[, 1:2], nboot = 50, type = "sobol2007")
+
+Y <- sobol_g2_additive_noise(sob_noise_add$X)
+sensitivity::tell(sob_noise_add, Y)
+```
+
+```{r g-noise-const-plot-2007, cache=TRUE, eval=LOCAL}
+print(sob_noise_add)
+autoplot.sobol2007(sob_noise_add)
 ```
 
 # Quantity of interest based on repeated runs
@@ -100,21 +135,37 @@ Instead of a single noisy run, we can focus on a quantity of interest, here the
 conditional mean of the output given the inputs. This is approximated by
 repeated calls to the stochastic model.
 
-```{r g-noise-const-qoi-run}
-sob_noise_const_qoi <- sobol4r_run(
-  model = sobol4r_g2_noise_const,
-  X1    = X1[, 1:2],
-  X2    = X2[, 1:2],
-  order = 2,
-  nboot = 50,
-  qoi   = mean,
-  nrep = 50
-)
+## Order 1 and Total via `sensitivity::sobol()`
+
+```{r g-noise-const-qoi-run, cache=TRUE, eval=LOCAL}
+sob_noise_const_qoi <- sobol4r_qoi_indices(
+  model = sobol_g2_additive_noise,
+  X1 = X1[, 1:2], 
+  X2 = X2[, 1:2], 
+  order = 2, 
+  nboot = 50, 
+  type = "sobol")
 ```
 
-```{r g-noise-const-qoi-plot}
+```{r g-noise-const-qoi-plot, cache=TRUE, eval=LOCAL}
 print(sob_noise_const_qoi)
-autoplot(sob_noise_const_qoi)
+autoplot.sobol(sob_noise_const_qoi)
+```
+
+## Order 1 and Total via `sensitivity::sobol2007()`
+
+```{r g-noise-const-qoi-run-2007, cache=TRUE, eval=LOCAL}
+sob_noise_const_qoi <- sobol4r_qoi_indices(
+  model = sobol_g2_additive_noise,
+  X1 = X1[, 1:2], 
+  X2 = X2[, 1:2], 
+  nboot = 50, 
+  type = "sobol2007")
+```
+
+```{r g-noise-const-qoi-plot-2007, cache=TRUE, eval=LOCAL}
+print(sob_noise_const_qoi)
+autoplot.sobol2007(sob_noise_const_qoi)
 ```
 
 # Covariate dependent noise
@@ -122,7 +173,7 @@ autoplot(sob_noise_const_qoi)
 We now add a third input which controls the mean of the Gaussian noise term.
 The mean is equal to the third input, and the variance is fixed.
 
-```{r g-noise-cov-design}
+```{r g-noise-cov-design, cache=TRUE, eval=LOCAL}
 X1_cov <- data.frame(
   C1 = runif(n),
   C2 = runif(n),
@@ -135,36 +186,34 @@ X2_cov <- data.frame(
 )
 ```
 
-```{r g-noise-cov-run}
-sob_cov_single <- sobol4r_run(
-  model = sobol4r_g2_noise_covariate,
-  X1    = X1_cov,
-  X2    = X2_cov,
-  order = 2,
-  nboot = 50
-)
+## Order 1 and Total via `sensitivity::sobol()`
+
+```{r g-noise-cov-run, cache=TRUE, eval=LOCAL}
+sob_cov_single <- sobol4r_design(X1 = X1_cov, X2 = X2_cov, order = 2, nboot = 50, type = "sobol")
+
+Y <- sobol_g2_additive_noise(sob_cov_single$X)
+sensitivity::tell(sob_cov_single, Y)
 ```
 
-```{r g-noise-cov-plot}
+```{r g-noise-cov-plot, cache=TRUE, eval=LOCAL}
 print(sob_cov_single)
-autoplot(sob_cov_single)
+autoplot.sobol(sob_cov_single)
 ```
 
-```{r g-noise-cov-qoi-run}
-sob_cov_qoi <- sobol4r_run(
-  model = sobol4r_g2_noise_covariate,
+## Order 1 and Total via `sensitivity::sobol2007()`
+
+```{r g-noise-cov-qoi-run, cache=TRUE, eval=LOCAL}
+sob_cov_qoi <- sobol4r_qoi_indices(
+  model = sobol_g2_with_covariate_noise,
   X1    = X1_cov,
   X2    = X2_cov,
-  order = 2,
-  nboot = 50,
-  qoi   = mean,
-  nrep = 50
-)
+  nboot = 50, 
+  type = "sobol2007")
 ```
 
-```{r g-noise-cov-qoi-plot}
+```{r g-noise-cov-qoi-plot, cache=TRUE, eval=LOCAL}
 print(sob_cov_qoi)
-autoplot(sob_cov_qoi)
+autoplot.sobol2007(sob_cov_qoi)
 ```
 
 # Conclusion

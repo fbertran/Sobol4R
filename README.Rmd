@@ -10,32 +10,18 @@ knitr::opts_chunk$set(
   fig.keep="all"
 )
 ```
-# Sobol4R <img src="man/figures/logo.png" align="right" width="200"/>
+# Sobol4R, Sobol Indices for Models with Fixed and Stochastic Parameters <img src="man/figures/logo.png" align="right" width="200"/>
 
-# Sobol Indices for Models with Fixed and Stochastic Parameters
 ## Frédéric Bertrand, Elizaveta Logosha and Myriam Maumy-Bertrand
 
 <!-- badges: start -->
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fbertran/Sobol4R/actions/workflows/R-CMD-check.yaml)
-[![CRAN status](https://www.r-pkg.org/badges/version/SobolR4)](https://cran.r-project.org/package=SobolR4)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/SobolR4)](https://cran.r-project.org/package=SobolR4)
-[![GitHub Repo stars](https://img.shields.io/github/stars/fbertran/SobolR4?style=social)](https://github.com/fbertran/SobolR4/)
-[![DOI](https://zenodo.org/badge/18437255.svg)](https://zenodo.org/badge/latestdoi/18437255)
-[![Codecov test coverage](https://codecov.io/gh/fbertran/SobolR4/branch/master/graph/badge.svg)](https://codecov.io/gh/fbertran/SobolR4?branch=master)
+[![R-hub](https://github.com/fbertran/Sobol4R/actions/workflows/rhub.yaml/badge.svg)](https://github.com/fbertran/Sobol4R/actions/workflows/rhub.yaml)
 <!-- badges: end -->
 
-This site and the examples reproduced on it were created by F. Bertrand, E. Logosha and M. Maumy-Bertrand.
+This site was created by F. Bertrand and the examples reproduced on it were created by F. Bertrand, E. Logosha and M. Maumy.
 
 ## Installation
-
-You can install the latest version of the Sobol4R package from the [CRAN](https://CRAN.R-project.org) with:
-
-```{r, eval = FALSE}
-install.packages("Sobol4R")
-```
 
 You can install the latest version of the Sobol4R package from [github](https://github.com) with:
 
@@ -88,4 +74,73 @@ rm(gensol1,X1_1,X2_1)
 }
 ```
 
+
+
+## Motivation
+
+The methodology implemented in **Sobol4R** builds upon the stochastic Sobol
+analysis described by Lebrun et al. (2021) in *Reliability Engineering &
+System Safety*. The paper proposes to combine replicated simulator
+runs with Sobol estimators to account for intrinsic noise. The package mirrors
+this workflow:
+
+1. Generate two Monte Carlo designs (A and B matrices).
+2. Evaluate the stochastic simulator several times to estimate the mean
+   response and the noise variance.
+3. Derive first-order and total-order Sobol indices and visualise the results.
+
+The package is also friendly with the `sensitivity` package and shows how to use the Sobol' indices estimators provided in this package to increase the capabilities of this `Sobol4R` package.
+
+## Basic usage
+
+```{r}
+library(Sobol4R)
+set.seed(123)
+design <- sobol_design(n = 256, d = 3, lower = rep(-pi, 3), upper = rep(pi, 3),
+                       quasi = TRUE)
+result <- sobol_indices(ishigami_model, design, replicates = 4,
+                        keep_samples = TRUE)
+result$data
+```
+
+The resulting object stores the Monte Carlo variance estimate, the average
+noise variance across replications, and the Sobol indices. Diagnostic plots are
+available through the provided `autoplot()` method:
+
+```{r, fig.height=4, fig.width=7}
+autoplot(result)
+```
+
+When `keep_samples = TRUE`, bootstrap resamples quantify the estimator
+uncertainty. The helper `summarise_sobol()` produces tidy quantiles that can be
+visualised directly:
+
+```{r, fig.height=4, fig.width=7}
+autoplot(result, show_uncertainty = TRUE, probs = c(0.1, 0.9), bootstrap = 100)
+```
+
+## Reliability metrics
+
+The paper highlights the need to quantify failure probabilities associated with
+critical performance levels. The package exposes a helper for that task:
+
+```{r}
+set.seed(321)
+simulated <- ishigami_model(matrix(runif(3000, -pi, pi), ncol = 3))
+estimate_failure_probability(simulated, threshold = -1)
+```
+
+When the simulator is stochastic and `sobol_indices()` stores the replicated
+samples (`keep_samples = TRUE`), the same Monte Carlo budget can be recycled to
+derive failure-indicator Sobol indices:
+
+```{r, fig.height=4, fig.width=7}
+failure <- sobol_reliability(result, threshold = -1)
+failure$failure_probability
+autoplot(failure, show_uncertainty = TRUE, probs = c(0.1, 0.9), bootstrap = 200)
+```
+
+## Combined usage with the `sensitivity` package
+
+Example in the vignettes.
 

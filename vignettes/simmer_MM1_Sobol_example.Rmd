@@ -49,8 +49,7 @@ We study the impact of these two parameters on the mean waiting time in the
 queue at stationarity using Sobol indices.
 
 # Simulation model
-```{r model-once}
-# simmer_MM1_sobol4r_systemtime.R
+```{r model-once, cache=TRUE, eval=LOCAL}
 # M/M/1 simmer model for Sobol analysis using time in system as QoI
 
 library(simmer)
@@ -91,14 +90,14 @@ simulate_mm1_once_ts <- function(lambda, mu,
 }
 
 # Quick sanity check
-simulate_mm1_once(lambda = 1/5, mu = 1/4)
+simulate_mm1_once_ts(lambda = 1/5, mu = 1/4)
 ```
 
 To reduce Monte Carlo noise, we define a quantity of interest (QoI) equal to the
 mean waiting time over several independent replications for the same parameter
 pair `(lambda, mu)`.
 
-```{r model-qoi}
+```{r model-qoi, cache=TRUE, eval=LOCAL}
 
 # QoI: average mean time in system over replications
 simulate_mm1_qoi_ts <- function(lambda, mu,
@@ -114,6 +113,8 @@ simulate_mm1_qoi_ts <- function(lambda, mu,
   )
   mean(vals)
 }
+
+simulate_mm1_qoi_ts(lambda = 1/5, mu = 1/4)
 ```
 
 # Sobol model wrapper
@@ -124,7 +125,7 @@ numeric vector of length `nrow(X)`. Here `X` has two columns
 1. `lambda`  
 2. `mu`
 
-```{r sobol-model}
+```{r sobol-model, cache=TRUE, eval=LOCAL}
 # Model wrapper for sensitivity::sobol
 mm1_sobol4r_model_ts <- function(X,
                                horizon = 1000,
@@ -151,7 +152,7 @@ We assume independent uniform priors
 - `lambda` in `[0.10, 0.30]`  
 - `mu` in `[0.20, 0.60]`  
 
-```{r design}
+```{r design, cache=TRUE, eval=LOCAL}
 n <- 200
 
 X1 <- data.frame(
@@ -175,7 +176,7 @@ example_design_mm1_ts <- function(n = 100) {
 
 # Sobol indices
 
-```{r sobol-run, message=FALSE}
+```{r sobol-run, message=FALSE, cache=TRUE, eval=LOCAL}
 library(simmer)
 library(sensitivity)
 
@@ -189,7 +190,7 @@ sob_mm1 <- sobol(
   model = NULL,
   X1    = X1,
   X2    = X2,
-  order = 1,
+  order = 2,
   nboot = 50
 )
 
@@ -206,16 +207,15 @@ summary(Y)             # should now show positive, variable values
 sob_mm1 <- tell(sob_mm1, Y)
 ```
 
-```{r sobol-results}
+```{r sobol-results, cache=TRUE, eval=LOCAL}
 print(sob_mm1)
 ```
 
 If `ggplot2` and `simmer.plot` are installed, we can visualise the indices with
-the autoplot method provided by `sensitivity`.
+the autoplot method provided by the package.
 
-```{r sobol-plot, message=FALSE, warning=FALSE}
-library(ggplot2)
-# autoplot(sob_mm1)
+```{r sobol-plot, message=FALSE, warning=FALSE, cache=TRUE, eval=LOCAL}
+autoplot.sobol(sob_mm1)
 ```
 
 # Summary
@@ -231,36 +231,7 @@ The same pattern can be reused for more complex discrete event simulations
 implemented with `simmer`.
 
 
-
-
-
-```{r}
-library(sensitivity)
-
-n <- 200
-X1 <- data.frame(
-  lambda = runif(n, 0.10, 0.30),
-  mu     = runif(n, 0.20, 0.60)
-)
-X2 <- data.frame(
-  lambda = runif(n, 0.10, 0.30),
-  mu     = runif(n, 0.20, 0.60)
-)
-
-sob_mm1 <- sobol(
-  model = NULL,
-  X1    = X1,
-  X2    = X2,
-  order = 1,
-  nboot = 50
-)
-
-Y <- sobol4r_mm1_model(sob_mm1$X, horizon = 1000, warmup = 200, nrep = 20)
-sob_mm1 <- tell(sob_mm1, Y)
-print(sob_mm1)
-```
-
-```{r}
+```{r, cache=TRUE, eval=LOCAL}
 n <- 200
 X1 <- data.frame(
   lambda = runif(n, 0.05, 0.20),
@@ -273,19 +244,20 @@ X2 <- data.frame(
   mu_exam = runif(n, 0.20, 0.60)
 )
 
-sob_clinic <- sobol(
-  model = NULL,
-  X1    = X1,
-  X2    = X2,
-  order = 1,
-  nboot = 50
-)
+sob_clinic <- sobol(model = NULL,
+                    X1    = X1,
+                    X2    = X2,
+                    order = 2,
+                    nboot = 50)
 
 Yc <- sobol4r_clinic_model(sob_clinic$X,
-                           cap_reg = 2, cap_exam = 3,
-                           horizon = 2000, warmup_prob = 0.2,
+                           cap_reg = 2, 
+                           cap_exam = 3,
+                           horizon = 2000,
+                           warmup_prob = 0.2,
                            nrep = 10)
 sob_clinic <- tell(sob_clinic, Yc)
 print(sob_clinic)
+autoplot.sobol(sob_clinic)
 ```
 

@@ -103,11 +103,15 @@ format_probabilities <- function(probs) {
 #' @param ... Further arguments passed to the plotting backend.
 #' @return A ggplot object when \code{ggplot2} is installed, otherwise the
 #'   bar centres invisibly.
-#' @export
-autoplot <- function(object, ...) {
-  UseMethod("autoplot")
-}
+NULL 
+#' #' @export
+#' autoplot <- function(object, ...) {
+#'   UseMethod("autoplot")
+#' }
 
+#' Autoplot for `sobol_result` class
+#' 
+#' @rdname autoplot
 #' @export
 autoplot.sobol_result <- function(object, show_uncertainty = FALSE,
                                   probs = c(0.1, 0.9), bootstrap = 200L, ...) {
@@ -150,84 +154,135 @@ autoplot.sobol_result <- function(object, show_uncertainty = FALSE,
   invisible(NULL)
 }
 
+#' Autoplot for `sobol` class
+#' 
+#' @rdname autoplot
 #' @export
-autoplot.sobol <- function(object, ...) {
+autoplot.sobol <- function(object, separate_panels = TRUE, ncol= 2, ...) {
   stopifnot(inherits(object, "sobol"))
-  S <- object$S
-  T <- object$T
-  if (is.null(S)) {
-    stop("sobol object is missing the 'S'. Run sensitivity::tell().")
+  
+  S  <- object$S        # first order
+  
+  if (is.null(S)) stop("sobol object missing S. Run tell().")
+  # object$T is always NULL for sensitivity::sobol()
+  
+  # Accept both X1:X2 and X1*X2 formats
+  # Helper: parse "X1:X2" -> degree 2
+  parse_degree <- function(name) {
+    name2 <- gsub("\\*", ":", name)  # convert X1*X2 → X1:X2 internally
+    vars <- unlist(strsplit(name2, ":"))
+    vars <- vars[vars != ""]
+    length(vars)
   }
-  extract_indices <- function(df) {
-    if (!is.data.frame(df)) {
-      stop("Sobol index tables must be data frames.")
-    }
-    parameters <- rownames(df)
-    if (is.null(parameters) || any(parameters == "")) {
-      parameters <- seq_len(nrow(df))
-    }
-    values <- if ("original" %in% names(df)) df$original else df[[1L]]
-    interval <- NULL
-    if (all(c("min. c.i.", "max. c.i.") %in% names(df))) {
-      interval <- cbind(df[["min. c.i."]], df[["max. c.i."]])
-    }
-    list(parameters = parameters, values = values, interval = interval)
+  
+  ind_deg1 <- vapply(rownames(S), parse_degree, numeric(1))==1
+  Sh <- object$Shigh    # higher order (may contain 2nd, 3rd, ...)
+  Sh <- rbind(Sh, S[!ind_deg1,])
+  
+  S <- S[ind_deg1,]
+  
+  # Helper: convert a Sobol index data.frame into a clean long format
+  extract_df <- function(tab, label) {
+    if (is.null(tab)) return(NULL)
+    if (!is.data.frame(tab)) stop("Sobol index tables must be data frames.")
+    
+    par <- rownames(tab)
+    if (is.null(par)) par <- seq_len(nrow(tab))
+    
+    # Replace ":" with "*" in rownames for display
+    par_display <- gsub(":", "*", par)
+    
+    val <- if ("original" %in% colnames(tab)) tab$original else tab[[1]]
+    degree <- vapply(par_display, parse_degree, numeric(1))
+    
+    ci_low  <- if ("min. c.i." %in% names(tab)) tab[["min. c.i."]] else NA_real_
+    ci_high <- if ("max. c.i." %in% names(tab)) tab[["max. c.i."]] else NA_real_
+    
+    data.frame(
+      parameter  = par_display,
+      degree     = degree,
+      index_type = label,
+      value      = val,
+      lower      = ci_low,
+      upper      = ci_high,
+      stringsAsFactors = FALSE
+    )
   }
-  first_info <- extract_indices(S)
-  total_info <- extract_indices(T)
-  df <- data.frame(
-    parameter = rep(first_info$parameters, 2),
-    index_type = rep(c("First", "Total"), each = length(first_info$parameters)),
-    value = c(first_info$values, total_info$values)
-  )
-  lower <- upper <- rep(NA_real_, nrow(df))
-  if (!is.null(first_info$interval)) {
-    lower[seq_len(nrow(S))] <- first_info$interval[, 1]
-    upper[seq_len(nrow(S))] <- first_info$interval[, 2]
+  
+  # Build dataset — note: no "Total Order" group for sensitivity::sobol()
+  if(nrow(Sh)>0){
+  df <- do.call(
+    rbind,
+    list(
+      extract_df(S,  "First order"),
+      extract_df(Sh, "Higher order")
+    )
+  )} else{
+    df <- do.call(
+      rbind,
+      list(
+        extract_df(S,  "First order")
+      )
+    )
   }
-  if (!is.null(total_info$interval)) {
-    idx <- seq_len(nrow(T)) + nrow(S)
-    lower[idx] <- total_info$interval[, 1]
-    upper[idx] <- total_info$interval[, 2]
-  }
-  df$lower <- lower
-  df$upper <- upper
+  
+  # Pretty degree labels
+  unique_deg <- sort(unique(df$degree))
+  df$degree <- factor(df$degree,
+                      levels = unique_deg,
+                      labels = paste("Degree", unique_deg))
+  
+  # ---- ggplot version ----
   if (requireNamespace("ggplot2", quietly = TRUE)) {
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = parameter, y = value,
-                                          fill = index_type)) +
-      ggplot2::geom_col(position = "dodge") +
-      ggplot2::geom_hline(yintercept = 0, colour = "grey50") +
-      ggplot2::labs(y = "Sobol index", fill = "Type",
-                    title = "Sobol sensitivity summary") +
-      ggplot2::theme_minimal()
+    library(ggplot2)
+    
+    p <- ggplot(df, aes(x = parameter, y = value, fill = index_type)) +
+      geom_col(position = "dodge") +
+      geom_hline(yintercept = 0, color = "grey50") +
+      labs(
+        title = "Sobol' Sensitivity Indices (grouped by interaction order)",
+        y     = "Sobol index",
+        fill  = "Index type"
+      ) +
+      theme_minimal(base_size = 10) +
+      theme(
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+    
+    # Confidence intervals
     if (any(!is.na(df$lower))) {
-      p <- p + ggplot2::geom_errorbar(
-        data = df,
-        ggplot2::aes(x = parameter, ymin = lower, ymax = upper,
-                     group = index_type),
-        position = ggplot2::position_dodge(width = 0.9), width = 0.2,
-        size = 0.4, inherit.aes = FALSE)
+      p <- p +
+        geom_errorbar(
+          aes(ymin = lower, ymax = upper, group = index_type),
+          width     = 0.2,
+          size      = 0.4,
+          position  = position_dodge(width = 0.9)
+        )
     }
+    
+    # Facet per degree (1st order, 2nd order, etc.)
+    if (separate_panels) {
+      p <- p + facet_wrap(~index_type, scales = "free_x", dir="h", ncol=ncol)
+    }
+    
     return(p)
   }
-  heights <- rbind(first_info$values, total_info$values)
-  bars <- graphics::barplot(heights, beside = TRUE,
-                            names.arg = first_info$parameters,
-                            legend.text = c("First", "Total"),
-                            args.legend = list(x = "topright"), ...)
-  if (!is.null(first_info$interval)) {
-    graphics::arrows(x0 = bars[1, ], x1 = bars[1, ],
-                     y0 = first_info$interval[, 1], y1 = first_info$interval[, 2],
-                     angle = 90, code = 3, length = 0.05)
+  
+  # ---- base R fallback ----
+  split_deg <- split(df, df$degree)
+  for (nm in names(split_deg)) {
+    message("Plotting ", nm)
+    d <- split_deg[[nm]]
+    barplot(d$value, names.arg = d$parameter, main = nm, ...)
   }
-  if (!is.null(total_info$interval)) {
-    graphics::arrows(x0 = bars[2, ], x1 = bars[2, ],
-                     y0 = total_info$interval[, 1], y1 = total_info$interval[, 2],
-                     angle = 90, code = 3, length = 0.05)
-  }
-  invisible(NULL)
+  
+  invisible(df)
 }
 
+
+#' Autoplot for `sobol2007` class
+#' 
+#' @rdname autoplot
 #' @export
 autoplot.sobol2007 <- function(object, ...) {
   stopifnot(inherits(object, "sobol2007"))
@@ -306,6 +361,9 @@ autoplot.sobol2007 <- function(object, ...) {
   invisible(NULL)
 }
 
+#' Autoplot for `sobol_summary` class
+#' 
+#' @rdname autoplot
 #' @export
 autoplot.sobol_summary <- function(object, ...) {
   stopifnot(inherits(object, "sobol_summary"))

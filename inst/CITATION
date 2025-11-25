@@ -32,7 +32,7 @@ bibentry(bibtype="Article",
                     person(given = "Frederic", family= "Bertrand"), 
                     person(given = "Myriam", family= "Maumy-Bertrand")),
 	 publisher = "AIP",
-	 jounral="Conf. Proc. 31 March 2025; 3182 (1): 100008",
+	 journal="Conf. Proc. 31 March 2025; 3182 (1): 100008",
          year         = 2025,
          doi          = "10.1063/5.0246026",
          textVersion = 
@@ -45,15 +45,14 @@ bibentry(bibtype="Article",
                     person(given = "Frederic", family= "Bertrand"), 
                     person(given = "Myriam", family= "Maumy-Bertrand")),
 	 publisher = "AIP",
-	 jounral="Conf. Proc. 31 March 2025; 3182 (1): 100001",
+	 journal="Conf. Proc. 31 March 2025; 3182 (1): 100001",
          year         = 2025,
          doi          = "10.1063/5.0246024",
          textVersion = 
          "Elizaveta Logosha, Myriam Maumy, Frédéric Bertrand; Sensitivity analysis of stochastic simulator in the case of sales date prediction. AIP Conf. Proc. 31 March 2025; 3182 (1): 100001. <doi.org:10.1063/5.0246024>"
 )
 
-bibentries <- c(
-  bibentry(
+bibentry(
     bibtype = "InProceedings",
     key = "Bertrand:2024:ISMB",
     title = "Extension of sensitivity analysis to uncertainties in distribution parameters",
@@ -68,8 +67,9 @@ bibentries <- c(
     month = "July",
     address = "Montreal, QC, Canada",
     url = "https://hal.science/hal-05371795"
-  ),
-  bibentry(
+  )
+
+bibentry(
     bibtype = "InProceedings",
     key = "Bertrand:2024:BioC",
     title = "Sobol4RV: Global Sensitivity Analysis in Several Random Settings",
@@ -84,8 +84,9 @@ bibentries <- c(
     month = "July",
     address = "Grand Rapids, MI, United States",
     url = "https://hal.science/hal-05371803"
-  ),
-  bibentry(
+  )
+
+bibentry(
     bibtype = "InProceedings",
     key = "Bertrand:2024:JSM",
     title = "Global Sensitivity Analysis in Several Random Settings",
@@ -101,5 +102,5 @@ bibentries <- c(
     address = "Portland, OR, United States",
     url = "https://hal.science/hal-05371798"
   )
-)
+
 

@@ -134,11 +134,12 @@ xproc_s2007 <- tell(gensol_proc_s2007, Yproc_s2007)
 
 ```{r process-sobol-single-plot, cache=TRUE, eval=LOCAL}
 print(xproc_1)
-#plot(xproc_1)
-#Sobol4R:::autoplot.sobol(xproc_1)
+autoplot.sobol(xproc_1, ncol = 1)
+```
+
+```{r process-sobol-single-plot2, cache=TRUE, eval=LOCAL}
 print(xproc_s2007)
-#plot(xproc_s2007)
-#Sobol4R:::autoplot.sobol(xproc_s2007)
+autoplot.sobol2007(xproc_s2007)
 ```
 
 # Sobol indices based on a quantity of interest
@@ -147,7 +148,7 @@ Instead of relying on a single trajectory, we can define a quantity of interest
 for each parameter vector, for instance the mean time to reach the target number
 of successes. This is implemented by `sobol4r_process_qoi`.
 
-```{r process-sobol-qoi, cache=TRUE, eval=LOCAL}
+```{r process-sobol-qoi, eval=LOCAL, cache=TRUE}
 Yproc_2 <- process_fun_mean_to_M(gensol_proc$X, M = 50)
 ```
 
@@ -157,12 +158,12 @@ xproc_2 <- tell(gensol_proc, Yproc_2)
 
 ```{r process-sobol-qoi-plot, cache=TRUE, eval=LOCAL}
 print(xproc_2)
-#autoplot(xproc_2)
+autoplot.sobol(xproc_2, ncol = 1)
 ```
 
 ## Qoi Mean
 
-```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
+```{r, cache=TRUE, eval=LOCAL}
 res_sobol_mean <- sobol4r_qoi_indices(
   model = process_fun_row_wise,
   X1      = X1,
@@ -175,29 +176,27 @@ res_sobol_mean <- sobol4r_qoi_indices(
   type  = "sobol"
 )
 print(res_sobol_mean)
-plot(res_sobol_mean)
+autoplot.sobol(res_sobol_mean, ncol = 1)
 ```
 
-```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
+```{r, cache=TRUE, eval=LOCAL}
 res_sobol2007_mean <- sobol4r_qoi_indices(
   model = process_fun_row_wise,
   X1      = X1,
   X2      = X2,
   qoi_fun = base::mean,
   nrep    = 1000, 
-  order   = 2,
   nboot   = 20,
   M       = 50,
   type  = "sobol2007"
 )
 print(res_sobol2007_mean)
-plot(res_sobol2007_mean)
-Sobol4R::autoplot(res_sobol2007_mean)
+autoplot.sobol2007(res_sobol2007_mean)
 ```
 
 ## Qoi Median
 
-```{r, eval=FALSE, cache=TRUE, eval=LOCAL}
+```{r, cache=TRUE, eval=LOCAL}
 res_sobol_median <- sobol4r_qoi_indices(
   model = process_fun_row_wise,
   X1      = X1,
@@ -210,24 +209,22 @@ res_sobol_median <- sobol4r_qoi_indices(
   type    = "sobol"
 )
 print(res_sobol_median)
-plot(res_sobol_median)
+autoplot.sobol(res_sobol_median, ncol = 1)
 ```
 
-```{r}
+```{r, cache=TRUE, eval=LOCAL}
 res_sobol2007_median <- sobol4r_qoi_indices(
   model = process_fun_row_wise,
   X1      = X1,
   X2      = X2,
   qoi_fun = stats::median,
   nrep    = 1000, 
-  order   = 2,
   nboot   = 20,
   M       = 50,
   type    = "sobol2007"
 )
 print(res_sobol2007_median)
-plot(res_sobol2007_median)
-Sobol4R::autoplot(res_sobol2007_median)
+autoplot.sobol2007(res_sobol2007_median)
 ```
 
 
