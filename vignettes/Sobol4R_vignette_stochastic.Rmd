@@ -68,7 +68,7 @@ sensitivity::tell(sob_det, Y)
 
 ```{r g-det-plot, cache=TRUE, eval=LOCAL}
 print(sob_det)
-autoplot(sob_det, ncol = 1)
+Sobol4R::autoplot(sob_det, ncol = 1)
 ```
 
 ## Order 1 and Total via `sensitivity::sobol2007()`
@@ -92,7 +92,7 @@ sensitivity::tell(sob_det_2007, Y)
 
 ```{r g-det-plot_2007, cache=TRUE, eval=LOCAL}
 print(sob_det_2007)
-autoplot(sob_det_2007)
+Sobol4R::autoplot(sob_det_2007)
 ```
 
 # Random effect on the output
@@ -111,7 +111,7 @@ sensitivity::tell(sob_noise_add, Y)
 
 ```{r g-noise-const-plot, cache=TRUE, eval=LOCAL}
 print(sob_noise_add)
-autoplot(sob_noise_add)
+Sobol4R::autoplot(sob_noise_add)
 ```
 
 ## Order 1 and Total via `sensitivity::sobol2007()`
@@ -125,7 +125,7 @@ sensitivity::tell(sob_noise_add, Y)
 
 ```{r g-noise-const-plot-2007, cache=TRUE, eval=LOCAL}
 print(sob_noise_add)
-autoplot(sob_noise_add)
+Sobol4R::autoplot(sob_noise_add)
 ```
 
 # Quantity of interest based on repeated runs
@@ -148,7 +148,7 @@ sob_noise_const_qoi <- sobol4r_qoi_indices(
 
 ```{r g-noise-const-qoi-plot, cache=TRUE, eval=LOCAL}
 print(sob_noise_const_qoi)
-autoplot(sob_noise_const_qoi)
+Sobol4R::autoplot(sob_noise_const_qoi)
 ```
 
 ## Order 1 and Total via `sensitivity::sobol2007()`
@@ -164,7 +164,7 @@ sob_noise_const_qoi <- sobol4r_qoi_indices(
 
 ```{r g-noise-const-qoi-plot-2007, cache=TRUE, eval=LOCAL}
 print(sob_noise_const_qoi)
-autoplot(sob_noise_const_qoi)
+Sobol4R::autoplot(sob_noise_const_qoi)
 ```
 
 # Covariate dependent noise
@@ -196,7 +196,7 @@ sensitivity::tell(sob_cov_single, Y)
 
 ```{r g-noise-cov-plot, cache=TRUE, eval=LOCAL}
 print(sob_cov_single)
-autoplot(sob_cov_single)
+Sobol4R::autoplot(sob_cov_single)
 ```
 
 ## Order 1 and Total via `sensitivity::sobol2007()`
@@ -212,7 +212,7 @@ sob_cov_qoi <- sobol4r_qoi_indices(
 
 ```{r g-noise-cov-qoi-plot, cache=TRUE, eval=LOCAL}
 print(sob_cov_qoi)
-autoplot(sob_cov_qoi)
+Sobol4R::autoplot(sob_cov_qoi)
 ```
 
 # Conclusion

@@ -52,7 +52,6 @@ queue at stationarity using Sobol indices.
 # M/M/1 simmer model for Sobol analysis using time in system as QoI
 
 library(simmer)
-
 # One replication: mean time in system (sojourn time)
 simulate_mm1_once_ts <- function(lambda, mu,
                                  horizon = 1000,
@@ -214,7 +213,7 @@ If `ggplot2` is installed, we can visualise the indices with
 the autoplot method provided by the package.
 
 ```{r sobol-plot, message=FALSE, warning=FALSE, cache=TRUE, eval=LOCAL}
-autoplot(sob_mm1)
+Sobol4R::autoplot(sob_mm1)
 ```
 
 # Summary
@@ -257,6 +256,6 @@ Yc <- sobol4r_clinic_model(sob_clinic$X,
                            nrep = 10)
 sob_clinic <- tell(sob_clinic, Yc)
 print(sob_clinic)
-autoplot(sob_clinic)
+Sobol4R::autoplot(sob_clinic)
 ```
 

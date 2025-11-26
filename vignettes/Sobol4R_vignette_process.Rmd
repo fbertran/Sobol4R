@@ -133,12 +133,12 @@ xproc_s2007 <- tell(gensol_proc_s2007, Yproc_s2007)
 
 ```{r process-sobol-single-plot, cache=TRUE, eval=LOCAL}
 print(xproc_1)
-autoplot(xproc_1, ncol = 1)
+Sobol4R::autoplot(xproc_1, ncol = 1)
 ```
 
 ```{r process-sobol-single-plot2, cache=TRUE, eval=LOCAL}
 print(xproc_s2007)
-autoplot(xproc_s2007)
+Sobol4R::autoplot(xproc_s2007)
 ```
 
 # Sobol indices based on a quantity of interest
@@ -157,7 +157,7 @@ xproc_2 <- tell(gensol_proc, Yproc_2)
 
 ```{r process-sobol-qoi-plot, cache=TRUE, eval=LOCAL}
 print(xproc_2)
-autoplot(xproc_2, ncol = 1)
+Sobol4R::autoplot(xproc_2, ncol = 1)
 ```
 
 ## Qoi Mean
@@ -175,7 +175,7 @@ res_sobol_mean <- sobol4r_qoi_indices(
   type  = "sobol"
 )
 print(res_sobol_mean)
-autoplot(res_sobol_mean, ncol = 1)
+Sobol4R::autoplot(res_sobol_mean, ncol = 1)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}
@@ -190,7 +190,7 @@ res_sobol2007_mean <- sobol4r_qoi_indices(
   type  = "sobol2007"
 )
 print(res_sobol2007_mean)
-autoplot(res_sobol2007_mean)
+Sobol4R::autoplot(res_sobol2007_mean)
 ```
 
 ## Qoi Median
@@ -208,7 +208,7 @@ res_sobol_median <- sobol4r_qoi_indices(
   type    = "sobol"
 )
 print(res_sobol_median)
-autoplot(res_sobol_median, ncol = 1)
+Sobol4R::autoplot(res_sobol_median, ncol = 1)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}
@@ -223,7 +223,7 @@ res_sobol2007_median <- sobol4r_qoi_indices(
   type    = "sobol2007"
 )
 print(res_sobol2007_median)
-autoplot(res_sobol2007_median)
+Sobol4R::autoplot(res_sobol2007_median)
 ```
 
 

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Sobol4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ Bertrand</h4>
 Paris<br><a class="author_email" href="mailto:#"></a><a href="mailto:frederic.bertrand@lecnam.net" class="email">frederic.bertrand@lecnam.net</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2025-11-25</h4>
+            <h4 data-toc-skip class="date">2025-11-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/fbertran/Sobol4R/blob/HEAD/vignettes/Sobol_RV_five_examples.Rmd" class="external-link"><code>vignettes/Sobol_RV_five_examples.Rmd</code></a></small>
       <div class="d-none name"><code>Sobol_RV_five_examples.Rmd</code></div>
@@ -144,7 +144,7 @@ are eight variables, all following the uniform distribution on
 <span><span class="co">#&gt; X6*X7 -0.015409257 -0.0013758069 0.009853620 -0.033857453 0.002378392</span></span>
 <span><span class="co">#&gt; X6*X8 -0.015406676 -0.0013758051 0.009853758 -0.033853956 0.002382148</span></span>
 <span><span class="co">#&gt; X7*X8 -0.015408348 -0.0013757551 0.009853896 -0.033858828 0.002380025</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x1</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x1</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-det-g-plot-1.png" width="900"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex1_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol_example_g_deterministic.html">sobol_example_g_deterministic</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -194,7 +194,7 @@ are eight variables, all following the uniform distribution on
 <span><span class="co">#&gt; X6*X8 -0.0071339651  5.264348e-04 0.009681123 -0.028121004 0.01112360</span></span>
 <span><span class="co">#&gt; X7*X8 -0.0071370385  5.263348e-04 0.009681299 -0.028124733 0.01112035</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex1_results</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex1_results</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-3-1.png" width="900"></p>
 </div>
 <div class="section level2">
@@ -275,13 +275,13 @@ quantity of interest based on the mean over replications is
 <span><span class="co">#&gt; C2    0.18248043 -0.0017367430 0.009332159 0.16508020 0.2069736</span></span>
 <span><span class="co">#&gt; C1*C2 0.06457593  0.0009315934 0.012032118 0.04010188 0.0874222</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r1-plot-1.png" width="900"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r1-plot-2.png" width="900"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x4</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x4</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r1-plot-3.png" width="900"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex2_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol_example_random_output.html">sobol_example_random_output</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -325,13 +325,13 @@ quantity of interest based on the mean over replications is
 <span><span class="co">#&gt; C2    0.18166520 -0.0004252401 0.008343277 0.16630470 0.19952893</span></span>
 <span><span class="co">#&gt; C1*C2 0.07020214  0.0012650855 0.010728603 0.04892424 0.09107463</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">$</span><span class="va">x_det</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">$</span><span class="va">x_det</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-7-1.png" width="900"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">$</span><span class="va">x_noise</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">$</span><span class="va">x_noise</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-7-2.png" width="900"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">$</span><span class="va">x_qoi</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">$</span><span class="va">x_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-7-3.png" width="900"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ex2_results</span><span class="op">)</span></span></code></pre></div>
@@ -419,10 +419,10 @@ The third variable controls the mean of the Gaussian noise.</p>
 <span><span class="co">#&gt; C1*C3 -0.008944792  1.678635e-03 0.0119154037 -0.03613794 0.01063203</span></span>
 <span><span class="co">#&gt; C2*C3 -0.008945624  1.673590e-03 0.0119138645 -0.03611414 0.01064228</span></span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r2-plot-1.png" width="900"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x6</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x6</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r2-plot-2.png" width="900"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex3_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol_example_covariate_large.html">sobol_example_covariate_large</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -459,10 +459,10 @@ The third variable controls the mean of the Gaussian noise.</p>
 <span><span class="co">#&gt; C1*C3  0.004146628 -5.696827e-04 0.0113793001 -0.01588901 0.02971427</span></span>
 <span><span class="co">#&gt; C2*C3  0.004119570 -5.706827e-04 0.0113799985 -0.01592504 0.02970237</span></span></code></pre></div>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex3_results</span><span class="op">$</span><span class="va">x_single</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex3_results</span><span class="op">$</span><span class="va">x_single</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-11-1.png" width="900"></p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex3_results</span><span class="op">$</span><span class="va">x_qoi</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex3_results</span><span class="op">$</span><span class="va">x_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-11-2.png" width="900"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ex3_results</span><span class="op">)</span></span></code></pre></div>
@@ -532,10 +532,10 @@ range for the mean of the noise.</p>
 <span><span class="co">#&gt; C1*C3 -0.009441546  0.004124036 0.02096216 -0.060569278 0.03514172</span></span>
 <span><span class="co">#&gt; C2*C3 -0.009732205  0.004024467 0.02083542 -0.060257137 0.03574496</span></span></code></pre></div>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x7</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x7</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r3-plot-1.png" width="900"></p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">x8</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">x8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-r3-plot-2.png" width="900"></p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex4_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol_example_covariate_small.html">sobol_example_covariate_small</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -572,10 +572,10 @@ range for the mean of the noise.</p>
 <span><span class="co">#&gt; C1*C3 -0.01158259 -0.002973672 0.02095654 -0.056111648 0.03698519</span></span>
 <span><span class="co">#&gt; C2*C3 -0.01328830 -0.003029785 0.02103294 -0.056820767 0.03617793</span></span></code></pre></div>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex4_results</span><span class="op">$</span><span class="va">x_single</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex4_results</span><span class="op">$</span><span class="va">x_single</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-15-1.png" width="900"></p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex4_results</span><span class="op">$</span><span class="va">x_qoi</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex4_results</span><span class="op">$</span><span class="va">x_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-15-2.png" width="900"></p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ex4_results</span><span class="op">)</span></span></code></pre></div>
@@ -671,10 +671,10 @@ interest is the time needed to reach a given number of successes.</p>
 <span><span class="co">#&gt; X3*X5  0.23794077 -0.038174061  0.1819509  0.024176202  0.61056056</span></span>
 <span><span class="co">#&gt; X4*X5  0.28769557 -0.010575839  0.1950144  0.007294713  0.67587200</span></span></code></pre></div>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">xp1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">xp1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-process-plot-1.png" width="900"></p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">xp2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">xp2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-process-plot-2.png" width="900"></p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex5_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol_example_process.html">sobol_example_process</a></span><span class="op">(</span>order <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -729,10 +729,10 @@ interest is the time needed to reach a given number of successes.</p>
 <span><span class="co">#&gt; X3*X5  0.09985455 -0.009063853  0.1981656 -0.15621906 0.3938962</span></span>
 <span><span class="co">#&gt; X4*X5  0.16815214 -0.045139164  0.1669667 -0.03943283 0.4053975</span></span></code></pre></div>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex5_results</span><span class="op">$</span><span class="va">xp_single</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex5_results</span><span class="op">$</span><span class="va">xp_single</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-19-1.png" width="900"></p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">ex5_results</span><span class="op">$</span><span class="va">xp_qoi</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ex5_results</span><span class="op">$</span><span class="va">xp_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-exploring-unnamed-chunk-19-2.png" width="900"></p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ex5_results</span><span class="op">)</span></span></code></pre></div>

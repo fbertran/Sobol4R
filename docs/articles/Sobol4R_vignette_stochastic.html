@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Sobol4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ Bertrand</h4>
 Paris<br><a class="author_email" href="mailto:#"></a><a href="mailto:frederic.bertrand@lecnam.net" class="email">frederic.bertrand@lecnam.net</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2025-11-25</h4>
+            <h4 data-toc-skip class="date">2025-11-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/fbertran/Sobol4R/blob/HEAD/vignettes/Sobol4R_vignette_stochastic.Rmd" class="external-link"><code>vignettes/Sobol4R_vignette_stochastic.Rmd</code></a></small>
       <div class="d-none name"><code>Sobol4R_vignette_stochastic.Rmd</code></div>
@@ -160,7 +160,7 @@ interest wrapper <code>sobol4r_qoi</code>.</p>
 <span><span class="co">#&gt; X6*X7 -0.014133660  0.001724777 0.02287928 -0.060041776 0.03356007</span></span>
 <span><span class="co">#&gt; X6*X8 -0.014132645  0.001725332 0.02287910 -0.060038087 0.03355843</span></span>
 <span><span class="co">#&gt; X7*X8 -0.014134667  0.001725199 0.02287888 -0.060038360 0.03356007</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_det</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_det</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-det-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
@@ -210,7 +210,7 @@ interest wrapper <code>sobol4r_qoi</code>.</p>
 <span><span class="co">#&gt; X6  0.0001245399 -8.659793e-05 0.0003678083 -0.0006133636 0.0011593635</span></span>
 <span><span class="co">#&gt; X7  0.0001987163  2.279008e-05 0.0003327657 -0.0004079122 0.0007984449</span></span>
 <span><span class="co">#&gt; X8  0.0007342818 -7.943007e-05 0.0004619398 -0.0003188098 0.0019252166</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_det_2007</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_det_2007</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-det-plot_2007-1.png" width="1050"></p>
 </div>
 </div>
@@ -240,7 +240,7 @@ noise term with zero mean and unit variance.</p>
 <span><span class="co">#&gt; X1    0.210591303  0.002895381 0.01339506  0.17772950 0.23133242</span></span>
 <span><span class="co">#&gt; X2    0.077394970  0.001182011 0.01465379  0.04788607 0.10591187</span></span>
 <span><span class="co">#&gt; X1*X2 0.004634588 -0.002890048 0.02552980 -0.05706284 0.06587072</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-const-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
@@ -268,7 +268,7 @@ noise term with zero mean and unit variance.</p>
 <span><span class="co">#&gt;     original          bias std. error min. c.i. max. c.i.</span></span>
 <span><span class="co">#&gt; X1 0.9545870 -1.644061e-03 0.01536769 0.9247617 0.9938948</span></span>
 <span><span class="co">#&gt; X2 0.7936756  7.622615e-05 0.01269614 0.7679734 0.8230877</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-const-plot-2007-1.png" width="1050"></p>
 </div>
 </div>
@@ -302,7 +302,7 @@ is approximated by repeated calls to the stochastic model.</p>
 <span><span class="co">#&gt; X1    0.7281363 -0.002326129 0.01396703 0.7023478 0.7611659</span></span>
 <span><span class="co">#&gt; X2    0.1593779  0.001107771 0.02101239 0.1111086 0.1996645</span></span>
 <span><span class="co">#&gt; X1*X2 0.1115358  0.001362466 0.02579994 0.0601593 0.1660907</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-const-qoi-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
@@ -332,7 +332,7 @@ is approximated by repeated calls to the stochastic model.</p>
 <span><span class="co">#&gt;     original          bias std. error min. c.i. max. c.i.</span></span>
 <span><span class="co">#&gt; X1 0.8418682  0.0009028623 0.02325515 0.7957662 0.8900772</span></span>
 <span><span class="co">#&gt; X2 0.2740287 -0.0025875328 0.01601914 0.2449723 0.3176801</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-const-qoi-plot-2007-1.png" width="1050"></p>
 </div>
 </div>
@@ -377,7 +377,7 @@ fixed.</p>
 <span><span class="co">#&gt; C1*C2  0.001516282 -0.0018191025 0.02286151 -0.047225558 0.05535690</span></span>
 <span><span class="co">#&gt; C1*C3 -0.019992459 -0.0013159148 0.02519739 -0.061114785 0.03731931</span></span>
 <span><span class="co">#&gt; C2*C3  0.029377180 -0.0033125463 0.02019137 -0.006645643 0.07587689</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_cov_single</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_cov_single</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-cov-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
@@ -409,7 +409,7 @@ fixed.</p>
 <span><span class="co">#&gt; C1 0.0007208594 -7.186279e-05 0.0007702269 -0.0009344723 0.0023805464</span></span>
 <span><span class="co">#&gt; C2 0.0003281183  1.261821e-05 0.0003896499 -0.0006923641 0.0009725581</span></span>
 <span><span class="co">#&gt; C3 1.0310911191  6.028381e-03 0.0287721499  0.9591583461 1.0980545363</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_cov_qoi</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_cov_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-cov-qoi-plot-1.png" width="1050"></p>
 </div>
 </div>

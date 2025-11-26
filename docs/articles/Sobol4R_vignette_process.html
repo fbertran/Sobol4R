@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Sobol4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ Bertrand</h4>
 Paris<br><a class="author_email" href="mailto:#"></a><a href="mailto:frederic.bertrand@lecnam.net" class="email">frederic.bertrand@lecnam.net</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2025-11-25</h4>
+            <h4 data-toc-skip class="date">2025-11-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/fbertran/Sobol4R/blob/HEAD/vignettes/Sobol4R_vignette_process.Rmd" class="external-link"><code>vignettes/Sobol4R_vignette_process.Rmd</code></a></small>
       <div class="d-none name"><code>Sobol4R_vignette_process.Rmd</code></div>
@@ -186,7 +186,7 @@ the process model.</p>
 <span><span class="co">#&gt; X3*X4 -0.3287880 -0.02359720  0.2308614 -0.80781454 0.1625249</span></span>
 <span><span class="co">#&gt; X3*X5 -0.3408354 -0.01815007  0.2109176 -0.77419315 0.1081724</span></span>
 <span><span class="co">#&gt; X4*X5 -0.2694589 -0.03160427  0.2357108 -0.77577433 0.2093851</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">xproc_1</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">xproc_1</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-process-sobol-single-plot-1.png" width="1050"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">xproc_s2007</span><span class="op">)</span></span>
@@ -211,7 +211,7 @@ the process model.</p>
 <span><span class="co">#&gt; X3  0.0005891851  0.002411750 0.08555174 -0.1771735 0.1720782</span></span>
 <span><span class="co">#&gt; X4  0.2799643974  0.003049293 0.18861940 -0.1241736 0.7284894</span></span>
 <span><span class="co">#&gt; X5  0.1145422977  0.019339225 0.16685350 -0.1760436 0.5269174</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">xproc_s2007</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">xproc_s2007</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-process-sobol-single-plot2-1.png" width="1050"></p>
 </div>
 <div class="section level2">
@@ -250,7 +250,7 @@ reach the target number of successes. This is implemented by
 <span><span class="co">#&gt; X3*X4 -0.3331674 -0.014007668  0.2625429 -0.7420036 0.3590781</span></span>
 <span><span class="co">#&gt; X3*X5 -0.3592000 -0.011309098  0.2699409 -0.7894881 0.3693090</span></span>
 <span><span class="co">#&gt; X4*X5 -0.2954550 -0.014510084  0.2700965 -0.7333147 0.4146974</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">xproc_2</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">xproc_2</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-process-sobol-qoi-plot-1.png" width="1050"></p>
 <div class="section level3">
 <h3 id="qoi-mean">Qoi Mean<a class="anchor" aria-label="anchor" href="#qoi-mean"></a>
@@ -291,7 +291,7 @@ reach the target number of successes. This is implemented by
 <span><span class="co">#&gt; X3*X4 -0.3007574 -0.06061473  0.3404276 -0.75275578 0.8777120</span></span>
 <span><span class="co">#&gt; X3*X5 -0.3019780 -0.06057977  0.3402788 -0.75334627 0.8785105</span></span>
 <span><span class="co">#&gt; X4*X5 -0.2758623 -0.05966790  0.3633708 -0.75818965 1.0111646</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">res_sobol_mean</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res_sobol_mean</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-unnamed-chunk-2-1.png" width="1050"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_sobol2007_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol4r_qoi_indices.html">sobol4r_qoi_indices</a></span><span class="op">(</span></span>
@@ -326,7 +326,7 @@ reach the target number of successes. This is implemented by
 <span><span class="co">#&gt; X3 -0.006024882 -2.606107e-05 0.001853114 -0.010555671 -0.003532359</span></span>
 <span><span class="co">#&gt; X4  0.276844920  3.518714e-02 0.201009767 -0.041162140  0.677923530</span></span>
 <span><span class="co">#&gt; X5  0.089923585  9.174677e-03 0.145860899 -0.167883254  0.362529675</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">res_sobol2007_mean</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res_sobol2007_mean</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-unnamed-chunk-3-1.png" width="1050"></p>
 </div>
 <div class="section level3">
@@ -368,7 +368,7 @@ reach the target number of successes. This is implemented by
 <span><span class="co">#&gt; X3*X4 -0.3040339  0.05914784  0.2074400 -0.65703109 0.04036785</span></span>
 <span><span class="co">#&gt; X3*X5 -0.3030301  0.05775997  0.2085067 -0.65238401 0.04808432</span></span>
 <span><span class="co">#&gt; X4*X5 -0.2749564  0.05147778  0.2196955 -0.63229036 0.10439382</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">res_sobol_median</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res_sobol_median</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-unnamed-chunk-4-1.png" width="1050"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_sobol2007_median</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol4r_qoi_indices.html">sobol4r_qoi_indices</a></span><span class="op">(</span></span>
@@ -403,7 +403,7 @@ reach the target number of successes. This is implemented by
 <span><span class="co">#&gt; X3 -0.002405476 -0.0006439060 0.002279635 -0.004597536  0.002993045</span></span>
 <span><span class="co">#&gt; X4  0.278546795 -0.1029523197 0.255775665 -0.053865835  0.845646247</span></span>
 <span><span class="co">#&gt; X5  0.089823287 -0.0084978131 0.093193129 -0.046021882  0.320166482</span></span>
-<span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">res_sobol2007_median</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res_sobol2007_median</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-process-unnamed-chunk-5-1.png" width="1050"></p>
 </div>
 </div>
