@@ -4,6 +4,7 @@ genlogo.R
 
 ^extra_docs$
 ^extra_docs
+^figures
 
 
 ^revdep$
