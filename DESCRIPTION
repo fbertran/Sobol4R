@@ -3,7 +3,7 @@ Type: Package
 Title: Sobol Indices for Models with Fixed and Stochastic Parameters 
 Version: 0.4.0
 Date: 2025-11-26
-Depends: R (>= 3.50)
+Depends: R (>= 3.5.0)
 Imports: 
     ggplot2,
     Rcpp (>= 1.0.0),
