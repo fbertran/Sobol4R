@@ -6,6 +6,7 @@ genlogo.R
 ^extra_docs
 ^figures
 
+TODO.md
 
 ^revdep$
 ^_pkgdown\.yml$
