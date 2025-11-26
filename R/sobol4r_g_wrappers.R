@@ -86,6 +86,7 @@ sobol_g2_with_covariate_noise <- function(X,
 #'
 #' @param X Numeric matrix or data.frame with at least two columns.
 #' @param nrep Number of replicates used for the QoI.
+#' @param a Numeric vector of parameters (at least length 2).
 #'
 #' @return Numeric vector of QoI values (means over \code{nrep} runs).
 #' 

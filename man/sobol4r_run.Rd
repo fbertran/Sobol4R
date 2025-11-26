@@ -26,12 +26,15 @@ and returns a numeric vector of length nrow(X).}
 
 \item{nboot}{Number of bootstrap replicates for confidence intervals.}
 
-\item{...}{Extra arguments passed to \code{model}.}
-
-\item{qoi}{Optional quantity of interest function. If not NULL,
+\item{qoi_fun}{Optional quantity of interest function. If not NULL,
 the model is evaluated repeatedly and QoI is computed row wise.}
 
-\item{n_rep}{Number of replications per design row when \code{qoi} is not NULL.}
+\item{nrep}{Number of replications per design row when \code{qoi} is not NULL.}
+
+\item{type}{Type of Monte Carlo Estimation of Sobol' Indices to be used.
+At the moment, either \code{sensitivity::sobol()} or \code{sensitivity::sobol2007()}.}
+
+\item{...}{Extra arguments passed to \code{model}.}
 }
 \value{
 A \code{sobol} object (output of \code{sensitivity::tell}).

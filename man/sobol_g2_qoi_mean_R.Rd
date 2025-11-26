@@ -4,7 +4,12 @@
 \alias{sobol_g2_qoi_mean_R}
 \title{Quantity-of-interest wrapper for the noisy G-function (k = 2)}
 \usage{
-sobol_g2_qoi_mean_R(X, nrep = 1000, sd = 1)
+sobol_g2_qoi_mean_R(
+  X,
+  nrep = 1000,
+  sd = 1,
+  a = c(0, 1, 4.5, 9, 99, 99, 99, 99)
+)
 }
 \arguments{
 \item{X}{Numeric matrix or data.frame with at least two columns.}
@@ -12,6 +17,8 @@ sobol_g2_qoi_mean_R(X, nrep = 1000, sd = 1)
 \item{nrep}{Number of replicates used for the QoI.}
 
 \item{sd}{Standard deviation of the Gaussian noise.}
+
+\item{a}{Numeric vector of parameters (at least length 2).}
 }
 \value{
 Numeric vector of QoI values (means over \code{nrep} runs).

@@ -4,114 +4,62 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Sobol4R: Sobol indices for stochastic models • Sobol4R</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Sobol4R: Sobol indices for stochastic models">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sobol4R: Sobol indices for stochastic models">
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">Sobol4R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <a class="navbar-brand me-2" href="../index.html">Sobol4R</a>
 
-  </a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Code du livre
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/Chapitre1.html">Chapitre1</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre2.html">Chapitre2</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre3.html">Chapitre3</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre4.html">Chapitre4</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre5.html">Chapitre5</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre6.html">Chapitre6</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre7.html">Chapitre7</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre8.html">Chapitre8</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre9.html">Chapitre9</a>
-    </li>
-    <li>
-      <a href="../articles/Chapitre10.html">Chapitre10</a>
-    </li>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
+    <li><a class="dropdown-item" href="../articles/Sobol_RV_five_examples.html">Exploring Sobol indices and randomness with Sobol4R</a></li>
+    <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_process.html">Sobol4R: Sobol indices for a stochastic process model</a></li>
+    <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_stochastic.html">Sobol4R: Sobol indices for stochastic models</a></li>
   </ul>
 </li>
-<li>
-  <a href="../reference/index.html">Liste des fonctions</a>
-</li>
-<li>
-  <a href="../news/index.html">Historique des modifications</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/fbertran/BioStatR" class="external-link">
-    <span class="fa fa-github"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/fbertran/Sobol4R/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
 
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Sobol4R: Sobol indices for stochastic
-models</h1>
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+
+      <h1>Sobol4R: Sobol indices for stochastic models</h1>
                         <h4 data-toc-skip class="author">Frédéric
 Bertrand</h4>
             <address class="author_afil">
@@ -122,8 +70,7 @@ Paris<br><a class="author_email" href="mailto:#"></a><a href="mailto:frederic.be
             <h4 data-toc-skip class="date">2025-11-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/fbertran/Sobol4R/blob/HEAD/vignettes/Sobol4R_vignette_stochastic.Rmd" class="external-link"><code>vignettes/Sobol4R_vignette_stochastic.Rmd</code></a></small>
-      <div class="hidden name"><code>Sobol4R_vignette_stochastic.Rmd</code></div>
-
+      <div class="d-none name"><code>Sobol4R_vignette_stochastic.Rmd</code></div>
     </div>
 
     
@@ -169,7 +116,52 @@ interest wrapper <code>sobol4r_qoi</code>.</p>
 <span><span class="fu">sensitivity</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sensitivity/man/decoupling.html" class="external-link">tell</a></span><span class="op">(</span><span class="va">sob_det</span>, <span class="va">Y</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_det</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 370000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sobol indices</span></span>
+<span><span class="co">#&gt;           original         bias std. error    min. c.i.  max. c.i.</span></span>
+<span><span class="co">#&gt; X1     0.729316561 -0.001275439 0.01545021  0.697616109 0.75539527</span></span>
+<span><span class="co">#&gt; X2     0.196090766 -0.001421671 0.02154300  0.149982732 0.24012332</span></span>
+<span><span class="co">#&gt; X3     0.023981516 -0.003065429 0.02254195 -0.022845225 0.06862620</span></span>
+<span><span class="co">#&gt; X4     0.020825373 -0.001493134 0.02304567 -0.030743385 0.06770798</span></span>
+<span><span class="co">#&gt; X5     0.014039354 -0.001739104 0.02286833 -0.033429593 0.06035033</span></span>
+<span><span class="co">#&gt; X6     0.014708915 -0.001733720 0.02289314 -0.032962767 0.06076802</span></span>
+<span><span class="co">#&gt; X7     0.014340074 -0.001703916 0.02284889 -0.033229092 0.06040784</span></span>
+<span><span class="co">#&gt; X8     0.014309301 -0.001662739 0.02293222 -0.033269603 0.06032436</span></span>
+<span><span class="co">#&gt; X1*X2  0.046865217  0.002550570 0.02713540 -0.006026338 0.09871445</span></span>
+<span><span class="co">#&gt; X1*X3 -0.007464372  0.002580981 0.02266589 -0.055481253 0.03639582</span></span>
+<span><span class="co">#&gt; X1*X4 -0.012404646  0.001762228 0.02312736 -0.058467170 0.03691738</span></span>
+<span><span class="co">#&gt; X1*X5 -0.014058843  0.001714964 0.02288889 -0.060132470 0.03373491</span></span>
+<span><span class="co">#&gt; X1*X6 -0.014241259  0.001687695 0.02286621 -0.060184648 0.03336696</span></span>
+<span><span class="co">#&gt; X1*X7 -0.014157446  0.001683380 0.02286251 -0.059923900 0.03328664</span></span>
+<span><span class="co">#&gt; X1*X8 -0.013976941  0.001747537 0.02286627 -0.059862035 0.03358057</span></span>
+<span><span class="co">#&gt; X2*X3 -0.014705090  0.001886857 0.02316433 -0.061183556 0.03236541</span></span>
+<span><span class="co">#&gt; X2*X4 -0.011390929  0.001646346 0.02302253 -0.056859886 0.03564363</span></span>
+<span><span class="co">#&gt; X2*X5 -0.014127670  0.001736261 0.02286688 -0.060043209 0.03352002</span></span>
+<span><span class="co">#&gt; X2*X6 -0.014110288  0.001714867 0.02288131 -0.060001925 0.03356799</span></span>
+<span><span class="co">#&gt; X2*X7 -0.014205955  0.001744655 0.02289871 -0.060152873 0.03353539</span></span>
+<span><span class="co">#&gt; X2*X8 -0.014017457  0.001746709 0.02287928 -0.059955448 0.03372764</span></span>
+<span><span class="co">#&gt; X3*X4 -0.014248428  0.001739508 0.02291249 -0.060842516 0.03370856</span></span>
+<span><span class="co">#&gt; X3*X5 -0.014110240  0.001724878 0.02287689 -0.059965627 0.03358561</span></span>
+<span><span class="co">#&gt; X3*X6 -0.014073724  0.001716482 0.02288471 -0.059961372 0.03366554</span></span>
+<span><span class="co">#&gt; X3*X7 -0.014101779  0.001732930 0.02287970 -0.059981310 0.03364722</span></span>
+<span><span class="co">#&gt; X3*X8 -0.014116726  0.001720118 0.02288282 -0.060001796 0.03358277</span></span>
+<span><span class="co">#&gt; X4*X5 -0.014141193  0.001723617 0.02288695 -0.060047751 0.03358634</span></span>
+<span><span class="co">#&gt; X4*X6 -0.014170593  0.001730109 0.02288030 -0.060094990 0.03351575</span></span>
+<span><span class="co">#&gt; X4*X7 -0.014136512  0.001728798 0.02287319 -0.060018980 0.03354256</span></span>
+<span><span class="co">#&gt; X4*X8 -0.014114087  0.001730295 0.02288118 -0.060019126 0.03357095</span></span>
+<span><span class="co">#&gt; X5*X6 -0.014134265  0.001724749 0.02287874 -0.060037134 0.03356052</span></span>
+<span><span class="co">#&gt; X5*X7 -0.014132876  0.001725326 0.02287857 -0.060034674 0.03355894</span></span>
+<span><span class="co">#&gt; X5*X8 -0.014133657  0.001724984 0.02287906 -0.060041703 0.03355821</span></span>
+<span><span class="co">#&gt; X6*X7 -0.014133660  0.001724777 0.02287928 -0.060041776 0.03356007</span></span>
+<span><span class="co">#&gt; X6*X8 -0.014132645  0.001725332 0.02287910 -0.060038087 0.03355843</span></span>
+<span><span class="co">#&gt; X7*X8 -0.014134667  0.001725199 0.02287888 -0.060038360 0.03356007</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_det</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-det-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
 <h3 id="order-1-and-total-via-sensitivitysobol2007">Order 1 and Total via <code>sensitivity::sobol2007()</code><a class="anchor" aria-label="anchor" href="#order-1-and-total-via-sensitivitysobol2007"></a>
@@ -190,8 +182,36 @@ interest wrapper <code>sobol4r_qoi</code>.</p>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sobol_g_function.html">sobol_g_function</a></span><span class="op">(</span><span class="va">sob_det_2007</span><span class="op">$</span><span class="va">X</span><span class="op">)</span></span>
 <span><span class="fu">sensitivity</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sensitivity/man/decoupling.html" class="external-link">tell</a></span><span class="op">(</span><span class="va">sob_det_2007</span>, <span class="va">Y</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sob_det_2007</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_det_2007</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol2007(model = NULL, X1 = X1, X2 = X2, nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 100000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; First order indices:</span></span>
+<span><span class="co">#&gt;         original          bias   std. error     min. c.i.    max. c.i.</span></span>
+<span><span class="co">#&gt; X1  7.226361e-01  4.613664e-04 0.0250889263  0.6714746826 0.7732251982</span></span>
+<span><span class="co">#&gt; X2  1.577506e-01  1.759382e-03 0.0147669207  0.1267157769 0.1960646433</span></span>
+<span><span class="co">#&gt; X3  2.165769e-02 -1.967632e-04 0.0048301391  0.0107498709 0.0330404949</span></span>
+<span><span class="co">#&gt; X4  6.966461e-03  2.491303e-04 0.0027234991  0.0010555430 0.0110881879</span></span>
+<span><span class="co">#&gt; X5  2.104365e-04  5.952562e-05 0.0002402671 -0.0003020478 0.0005739324</span></span>
+<span><span class="co">#&gt; X6  2.982284e-04  6.010743e-05 0.0002228694 -0.0003302314 0.0007606267</span></span>
+<span><span class="co">#&gt; X7  5.419411e-05 -3.806394e-05 0.0001951958 -0.0002465745 0.0005861267</span></span>
+<span><span class="co">#&gt; X8 -1.885046e-04  4.378118e-05 0.0002970498 -0.0009607355 0.0003931021</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Total indices:</span></span>
+<span><span class="co">#&gt;         original          bias   std. error     min. c.i.    max. c.i.</span></span>
+<span><span class="co">#&gt; X1  0.8114688026  1.482182e-03 0.0209887057  0.7632449114 0.8584297401</span></span>
+<span><span class="co">#&gt; X2  0.2657395655  9.298296e-04 0.0162802955  0.2268143380 0.3035468573</span></span>
+<span><span class="co">#&gt; X3  0.0380832600  7.402175e-04 0.0070172023  0.0199547275 0.0506997801</span></span>
+<span><span class="co">#&gt; X4  0.0080414206 -4.546740e-04 0.0040901847 -0.0006915014 0.0172996762</span></span>
+<span><span class="co">#&gt; X5 -0.0000740697 -9.898440e-05 0.0004524606 -0.0010437911 0.0009069280</span></span>
+<span><span class="co">#&gt; X6  0.0001245399 -8.659793e-05 0.0003678083 -0.0006133636 0.0011593635</span></span>
+<span><span class="co">#&gt; X7  0.0001987163  2.279008e-05 0.0003327657 -0.0004079122 0.0007984449</span></span>
+<span><span class="co">#&gt; X8  0.0007342818 -7.943007e-05 0.0004619398 -0.0003188098 0.0019252166</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_det_2007</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-det-plot_2007-1.png" width="1050"></p>
 </div>
 </div>
 <div class="section level2">
@@ -209,7 +229,19 @@ noise term with zero mean and unit variance.</p>
 <span><span class="fu">sensitivity</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sensitivity/man/decoupling.html" class="external-link">tell</a></span><span class="op">(</span><span class="va">sob_noise_add</span>, <span class="va">Y</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 40000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sobol indices</span></span>
+<span><span class="co">#&gt;          original         bias std. error   min. c.i.  max. c.i.</span></span>
+<span><span class="co">#&gt; X1    0.210591303  0.002895381 0.01339506  0.17772950 0.23133242</span></span>
+<span><span class="co">#&gt; X2    0.077394970  0.001182011 0.01465379  0.04788607 0.10591187</span></span>
+<span><span class="co">#&gt; X1*X2 0.004634588 -0.002890048 0.02552980 -0.05706284 0.06587072</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-noise-const-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
 <h3 id="order-1-and-total-via-sensitivitysobol2007-1">Order 1 and Total via <code>sensitivity::sobol2007()</code><a class="anchor" aria-label="anchor" href="#order-1-and-total-via-sensitivitysobol2007-1"></a>
@@ -221,7 +253,23 @@ noise term with zero mean and unit variance.</p>
 <span><span class="fu">sensitivity</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sensitivity/man/decoupling.html" class="external-link">tell</a></span><span class="op">(</span><span class="va">sob_noise_add</span>, <span class="va">Y</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol2007(model = NULL, X1 = X1, X2 = X2, nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 40000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; First order indices:</span></span>
+<span><span class="co">#&gt;      original          bias std. error  min. c.i.  max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.22249900 -0.0007019890 0.02086091 0.18921641 0.27421970</span></span>
+<span><span class="co">#&gt; X2 0.04947403  0.0009910796 0.01799606 0.01167035 0.08611989</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Total indices:</span></span>
+<span><span class="co">#&gt;     original          bias std. error min. c.i. max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.9545870 -1.644061e-03 0.01536769 0.9247617 0.9938948</span></span>
+<span><span class="co">#&gt; X2 0.7936756  7.622615e-05 0.01269614 0.7679734 0.8230877</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_noise_add</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-noise-const-plot-2007-1.png" width="1050"></p>
 </div>
 </div>
 <div class="section level2">
@@ -243,7 +291,19 @@ is approximated by repeated calls to the stochastic model.</p>
 <span>  type <span class="op">=</span> <span class="st">"sobol"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 40000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sobol indices</span></span>
+<span><span class="co">#&gt;        original         bias std. error min. c.i. max. c.i.</span></span>
+<span><span class="co">#&gt; X1    0.7281363 -0.002326129 0.01396703 0.7023478 0.7611659</span></span>
+<span><span class="co">#&gt; X2    0.1593779  0.001107771 0.02101239 0.1111086 0.1996645</span></span>
+<span><span class="co">#&gt; X1*X2 0.1115358  0.001362466 0.02579994 0.0601593 0.1660907</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-noise-const-qoi-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
 <h3 id="order-1-and-total-via-sensitivitysobol2007-2">Order 1 and Total via <code>sensitivity::sobol2007()</code><a class="anchor" aria-label="anchor" href="#order-1-and-total-via-sensitivitysobol2007-2"></a>
@@ -257,7 +317,23 @@ is approximated by repeated calls to the stochastic model.</p>
 <span>  type <span class="op">=</span> <span class="st">"sobol2007"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol2007(model = NULL, X1 = X1, X2 = X2, nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 40000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; First order indices:</span></span>
+<span><span class="co">#&gt;     original        bias std. error min. c.i. max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.7569676 0.005520727 0.02420193 0.7014583 0.8274716</span></span>
+<span><span class="co">#&gt; X2 0.1676229 0.002125275 0.01531202 0.1349189 0.1963376</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Total indices:</span></span>
+<span><span class="co">#&gt;     original          bias std. error min. c.i. max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.8418682  0.0009028623 0.02325515 0.7957662 0.8900772</span></span>
+<span><span class="co">#&gt; X2 0.2740287 -0.0025875328 0.01601914 0.2449723 0.3176801</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-noise-const-qoi-plot-2007-1.png" width="1050"></p>
 </div>
 </div>
 <div class="section level2">
@@ -287,7 +363,22 @@ fixed.</p>
 <span><span class="fu">sensitivity</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sensitivity/man/decoupling.html" class="external-link">tell</a></span><span class="op">(</span><span class="va">sob_cov_single</span>, <span class="va">Y</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_cov_single</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 70000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sobol indices</span></span>
+<span><span class="co">#&gt;           original          bias std. error    min. c.i.  max. c.i.</span></span>
+<span><span class="co">#&gt; C1     0.251783186  0.0003585397 0.01280945  0.219732278 0.27135547</span></span>
+<span><span class="co">#&gt; C2     0.045268520  0.0002280838 0.01445710  0.019678256 0.07635617</span></span>
+<span><span class="co">#&gt; C3    -0.013152204  0.0029467703 0.01526048 -0.047879303 0.01339144</span></span>
+<span><span class="co">#&gt; C1*C2  0.001516282 -0.0018191025 0.02286151 -0.047225558 0.05535690</span></span>
+<span><span class="co">#&gt; C1*C3 -0.019992459 -0.0013159148 0.02519739 -0.061114785 0.03731931</span></span>
+<span><span class="co">#&gt; C2*C3  0.029377180 -0.0033125463 0.02019137 -0.006645643 0.07587689</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol</a></span><span class="op">(</span><span class="va">sob_cov_single</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-noise-cov-plot-1.png" width="1050"></p>
 </div>
 <div class="section level3">
 <h3 id="order-1-and-total-via-sensitivitysobol2007-3">Order 1 and Total via <code>sensitivity::sobol2007()</code><a class="anchor" aria-label="anchor" href="#order-1-and-total-via-sensitivitysobol2007-3"></a>
@@ -301,7 +392,25 @@ fixed.</p>
 <span>  type <span class="op">=</span> <span class="st">"sobol2007"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_cov_qoi</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; sensitivity::sobol2007(model = NULL, X1 = X1, X2 = X2, nboot = nboot)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model runs: 50000 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; First order indices:</span></span>
+<span><span class="co">#&gt;         original          bias   std. error     min. c.i.    max. c.i.</span></span>
+<span><span class="co">#&gt; C1  0.0003333998 -2.935862e-05 0.0007910252 -0.0012618253 0.0017225779</span></span>
+<span><span class="co">#&gt; C2 -0.0001240202  1.224430e-05 0.0003261510 -0.0009422672 0.0005263487</span></span>
+<span><span class="co">#&gt; C3  0.9683764786 -4.004989e-03 0.0299272215  0.9093569619 1.0351947827</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Total indices:</span></span>
+<span><span class="co">#&gt;        original          bias   std. error     min. c.i.    max. c.i.</span></span>
+<span><span class="co">#&gt; C1 0.0007208594 -7.186279e-05 0.0007702269 -0.0009344723 0.0023805464</span></span>
+<span><span class="co">#&gt; C2 0.0003281183  1.261821e-05 0.0003896499 -0.0006923641 0.0009725581</span></span>
+<span><span class="co">#&gt; C3 1.0310911191  6.028381e-03 0.0287721499  0.9591583461 1.0980545363</span></span>
 <span><span class="fu"><a href="../reference/autoplot.html">autoplot.sobol2007</a></span><span class="op">(</span><span class="va">sob_cov_qoi</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figures/sobol-stochastic-g-noise-cov-qoi-plot-1.png" width="1050"></p>
 </div>
 </div>
 <div class="section level2">
@@ -312,29 +421,22 @@ randomness in the model output on Sobol indices. More advanced examples,
 including models with random distributional parameters, are presented in
 a separate vignette.</p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-      </div>
-
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Frederic Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Frederic Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
-
 
 
 

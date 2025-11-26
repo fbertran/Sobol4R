@@ -4,12 +4,18 @@
 \alias{sobol_g2_qoi_covariate_mean_R}
 \title{Quantity-of-interest wrapper for the covariate noisy G-function (k = 2)}
 \usage{
-sobol_g2_qoi_covariate_mean_R(X, nrep = 1000)
+sobol_g2_qoi_covariate_mean_R(
+  X,
+  nrep = 1000,
+  a = c(0, 1, 4.5, 9, 99, 99, 99, 99)
+)
 }
 \arguments{
 \item{X}{Numeric matrix or data.frame with at least two columns.}
 
 \item{nrep}{Number of replicates used for the QoI.}
+
+\item{a}{Numeric vector of parameters (at least length 2).}
 }
 \value{
 Numeric vector of QoI values (means over \code{nrep} runs).

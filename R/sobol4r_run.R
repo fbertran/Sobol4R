@@ -8,9 +8,11 @@
 #' @param X1,X2 Matrices or data.frames used to build the Sobol design.
 #' @param order Order of the Sobol indices (1 or 2).
 #' @param nboot Number of bootstrap replicates for confidence intervals.
-#' @param qoi Optional quantity of interest function. If not NULL,
+#' @param qoi_fun Optional quantity of interest function. If not NULL,
 #'   the model is evaluated repeatedly and QoI is computed row wise.
-#' @param n_rep Number of replications per design row when `qoi` is not NULL.
+#' @param nrep Number of replications per design row when `qoi` is not NULL.
+#' @param type Type of Monte Carlo Estimation of Sobol' Indices to be used. 
+#'   At the moment, either `sensitivity::sobol()` or `sensitivity::sobol2007()`.
 #' @param ... Extra arguments passed to `model`.
 #'
 #' @return A `sobol` object (output of `sensitivity::tell`).
@@ -24,7 +26,7 @@ sobol4r_run <- function(model,
                         nrep = 1L,
                         type = c("sobol","sobol2007"),
                         ...) {
-  if (!requireNamespace("sensitivity", quietly = TRUE)) {
+  if (rlang::is_installed("sensitivity")) {
     stop("Package 'sensitivity' is required but not installed")
   }
   if (is.null(qoi_fun) || nrep <= 1L) {

@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
   fig.keep="all"
 )
 ```
-# Sobol4R, Sobol Indices for Models with Fixed and Stochastic Parameters <img src="man/figures/logo.png" align="right" width="200"/>
+# Sobol4R, Sobol Indices for Models with Fixed and Stochastic Parameters <img src="man/figures/Sobol4R_hex.svg" align="right" width="200"/>
 
 ## Frédéric Bertrand, Elizaveta Logosha and Myriam Maumy-Bertrand
 
@@ -19,6 +19,17 @@ knitr::opts_chunk$set(
 [![R-hub](https://github.com/fbertran/Sobol4R/actions/workflows/rhub.yaml/badge.svg)](https://github.com/fbertran/Sobol4R/actions/workflows/rhub.yaml)
 <!-- badges: end -->
 
+Tools to design experiments, compute Sobol sensitivity indices,
+    and summarise stochastic responses inspired by the strategy described by
+    Zhu et Sudret (2021) <https://doi.org/10.1016/j.ress.2021.107815>. Includes helpers
+    to optimise toy models implemented in C++, visualise indices with
+    uncertainty quantification, and derive reliability-oriented sensitivity
+    measures based on failure probabilities.
+    It is further detailed in Logosha, Maumy and Bertrand (2022) 
+    <https://doi.org/10.1063/5.0246026> and (2023) <https://doi.org/10.1063/5.0246024> or in Bertrand, 
+    Logosha and Maumy (2024) <https://hal.science/hal-05371803>, 
+    <https://hal.science/hal-05371795> and <https://hal.science/hal-05371798>.
+    
 This site was created by F. Bertrand and the examples reproduced on it were created by F. Bertrand, E. Logosha and M. Maumy.
 
 ## Installation
@@ -29,52 +40,23 @@ You can install the latest version of the Sobol4R package from [github](https://
 devtools::install_github("fbertran/Sobol4R")
 ```
 
-## Exemples
+## Two complementary analysis paths
 
-### Context and non random case
+Sobol4R exposes two ways to compute sensitivity indices depending on your
+workflow:
 
-#### Test case : the non-monotonic Sobol g-function
+* **Reuse the `sensitivity` package estimators.** Provide pre-built designs and
+  call `sensitivity::sobol()` or `sensitivity::sobol2007()`; the `autoplot()`
+  methods in Sobol4R will visualise those results without changing your
+  existing code.
+* **Use the in-package Saltelli re-implementation.** The `sobol_design()` and
+  `sobol_indices()` helpers build the matrices, run the model, and return
+  a `sobol_result` object that can be summarised or plotted directly, with
+  optional bootstrap quantiles for noisy simulations.
 
-The method of sobol requires 2 samples (there are 2 variables, all following the uniform distribution on $[0,1$])
-
-```{r}
-library(Sobol4R)
-set.seed(4669)
-n <- 50000
-#X1_1 <- data.frame(matrix(runif(8 * n), nrow = n))
-data(X1_1, package="Sobol4R")
-#X2_1 <- data.frame(matrix(runif(8 * n), nrow = n))
-data(X2_1, package="Sobol4R")
-```
-
-
-```{r}
-library(sensitivity)
-if(requireNamespace("sensitivity", quietly = TRUE)){
-sensitivity::sobol.fun
-}
-```
-
-```{r}
-library(sensitivity)
-if(requireNamespace("sensitivity", quietly = TRUE)){
-gensol1 <- sensitivity::sobol(model = NULL, X1 = X1_1, X2 = X2_1, order = 2, nboot = 100)
-Y1 = sensitivity::sobol.fun(gensol1$X)
-data(Y1, package="Sobol4R")
-}
-```
-
-
-```{r}
-if(requireNamespace("sensitivity", quietly = TRUE)){
-x1 <- sensitivity::tell(gensol1, Y1)
-print(x1)
-ggplot2::ggplot(x1)
-rm(gensol1,X1_1,X2_1)
-}
-```
-
-
+The README examples below demonstrate the second path, while the earlier
+"Context and non random case" section illustrates interoperability with
+`sensitivity`.
 
 ## Motivation
 
@@ -142,5 +124,77 @@ autoplot(failure, show_uncertainty = TRUE, probs = c(0.1, 0.9), bootstrap = 200)
 
 ## Combined usage with the `sensitivity` package
 
-Example in the vignettes.
+### Test case : the non-monotonic Sobol g-function
+
+The method of Sobol requires two samples. In this reference case there are eight variables, all following the uniform distribution on $[0,1]$.
+
+```{r det-design}
+if(require(sensitivity)){
+n <- 50000
+p <- 8
+X1_1 <- data.frame(matrix(runif(p * n), nrow = n))
+X2_1 <- data.frame(matrix(runif(p * n), nrow = n))
+}
+```
+
+```{r det-g-run}
+if(require(sensitivity)){
+set.seed(4669)
+gensol1 <- sobol4r_design(
+  X1    = X1_1,
+  X2    = X2_1,
+  order = 2,
+  nboot = 100
+)
+
+Y1 <- sobol_g_function(gensol1$X)
+x1 <- sensitivity::tell(gensol1, Y1)
+print(x1)
+}
+```
+
+```{r det-g-plot, fig.height=4, fig.width=7}
+if(require(sensitivity)){
+autoplot(x1, ncol = 1)
+}
+```
+
+```{r, echo=FALSE}
+if(require(sensitivity)){
+rm(gensol1, X1_1, X2_1)
+}
+```
+
+You can also use the `sobol_example_g_deterministic()` wrapper for this example.
+
+```{r}
+if(require(sensitivity)){ex1_results <- sobol_example_g_deterministic()
+print(ex1_results)
+}
+```
+
+```{r, fig.height=4, fig.width=7}
+if(require(sensitivity)){
+autoplot(ex1_results, ncol = 1)
+}
+```
+
+```{r, echo=FALSE}
+if(require(sensitivity)){
+  rm(ex1_results)
+}
+```
+
+### Vignettes
+
+There are more insights and examples in the vignettes.
+
+```{r, eval=FALSE}
+vignette("Sobol_RV_five_examples", package = "Sobol4R")
+vignette("Sobol4R_vignette_stochastic", package = "Sobol4R")
+vignette("Sobol4R_vignette_process", package = "Sobol4R")
+vignette("simmer_MM1_Sobol_example", package = "Sobol4R")
+```
+
+
 

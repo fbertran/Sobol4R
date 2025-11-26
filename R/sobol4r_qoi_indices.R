@@ -13,6 +13,8 @@
 #'   design point.
 #' @param order Maximum interaction order (1 or 2).
 #' @param nboot Number of bootstrap replicates for Sobol indices.
+#' @param type Which estimator to use, either \code{"sobol"} or
+#'   \code{"sobol2007"}.
 #' @param ... Additional arguments passed to \code{model}.
 #'
 #' @return An object of class \code{"sobol"} with QoI-based Sobol indices.

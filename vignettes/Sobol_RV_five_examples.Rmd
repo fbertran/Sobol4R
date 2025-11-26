@@ -31,9 +31,8 @@ knitr::opts_chunk$set(
 
 LOCAL <- identical(Sys.getenv("LOCAL"), "TRUE")
 
-library(Sobol4R)
 library(sensitivity)
-library(ggplot2)
+library(Sobol4R)
 set.seed(4669)
 ```
 
@@ -67,7 +66,7 @@ x1 <- sensitivity::tell(gensol1, Y1)
 
 ```{r det-g-plot, cache=TRUE, eval=LOCAL}
 print(x1)
-autoplot.sobol(x1, ncol = 1)
+autoplot(x1, ncol = 1)
 ```
 
 ```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
@@ -80,7 +79,7 @@ print(ex1_results)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}
-autoplot.sobol(ex1_results, ncol = 1)
+autoplot(ex1_results, ncol = 1)
 ```
 
 ```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
@@ -139,9 +138,9 @@ print(x4)
 ```
 
 ```{r r1-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(x2)
-autoplot.sobol(x3)
-autoplot.sobol(x4)
+autoplot(x2)
+autoplot(x3)
+autoplot(x4)
 ```
 
 ```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
@@ -154,9 +153,9 @@ ex2_results
 ```
 
 ```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(ex2_results$x_det)
-autoplot.sobol(ex2_results$x_noise)
-autoplot.sobol(ex2_results$x_qoi)
+autoplot(ex2_results$x_det)
+autoplot(ex2_results$x_noise)
+autoplot(ex2_results$x_qoi)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}
@@ -216,8 +215,8 @@ print(x6)
 ```
 
 ```{r r2-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(x5)
-autoplot.sobol(x6)
+autoplot(x5)
+autoplot(x6)
 ```
 
 ```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
@@ -230,8 +229,8 @@ ex3_results
 ```
 
 ```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(ex3_results$x_single)
-autoplot.sobol(ex3_results$x_qoi)
+autoplot(ex3_results$x_single)
+autoplot(ex3_results$x_qoi)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}
@@ -283,8 +282,8 @@ print(x8)
 ```
 
 ```{r r3-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(x7)
-autoplot.sobol(x8)
+autoplot(x7)
+autoplot(x8)
 ```
 
 ```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
@@ -297,8 +296,8 @@ ex4_results
 ```
 
 ```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(ex4_results$x_single)
-autoplot.sobol(ex4_results$x_qoi)
+autoplot(ex4_results$x_single)
+autoplot(ex4_results$x_qoi)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}
@@ -359,8 +358,8 @@ print(xp2)
 ```
 
 ```{r process-plot, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(xp1)
-autoplot.sobol(xp2)
+autoplot(xp1)
+autoplot(xp2)
 ```
 
 ```{r, echo=FALSE, cache=TRUE, eval=LOCAL}
@@ -377,8 +376,8 @@ ex5_results
 ```
 
 ```{r, fig.keep='all', cache=TRUE, eval=LOCAL}
-autoplot.sobol(ex5_results$xp_single)
-autoplot.sobol(ex5_results$xp_qoi)
+autoplot(ex5_results$xp_single)
+autoplot(ex5_results$xp_qoi)
 ```
 
 ```{r, cache=TRUE, eval=LOCAL}

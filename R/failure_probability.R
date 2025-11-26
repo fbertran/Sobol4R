@@ -11,6 +11,7 @@
 #' @param weights Optional numeric vector of non-negative weights. The vector is
 #'   normalised internally when supplied.
 #' @return A list containing the estimated probability and its variance.
+#' @export
 #' @examples
 #' y <- rnorm(1000)
 #' estimate_failure_probability(y, threshold = -1)

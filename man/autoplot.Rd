@@ -2,13 +2,16 @@
 % Please edit documentation in R/autoplot.R
 \name{Autoplot implementations}
 \alias{Autoplot implementations}
+\alias{autoplot}
 \alias{autoplot.sobol_result}
 \alias{autoplot.sobol}
 \alias{autoplot.sobol2007}
 \alias{autoplot.sobol_summary}
 \title{Autoplot implementations}
 \usage{
-autoplot.sobol_result(
+autoplot(object, ...)
+
+\method{autoplot}{sobol_result}(
   object,
   show_uncertainty = FALSE,
   probs = c(0.1, 0.9),
@@ -16,13 +19,18 @@ autoplot.sobol_result(
   ...
 )
 
-autoplot.sobol(object, separate_panels = TRUE, ncol = 2, ...)
+\method{autoplot}{sobol}(object, separate_panels = TRUE, ncol = 2, ...)
 
-autoplot.sobol2007(object, ...)
+\method{autoplot}{sobol2007}(object, ...)
 
-autoplot.sobol_summary(object, ...)
+\method{autoplot}{sobol_summary}(object, ...)
 }
 \arguments{
+\item{object}{A \code{sobol_result}, \code{sobol_summary}, or
+\code{sensitivity::sobol} instance.}
+
+\item{...}{Further arguments passed to the plotting backend.}
+
 \item{show_uncertainty}{Logical, when \code{TRUE} bootstrap quantiles are
 computed (if available) and displayed as error bars.}
 
@@ -31,10 +39,13 @@ computed (if available) and displayed as error bars.}
 \item{bootstrap}{Integer indicating how many bootstrap resamples to draw when
 \code{show_uncertainty = TRUE}.}
 
-\item{...}{Further arguments passed to the plotting backend.}
+\item{separate_panels}{Should the indices be plotted on separate
+panels according to their order?
+If \code{separate_panels = TRUE}, the first order indices are separated from
+the higher orders ones.}
 
-\item{'}{@param object A \code{sobol_result}, \code{sobol_summary}, or
-\code{sensitivity::sobol} instance.}
+\item{ncol}{If \code{separate_panels = TRUE}, the number of columns for the
+facet wrapping of the plot.}
 }
 \value{
 A ggplot object when \code{ggplot2} is installed, otherwise the

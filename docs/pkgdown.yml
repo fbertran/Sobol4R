@@ -1,7 +1,12 @@
-pandoc: 3.1.1
-pkgdown: 2.0.7
+pandoc: 3.6.3
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  fixed-and-random-parameters: fixed-and-random-parameters.html
-last_built: 2023-12-21T07:23Z
-
+  simmer_MM1_Sobol_example: simmer_MM1_Sobol_example.html
+  Sobol_RV_five_examples: Sobol_RV_five_examples.html
+  Sobol4R_vignette_process: Sobol4R_vignette_process.html
+  Sobol4R_vignette_stochastic: Sobol4R_vignette_stochastic.html
+last_built: 2025-11-25T14:38Z
+urls:
+  reference: https://fbertran.github.io/Sobol4R/reference
+  article: https://fbertran.github.io/Sobol4R/articles

@@ -14,6 +14,8 @@ sobol_g2_qoi_covariate_mean(
 \item{X}{Numeric matrix or data.frame with at least two columns.}
 
 \item{nrep}{Number of replicates used for the QoI.}
+
+\item{a}{Numeric vector of parameters (at least length 2).}
 }
 \value{
 Numeric vector of QoI values (means over \code{nrep} runs).

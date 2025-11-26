@@ -1,20 +1,21 @@
 Package: Sobol4R
 Type: Package
 Title: Sobol Indices for Models with Fixed and Stochastic Parameters 
-Version: 0.1.0
-Date: 2025-11-18
+Version: 0.4.0
+Date: 2025-11-26
 Depends: R (>= 3.50)
 Imports: 
     ggplot2,
     Rcpp (>= 1.0.0),
+    rlang,
     sensitivity,
     stats
-Suggests: 
+Suggests:
     knitr,
     markdown,
     rmarkdown,
     simmer,
-    simmer.plot
+    testthat (>= 3.0.0)
 LinkingTo: Rcpp
 Authors@R: c(
 	person(given = "Frederic", family= "Bertrand", role = c("cre", "aut"), email = "frederic.bertrand@lecnam.net", comment = c(ORCID = "0000-0002-0837-8281")),
@@ -24,7 +25,7 @@ Author: Frederic Bertrand [cre, aut] (<https://orcid.org/0000-0002-0837-8281>), 
 Maintainer: Frederic Bertrand <frederic.bertrand@lecnam.net>
 Description: Tools to design experiments, compute Sobol sensitivity indices,
     and summarise stochastic responses inspired by the strategy described by
-    Lebrun et al. (2021) <doi:10.1016/j.ress.2021.107385>. Includes helpers
+    Zhu and Sudret (2021) <doi:10.1016/j.ress.2021.107815>. Includes helpers
     to optimise toy models implemented in C++, visualise indices with
     uncertainty quantification, and derive reliability-oriented sensitivity
     measures based on failure probabilities.

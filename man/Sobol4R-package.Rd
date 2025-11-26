@@ -6,25 +6,25 @@
 \alias{Sobol4R-package}
 \title{Sobol4R-package}
 \description{
-Tools to design experiments, compute Sobol sensitivity indices, and summarise stochastic responses inspired by the strategy described by Lebrun et al. (2021) \doi{10.1016/j.ress.2021.107385}. Includes helpers to optimise toy models implemented in C++, visualise indices with uncertainty quantification, and derive reliability-oriented sensitivity measures based on failure probabilities. It is further detailed in Logosha, Maumy and Bertrand (2022) \doi{10.1063/5.0246026} and (2023) \doi{10.1063/5.0246024} or in Bertrand, Logosha and Maumy (2024) \url{https://hal.science/hal-05371803}, \url{https://hal.science/hal-05371795} and \url{https://hal.science/hal-05371798}.
+Tools to design experiments, compute Sobol sensitivity indices, and summarise stochastic responses inspired by the strategy described by Zhu and Sudret (2021) \doi{10.1016/j.ress.2021.107815}. Includes helpers to optimise toy models implemented in C++, visualise indices with uncertainty quantification, and derive reliability-oriented sensitivity measures based on failure probabilities. It is further detailed in Logosha, Maumy and Bertrand (2022) \doi{10.1063/5.0246026} and (2023) \doi{10.1063/5.0246024} or in Bertrand, Logosha and Maumy (2024) \url{https://hal.science/hal-05371803}, \url{https://hal.science/hal-05371795} and \url{https://hal.science/hal-05371798}.
 }
 \examples{
 ex1_results <- sobol_example_g_deterministic(n=100, nboot=10) 
 print(ex1_results)
-ggplot(ex1_results)
+autoplot(ex1_results, ncol = 1)
 rm(ex1_results)
 
 }
 \references{
-Elizaveta Logosha, Myriam Maumy, Frederic Bertrand; Confidence interval determination using discrete event simulations for real estate sales case. AIP Conf. Proc. 31 March 2025; 3182 (1): 100008. \url{doi.org:10.1063/5.0246026}.
+Elizaveta Logosha, Myriam Maumy, Frederic Bertrand; Confidence interval determination using discrete event simulations for real estate sales case. AIP Conf. Proc. 31 March 2025; 3182 (1): 100008. \doi{10.1063/5.0246026}.
 
-Elizaveta Logosha, Myriam Maumy, Frédéric Bertrand; Sensitivity analysis of stochastic simulator in the case of sales date prediction. AIP Conf. Proc. 31 March 2025; 3182 (1): 100001. \url{doi.org:10.1063/5.0246024}
+Elizaveta Logosha, Myriam Maumy, Frédéric Bertrand; Sensitivity analysis of stochastic simulator in the case of sales date prediction. AIP Conf. Proc. 31 March 2025; 3182 (1): 100001. \doi{10.1063/5.0246024}.
 
-Frédéric Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand. Extension of sensitivity analysis to uncertainties in distribution parameters. 32nd Conference on Intelligent Systems for Molecular Biology, International Society for Computational Biology, Jul 2024, Montreal (QC), Canada. \url{https://hal.science/hal-05371795}
+Frédéric Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand. Extension of sensitivity analysis to uncertainties in distribution parameters. 32nd Conference on Intelligent Systems for Molecular Biology, International Society for Computational Biology, Jul 2024, Montreal (QC), Canada. \url{https://hal.science/hal-05371795}.
 
 Frédéric Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand. Sobol4RV: Global Sensitivity Analysis in Several Random Settings. BioC 2024, BioConductor, Jul 2024, Grand Rapids, MI, United States. \url{https://hal.science/hal-05371803}
 
-Frédéric Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand. Global Sensitivity Analysis in Several Random Settings. 2024 Joint Statistical Meetings, American Statistical Association, Aug 2024, Portland (OR), United States. \url{https://hal.science/hal-05371798}
+Frédéric Bertrand, Elizaveta Logosha, Myriam Maumy-Bertrand. Global Sensitivity Analysis in Several Random Settings. 2024 Joint Statistical Meetings, American Statistical Association, Aug 2024, Portland (OR), United States. \url{https://hal.science/hal-05371798}.
 }
 \seealso{
 \code{\link[=sobol4r_design]{sobol4r_design()}}, \code{\link[=sobol4r_qoi_indices]{sobol4r_qoi_indices()}},

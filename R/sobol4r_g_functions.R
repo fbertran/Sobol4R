@@ -12,8 +12,7 @@
 #'
 #' @return Numeric vector of length \code{nrow(X)} with model outputs.
 #' @export
-sobol_g_function_R <- function(X,
-                             a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
+sobol_g_R <- function(X, a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
   X <- as.matrix(X)
   k <- ncol(X)
   if (length(a) < k) {
@@ -36,24 +35,24 @@ sobol_g_function_R <- function(X,
 #'
 #' @return Numeric vector of model outputs.
 #' @export
-sobol_g2_function_R <- function(X,
-                              a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
+sobol_g2_R <- function(X, a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
   X <- as.matrix(X)
   if (ncol(X) < 2) {
     stop("X must have at least two columns.")
   }
-  sobol_g_function(X[, 1:2, drop = FALSE], a = a)
+  sobol_g_R(X[, 1:2, drop = FALSE], a = a)
 }
 
 #' Additive Gaussian noise on the Sobol G-function (k = 2)
 #'
 #' @param X Numeric matrix or data.frame with at least two columns.
 #' @param sd Standard deviation of the Gaussian noise.
+#' @param a Numeric vector of parameters (at least length 2).
 #'
 #' @return Numeric vector of model outputs with noise.
 #' @export
-sobol_g2_additive_noise_R <- function(X, sd = 1) {
-  base <- sobol_g2_function(X)
+sobol_g2_additive_noise_R <- function(X, sd = 1, a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
+  base <- sobol_g2_function(X, a = a)
   base + stats::rnorm(nrow(as.matrix(X)), sd = sd)
 }
 
@@ -64,13 +63,14 @@ sobol_g2_additive_noise_R <- function(X, sd = 1) {
 #' @param X Numeric matrix or data.frame with at least two columns.
 #' @param nrep Number of replicates used for the QoI.
 #' @param sd Standard deviation of the Gaussian noise.
+#' @param a Numeric vector of parameters (at least length 2).
 #'
 #' @return Numeric vector of QoI values (means over \code{nrep} runs).
 #' @export
-sobol_g2_qoi_mean_R <- function(X, nrep = 1000, sd = 1) {
+sobol_g2_qoi_mean_R <- function(X, nrep = 1000, sd = 1, a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
   X <- as.matrix(X)
   # replicate returns a matrix of dimension (nrow(X) x nrep)
-  sims <- replicate(nrep, sobol_g2_additive_noise(X, sd = sd))
+  sims <- replicate(nrep, sobol_g2_additive_noise(X, sd = sd, a = a))
   # rowMeans works whether sims is matrix or higher-dim array
   rowMeans(sims)
 }
@@ -79,12 +79,13 @@ sobol_g2_qoi_mean_R <- function(X, nrep = 1000, sd = 1) {
 #' Additive Gaussian noise on the Sobol G-function (k = 2)
 #'
 #' @param X Numeric matrix or data.frame with at least two columns.
+#' @param a Numeric vector of parameters (at least length 2).
 #'
 #' @return Numeric vector of model outputs with noise.
 #' @export
-sobol_g2_with_covariate_noise_R <- function(X) {
+sobol_g2_with_covariate_noise_R <- function(X, a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
   # X with at least 3 columns, C1, C2, C3
-  base <- sobol_g2_function(X)
+  base <- sobol_g2_function(X, a = a)
   mu <- X[, 3]
   base + stats::rnorm(nrow(as.matrix(X)), mean = mu)
 }
@@ -95,10 +96,11 @@ sobol_g2_with_covariate_noise_R <- function(X) {
 #'
 #' @param X Numeric matrix or data.frame with at least two columns.
 #' @param nrep Number of replicates used for the QoI.
+#' @param a Numeric vector of parameters (at least length 2).
 #'
 #' @return Numeric vector of QoI values (means over \code{nrep} runs).
 #' @export
-sobol_g2_qoi_covariate_mean_R <- function(X, nrep = 1000) {
-  sims <- replicate(nrep, sobol_g2_with_covariate_noise(X))
+sobol_g2_qoi_covariate_mean_R <- function(X, nrep = 1000, a = c(0, 1, 4.5, 9, 99, 99, 99, 99)) {
+  sims <- replicate(nrep, sobol_g2_with_covariate_noise(X, a = a))
   rowMeans(sims)
 }

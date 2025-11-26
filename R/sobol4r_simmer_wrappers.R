@@ -13,7 +13,7 @@
 #' @return Numeric vector of length \code{nrow(X)}.
 #' @export
 sobol4r_mm1_model <- function(X, horizon = 1000, warmup = 200, nrep = 20L) {
-  if (!requireNamespace("simmer", quietly = TRUE)) {
+  if (rlang::is_installed("simmer")) {
     stop("The 'simmer' package is required for sobol4r_mm1_model().", call. = FALSE)
   }
   X <- as.data.frame(X)
@@ -70,7 +70,7 @@ sobol4r_mm1_model <- function(X, horizon = 1000, warmup = 200, nrep = 20L) {
 #' @export
 sobol4r_clinic_model <- function(X, cap_reg = 2, cap_exam = 3, horizon = 2000,
                                  warmup_prob = 0.2, nrep = 10L) {
-  if (!requireNamespace("simmer", quietly = TRUE)) {
+  if (rlang::is_installed("simmer")) {
     stop("The 'simmer' package is required for sobol4r_clinic_model().", call. = FALSE)
   }
   X <- as.data.frame(X)

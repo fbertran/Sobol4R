@@ -32,6 +32,9 @@ design point.}
 
 \item{nboot}{Number of bootstrap replicates for Sobol indices.}
 
+\item{type}{Which estimator to use, either \code{"sobol"} or
+\code{"sobol2007"}.}
+
 \item{...}{Additional arguments passed to \code{model}.}
 }
 \value{

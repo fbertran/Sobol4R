@@ -4,10 +4,12 @@
 \alias{sobol_g2_with_covariate_noise_R}
 \title{Additive Gaussian noise on the Sobol G-function (k = 2)}
 \usage{
-sobol_g2_with_covariate_noise_R(X)
+sobol_g2_with_covariate_noise_R(X, a = c(0, 1, 4.5, 9, 99, 99, 99, 99))
 }
 \arguments{
 \item{X}{Numeric matrix or data.frame with at least two columns.}
+
+\item{a}{Numeric vector of parameters (at least length 2).}
 }
 \value{
 Numeric vector of model outputs with noise.

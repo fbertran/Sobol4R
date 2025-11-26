@@ -10,6 +10,7 @@
 <url><loc>https://fbertran.github.io/Sobol4R/news/index.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/Sobol4R-package.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/autoplot.html</loc></url>
+<url><loc>https://fbertran.github.io/Sobol4R/reference/bootstrap_indices.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/estimate_failure_probability.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/index.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/ishigami_model.html</loc></url>
@@ -28,6 +29,7 @@
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_example_g_deterministic.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_example_process.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_example_random_output.html</loc></url>
+<url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_R.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_additive_noise.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_additive_noise_R.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_function.html</loc></url>
@@ -38,6 +40,7 @@
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_qoi_mean_R.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_with_covariate_noise.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g2_with_covariate_noise_R.html</loc></url>
+<url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g_R.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g_function.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_g_function_R.html</loc></url>
 <url><loc>https://fbertran.github.io/Sobol4R/reference/sobol_indices.html</loc></url>

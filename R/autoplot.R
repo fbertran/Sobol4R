@@ -53,6 +53,17 @@ summarise_sobol <- function(result, probs = c(0.1, 0.5, 0.9), bootstrap = 200L) 
   summary
 }
 
+#' Bootstrap Sobol indices from stored samples
+#'
+#' Recompute Sobol first- and total-order indices from stored sample matrices
+#' using bootstrap resampling. Falls back to deterministic values when no
+#' samples are available.
+#'
+#' @param result A \code{sobol_result} object produced by
+#'   \code{sobol_indices()}.
+#' @param bootstrap Integer indicating how many bootstrap replicates to draw.
+#' @return A list with matrices \code{first} and \code{total} containing the
+#'   bootstrap replications.
 #' @export
 bootstrap_indices <- function(result, bootstrap) {
   p <- length(result$parameters)
@@ -95,22 +106,31 @@ format_probabilities <- function(probs) {
 #'
 #' @name Autoplot implementations
 #' @rdname autoplot
-#' @param ' @param object A \code{sobol_result}, \code{sobol_summary}, or
+#' @param object A \code{sobol_result}, \code{sobol_summary}, or
 #'   \code{sensitivity::sobol} instance.
 #' @param show_uncertainty Logical, when \code{TRUE} bootstrap quantiles are
 #'   computed (if available) and displayed as error bars.
 #' @param probs Numeric vector of probabilities used for the uncertainty bars.
 #' @param bootstrap Integer indicating how many bootstrap resamples to draw when
 #'   \code{show_uncertainty = TRUE}.
+#' @param separate_panels Should the indices be plotted on separate 
+#'   panels according to their order? 
+#'   If `separate_panels = TRUE`, the first order indices are separated from 
+#'   the higher orders ones.
+#' @param ncol If `separate_panels = TRUE`, the number of columns for the 
+#'   facet wrapping of the plot.
 #' @param ... Further arguments passed to the plotting backend.
 #' @return A ggplot object when \code{ggplot2} is installed, otherwise the
 #'   bar centres invisibly.
-NULL 
+NULL
 
-# #' @export
-# autoplot <- function(object, ...) {
-#   UseMethod("autoplot")
-# }
+#' Generic autoplot for `Sobol4R` package
+#' 
+#' @rdname autoplot
+#' @export
+autoplot <- function(object, ...) {
+  UseMethod("autoplot")
+}
 
 #' Autoplot for `sobol_result` class
 #' 
@@ -135,14 +155,14 @@ autoplot.sobol_result <- function(object, show_uncertainty = FALSE,
       row.names = NULL, check.names = FALSE
     )
   }
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
+  if (rlang::is_installed("ggplot2")) {
     df <- data.frame(
       parameter = rep(data$parameter, 2),
       index_type = rep(c("First", "Total"), each = nrow(data)),
       value = c(data$first_order, data$total_order)
     )
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = parameter, y = value,
-                                          fill = index_type)) +
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$parameter, y = .data$value,
+                                          fill = .data$index_type)) +
       ggplot2::geom_col(position = "dodge") +
       ggplot2::geom_hline(yintercept = 0, colour = "grey50") +
       ggplot2::labs(y = "Sobol index", fill = "Type",
@@ -236,36 +256,33 @@ autoplot.sobol <- function(object, separate_panels = TRUE, ncol= 2, ...) {
                       labels = paste("Degree", unique_deg))
   
   # ---- ggplot version ----
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
-    library(ggplot2)
-    
-    p <- ggplot(df, aes(x = parameter, y = value, fill = index_type)) +
-      geom_col(position = "dodge") +
-      geom_hline(yintercept = 0, color = "grey50") +
-      labs(
+  if (rlang::is_installed("ggplot2")) {
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$parameter, y = .data$value, fill = .data$index_type)) +
+      ggplot2::geom_col(position = "dodge") +
+      ggplot2::geom_hline(yintercept = 0, color = "grey50") +
+      ggplot2::labs(
         title = "Sobol' Sensitivity Indices (grouped by interaction order)",
         y     = "Sobol index",
         fill  = "Index type"
       ) +
-      theme_minimal(base_size = 10) +
-      theme(
-        axis.text.x = element_text(angle = 45, hjust = 1)
+      ggplot2::theme_minimal(base_size = 10) +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(
+        angle = 45, hjust = 1)
       )
     
     # Confidence intervals
     if (any(!is.na(df$lower))) {
       p <- p +
-        geom_errorbar(
-          aes(ymin = lower, ymax = upper, group = index_type),
-          width     = 0.2,
-          size      = 0.4,
-          position  = position_dodge(width = 0.9)
+        ggplot2::geom_errorbar(
+          ggplot2::aes(ymin = .data$lower, ymax = .data$upper, group = .data$index_type),          width     = 0.2,
+          linewidth      = 0.4,
+          position  = ggplot2::position_dodge(width = 0.9)
         )
     }
     
     # Facet per degree (1st order, 2nd order, etc.)
     if (separate_panels) {
-      p <- p + facet_wrap(~index_type, scales = "free_x", dir="h", ncol=ncol)
+      p <- p + ggplot2::facet_wrap(~index_type, scales = "free_x", dir="h", ncol=ncol)
     }
     
     return(p)
@@ -276,7 +293,7 @@ autoplot.sobol <- function(object, separate_panels = TRUE, ncol= 2, ...) {
   for (nm in names(split_deg)) {
     message("Plotting ", nm)
     d <- split_deg[[nm]]
-    barplot(d$value, names.arg = d$parameter, main = nm, ...)
+    graphics::barplot(d$value, names.arg = d$parameter, main = nm, ...)
   }
   
   invisible(df)
@@ -328,9 +345,9 @@ autoplot.sobol2007 <- function(object, ...) {
   }
   df$lower <- lower
   df$upper <- upper
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = parameter, y = value,
-                                          fill = index_type)) +
+  if (rlang::is_installed("ggplot2")) {
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$parameter, y = .data$value,
+                                          fill = .data$index_type)) +
       ggplot2::geom_col(position = "dodge") +
       ggplot2::geom_hline(yintercept = 0, colour = "grey50") +
       ggplot2::labs(y = "Sobol index", fill = "Type",
@@ -339,10 +356,10 @@ autoplot.sobol2007 <- function(object, ...) {
     if (any(!is.na(df$lower))) {
       p <- p + ggplot2::geom_errorbar(
         data = df,
-        ggplot2::aes(x = parameter, ymin = lower, ymax = upper,
-                     group = index_type),
+        ggplot2::aes(x = .data$parameter, ymin = .data$lower, ymax = .data$upper,
+                     group = .data$index_type),
         position = ggplot2::position_dodge(width = 0.9), width = 0.2,
-        size = 0.4, inherit.aes = FALSE)
+        linewidth = 0.4, inherit.aes = FALSE)
     }
     return(p)
   }
@@ -381,7 +398,7 @@ autoplot.sobol_summary <- function(object, ...) {
     interval_total <- cbind(object[[quant_cols_total[1L]]],
                             object[[quant_cols_total[length(quant_cols_total)]]])
   }
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
+  if (rlang::is_installed("ggplot2")) {
     df <- data.frame(
       parameter = rep(object$parameter, 2),
       index_type = rep(c("First", "Total"), each = nrow(object)),
@@ -399,8 +416,8 @@ autoplot.sobol_summary <- function(object, ...) {
     }
     df$lower <- lower
     df$upper <- upper
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = parameter, y = value,
-                                          fill = index_type)) +
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$parameter, y = .data$value,
+                                          fill = .data$index_type)) +
       ggplot2::geom_col(position = "dodge") +
       ggplot2::geom_hline(yintercept = 0, colour = "grey50") +
       ggplot2::labs(y = "Sobol index", fill = "Type",
@@ -409,10 +426,10 @@ autoplot.sobol_summary <- function(object, ...) {
     if (any(!is.na(df$lower))) {
       p <- p + ggplot2::geom_errorbar(
         data = df,
-        ggplot2::aes(x = parameter, ymin = lower, ymax = upper,
-                     group = index_type),
+        ggplot2::aes(x = .data$parameter, ymin = .data$lower, ymax = .data$upper,
+                     group = .data$index_type),
         position = ggplot2::position_dodge(width = 0.9), width = 0.2,
-        size = 0.4, inherit.aes = FALSE)
+        linewidth = 0.4, inherit.aes = FALSE)
     }
     return(p)
   }
