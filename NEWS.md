@@ -2,7 +2,10 @@
 
 * Package now passes CRAN devel checks and is prepared for CRAN submission.
 * Completed the documentation refresh ahead of the release.
-
+* Default Sobol estimator for the `sensitivity` helpers is now
+  `soboljansen`, reflecting its robustness for deterministic and stochastic
+  simulators.
+  
 # Sobol4R 0.3.0
 
 * Created cpp counterparts for the examples and completed the vignettes.

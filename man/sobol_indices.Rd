@@ -8,7 +8,7 @@ sobol_indices(
   model,
   design,
   replicates = 1L,
-  estimator = c("saltelli"),
+  estimator = c("jansen", "saltelli"),
   keep_samples = FALSE,
   ...
 )
@@ -22,7 +22,8 @@ vector of responses. The function may include internal randomness.}
 \item{replicates}{Integer, number of repeated evaluations to average out the
 model noise. Defaults to one replicate (deterministic behaviour).}
 
-\item{estimator}{Currently only \code{"saltelli"} is implemented.}
+\item{estimator}{Character string, either \code{"saltelli"} or
+\code{"jansen"}. Defaults to \code{"jansen"}.}
 
 \item{keep_samples}{When \code{TRUE}, store all simulated values.}
 
@@ -33,12 +34,21 @@ An object of class \code{sobol_result} containing the indices,
 intermediate estimates, and the Monte Carlo variance.
 }
 \description{
-Estimate first-order and total-order Sobol indices using a Saltelli-type
-Monte Carlo estimator that supports noisy outputs via independent replicates.
+Estimate first-order and total-order Sobol indices using Monte Carlo
+estimators that support noisy outputs via independent replicates.
+}
+\details{
+Two families of estimators are available:
+\itemize{
+\item \code{"saltelli"}: Saltelli-type estimator with internal centering
+of the model outputs before variance and index computation.
+\item \code{"jansen"}: Jansen-type estimator based on variances of
+output differences, which is numerically stable in many settings.
+}
 }
 \examples{
 design <- sobol_design(n = 128, d = 3, quasi = TRUE)
 model <- function(x) ishigami_model(x)
 result <- sobol_indices(model, design, replicates = 4)
-autoplot(result)
+result$data
 }

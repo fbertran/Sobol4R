@@ -54,6 +54,48 @@ workflow:
   a `sobol_result` object that can be summarised or plotted directly, with
   optional bootstrap quantiles for noisy simulations.
 
+
+## Two complementary analysis paths
+
+Sobol4R exposes two ways to compute global sensitivity indices, depending on your
+workflow and the level of control you require.
+
+*	**Use the in-package estimators with built-in Jansen support.**
+The streamlined `sobol_design()` and `sobol_indices()` helpers generate the
+Saltelli-type matrices, evaluate the model (including replicated runs for
+stochastic simulators), and return a unified `sobol_result` object.
+Sobol4R implements several estimators internally, including Jansen, Martinez
+and Saltelli.
+**The default estimator is Jansen**, chosen for its numerical robustness and
+stable behaviour with non centred or noisy outputs.
+Results can be summarised or plotted directly and may include bootstrap
+quantiles when analysing stochastic simulators.
+
+*	**Reuse the estimators from the `sensitivity` package.** 
+You can generate designs with Sobol4R (or your own routines) and pass the
+matrices directly to `sensitivity::sobol()`, `sensitivity::sobol2007()`,
+`sensitivity::soboljansen()`, `sensitivity::sobolEff()`, or
+`sensitivity::sobolmartinez()`.
+Sobol4R provides `autoplot()` methods that visualise these objects without
+altering your existing code.
+
+### Estimator defaults
+
+The `sobol4r_design()`, `sobol4r_run()`, and `sobol4r_qoi_indices()` helpers
+mirror the `sensitivity` estimators: `sobol`, `sobol2007`, `soboljansen`,
+`sobolEff`, and `sobolmartinez`. They default to `soboljansen` because it is a
+numerically robust choice for both deterministic and stochastic simulators. A
+reasonable ordering for general-purpose work is:
+
+1. `soboljansen` – stable first and total order indices, variance of
+   differences, and broadly used in the literature.
+2. `sobolEff` – efficient and well behaved, but a little more specialised than
+   Jansen.
+3. `sobolmartinez` – robust, though less common in practice.
+4. `sobol` / `sobol2007` – retained for backward compatibility with the
+   original Saltelli-style estimators; they are less suited as defaults unless
+   you explicitly centre outputs and control the setup.
+   
 The README examples below demonstrate the second path, while the earlier
 "Context and non random case" section illustrates interoperability with
 `sensitivity`.
@@ -100,6 +142,46 @@ visualised directly:
 ```{r, fig.height=4, fig.width=7}
 autoplot(result, show_uncertainty = TRUE, probs = c(0.1, 0.9), bootstrap = 100)
 ```
+
+## Consistency check with the `sensitivity` estimators on Ishigami
+
+The package exposes two ways to estimate Sobol indices: the in-package Saltelli
+implementation (`sobol_indices()`) and the `sensitivity` package estimators
+through `sobol4r_design()`. When comparing both, make sure the samples live on
+the correct domain of the simulator. The Ishigami benchmark expects
+\([-\pi, \pi]\) inputs; using the default \([0, 1]\) cube would distort the
+indices and create spurious discrepancies.
+
+```{r}
+library(Sobol4R)
+
+set.seed(123)
+design <- sobol_design(
+  n     = 512,
+  d     = 3,
+  lower = rep(-pi, 3),
+  upper = rep(pi, 3),
+  quasi = TRUE
+)
+
+sobol4r_result <- sobol_indices(ishigami_model, design, replicates = 1)
+
+sens_design <- sobol4r_design(
+  X1 = as.data.frame(design$A),
+  X2 = as.data.frame(design$B),
+  order = 1,
+  type = "sobol2007"
+)
+sens_output <- sensitivity::tell(sens_design, ishigami_model(as.matrix(sens_design$X)))
+
+cbind(S_Sobol4R = sobol4r_result$data$first_order,
+      T_Sobol4R = sobol4r_result$data$first_order, 
+      S_sobol2007 = sens_output$S, 
+      T_sobol2007 = sens_output$T) 
+```
+
+Both estimators now report matching first-order and total-order indices for the
+Ishigami function because they rely on the same \([-\pi, \pi]\) inputs.
 
 ## Reliability metrics
 

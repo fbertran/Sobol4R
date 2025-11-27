@@ -1,0 +1,137 @@
+---
+title: "Choosing a Sobol Estimator in Sobol4R"
+shorttitle: "Choosing a Sobol Estimator"
+author:
+- name: "Frédéric Bertrand"
+  affiliation:
+  - Cedric, Cnam, Paris
+  email: frederic.bertrand@lecnam.net
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Choosing a Sobol Estimator in Sobol4R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/sobol-stochastic-",
+  fig.width = 7,
+  fig.height = 5,
+  dpi = 150,
+  message = FALSE,
+  warning = FALSE,
+  eval=FALSE
+)
+
+LOCAL <- identical(Sys.getenv("LOCAL"), "TRUE")
+
+library(Sobol4R)
+library(sensitivity)
+set.seed(4669)
+```
+
+## Introduction
+
+Sobol4R provides a unified interface for global sensitivity analysis of
+deterministic and stochastic simulators. Several Monte Carlo estimators are
+available. They correspond to the classical helpers in the \CRANpkg{sensitivity} package, but are accessed through the single function
+sobol_indices().
+
+This vignette explains:
+
+*	which Sobol estimators are implemented in Sobol4R,
+*	how they differ in terms of numerical properties,
+*	why Jansen is used as the default in sobol_indices(),
+*	how to work with both deterministic and stochastic models.
+
+The goal is to make the choice of estimator explicit and reproducible, while
+remaining compatible with existing workflows based on \CRANpkg{sensitivity}.
+
+## Supported estimators
+
+Sobol4R mirrors the main Monte Carlo estimators from the
+\CRANpkg{sensitivity} package:
+*	sobol and sobol2007 for classical Saltelli type estimators,
+*	soboljansen for the Jansen variance of differences estimator,
+*	sobolEff for efficient radial sampling,
+*	sobolmartinez for Martinez correlation based estimators.
+
+All of these are exposed through the argument estimator in `sobol_indices()`. For example
+
+```{r}
+sobol_indices(
+  model      = ishigami_model,
+  design     = sobol_design(n = 512, d = 3, quasi = TRUE),
+  estimator  = "jansen",  # default
+  replicates = 1L
+)
+```
+
+In addition, you can still construct designs and call the estimators directly
+from \CRANpkg{sensitivity}. Sobol4R is designed to work well with both
+approaches.
+
+## Two complementary analysis paths
+
+Sobol4R exposes two ways to compute global sensitivity indices, depending on
+your workflow and the level of control you require.
+* **Reuse the estimators from the sensitivity package.**
+You can generate designs with Sobol4R (or your own routines) and pass the
+matrices directly to `sensitivity::sobol()`, `sensitivity::sobol2007()`,
+`sensitivity::soboljansen()`, `sensitivity::sobolEff()`, or
+`sensitivity::sobolmartinez()`.
+`Sobol4R provides autoplot()` methods that visualise these objects without
+altering your existing code.
+*	**Use the in package estimators with built in Jansen support**.
+The streamlined `sobol_design()` and `sobol_indices()` helpers generate the
+Saltelli type matrices, evaluate the model (including replicated runs for
+stochastic simulators), and return a unified `sobol_result` object.
+Sobol4R implements several estimators internally, including Jansen, Martinez
+and Saltelli.
+The **default estimator is Jansen**, chosen for its numerical robustness and
+stable behaviour with non centred or noisy outputs.
+Results can be summarised or plotted directly and may include bootstrap like
+quantiles when analysing stochastic simulators.
+
+## Comparison of estimators
+
+| Estimator | Implemented in | First order formula type | Total order formula type | Numerical stability | Sensitivity to non centred outputs | Works with stochastic simulators | Pros | Cons | Recommended usage |
+|----------|----------------|--------------------------|--------------------------|---------------------|------------------------------------|----------------------------------|------|------|-------------------|
+| **Jansen** | sensitivity (soboljansen), Sobol4R (default) | Variance of differences | Variance of differences | **High** | **Robust** | Yes (with replicates) | Very stable, low bias, well suited to noisy or uncentered outputs, simple interpretation | Slightly higher variance than Martinez in some settings | **Default choice** for deterministic and stochastic models |
+| **Saltelli 2002** (`sobol`) | sensitivity, Sobol4R | Covariance based | Variance of differences | Low to medium | Requires centering (otherwise biased) | Not ideal unless centering is enforced | Classical, widely cited, matches early literature | Strongly biased without centering, unstable when Y has large mean | Legacy compatibility with early Saltelli style analyses |
+| **Saltelli 2007** (`sobol2007`) | sensitivity, Sobol4R | Improved covariance based | Variance of differences | Medium | Requires centering (built in centering possible) | Yes, but care is needed | More stable than 2002 version, matches `sensitivity::sobol2007` | Still less stable than Jansen or Martinez | When strict compatibility with Saltelli 2007 is needed |
+| **Martinez** (`sobolmartinez`) | sensitivity, Sobol4R | Correlation based | Correlation based | **Very high** | **Very robust** | Yes | Low variance, stable, handles nonlinearities and interactions well | Slightly more complex for explanation | Excellent alternative to Jansen, suited to strongly nonlinear models |
+| **SobolEff** (`sobolEff`) | sensitivity, Sobol4R | Efficient radial sampling | Same | **High** | Robust | Yes | Fewer model evaluations for a given precision, good for expensive models | Requires structured design, less standard in introductory texts | Efficient Sobol analysis when model evaluations are costly |
+
+## Recommended default
+
+Sobol4R uses the **Jansen estimator** as the default because:
+*	it is numerically stable across a wide range of models,
+*	it behaves well on non centred outputs,
+*	it integrates naturally with stochastic simulators through the replication
+mechanism,
+*	its variance of differences formulation avoids the conditioning issues that
+affect classical Saltelli estimators.
+
+Alternative estimators such as **Martinez** or **SobolEff** remain available
+for users who require advanced properties. The `sobol` and `sobol2007`
+variants ensure compatibility with historical analyses and existing code
+bases.
+
+## Practical guidance
+
+In practice, the following rules of thumb are useful.
+*	Start with **Jansen** for both deterministic and stochastic models.
+*	Use **Martinez** as an alternative when you want very stable indices and are
+comfortable with correlation based formulas.
+*	Use **SobolEff** if each model evaluation is expensive and you want to
+reduce the number of simulator runs.
+*	Only use `sobol` or `sobol2007` when you must reproduce legacy analyses or
+benchmark against published Saltelli style results.
+

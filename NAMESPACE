@@ -2,8 +2,11 @@
 
 S3method(autoplot,sobol)
 S3method(autoplot,sobol2007)
+S3method(autoplot,sobolEff)
 S3method(autoplot,sobol_result)
 S3method(autoplot,sobol_summary)
+S3method(autoplot,soboljansen)
+S3method(autoplot,sobolmartinez)
 export(autoplot)
 export(bootstrap_indices)
 export(estimate_failure_probability)

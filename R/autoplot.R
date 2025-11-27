@@ -305,11 +305,39 @@ autoplot.sobol <- function(object, separate_panels = TRUE, ncol= 2, ...) {
 #' @rdname autoplot
 #' @export
 autoplot.sobol2007 <- function(object, ...) {
-  stopifnot(inherits(object, "sobol2007"))
+  plot_sobol_two_tables(object, class_name = "sobol2007", ...)
+}
+
+#' Autoplot for `soboljansen` class
+#'
+#' @rdname autoplot
+#' @export
+autoplot.soboljansen <- function(object, ...) {
+  plot_sobol_two_tables(object, class_name = "soboljansen", ...)
+}
+
+#' Autoplot for `sobolEff` class
+#'
+#' @rdname autoplot
+#' @export
+autoplot.sobolEff <- function(object, ...) {
+  plot_sobol_two_tables(object, class_name = "sobolEff", ...)
+}
+
+#' Autoplot for `sobolmartinez` class
+#'
+#' @rdname autoplot
+#' @export
+autoplot.sobolmartinez <- function(object, ...) {
+  plot_sobol_two_tables(object, class_name = "sobolmartinez", ...)
+}
+
+plot_sobol_two_tables <- function(object, class_name, ...) {
+  stopifnot(inherits(object, class_name))
   S <- object$S
   T <- object$T
   if (is.null(S) || is.null(T)) {
-    stop("sobol object is missing the 'S' or 'T' components. Run sensitivity::tell().")
+    stop(sprintf("%s object is missing the 'S' or 'T' components. Run sensitivity::tell().", class_name))
   }
   extract_indices <- function(df) {
     if (!is.data.frame(df)) {
@@ -448,80 +476,4 @@ autoplot.sobol_summary <- function(object, ...) {
                      angle = 90, code = 3, length = 0.05)
   }
   invisible(NULL)
-}
-
-
-#' Create Sobol Sampling Designs
-#'
-#' Generate the two-sample matrices (A and B) that are required to apply
-#' Monte Carlo Sobol estimators. The helper can rely on pseudo random numbers
-#' or on a light-weight Halton low-discrepancy sequence to increase coverage.
-#'
-#' @param n Integer, number of rows per design matrix.
-#' @param d Integer, number of model parameters.
-#' @param lower Numeric vector of length d containing lower bounds.
-#' @param upper Numeric vector of length d containing upper bounds.
-#' @param quasi Logical, when \code{TRUE} a Halton sequence is used.
-#' @param seed Optional integer used to initialise the RNG state.
-#' @return A list with matrices \code{A} and \code{B} plus the column names.
-#' @export
-#' @examples
-#' design <- sobol_design(n = 64, d = 3, quasi = TRUE)
-#' str(design)
-sobol_design <- function(n, d, lower = rep(0, d), upper = rep(1, d),
-                         quasi = FALSE, seed = NULL) {
-  stopifnot(n > 0, d > 0)
-  lower <- rep(lower, length.out = d)
-  upper <- rep(upper, length.out = d)
-  if (!is.null(seed)) {
-    set.seed(seed)
-  }
-  generator <- if (isTRUE(quasi)) halton_sequence else random_uniform
-  A <- generator(n, d)
-  B <- generator(n, d)
-  span <- upper - lower
-  A <- sweep(A, 2, span, `*`)
-  A <- sweep(A, 2, lower, `+`)
-  B <- sweep(B, 2, span, `*`)
-  B <- sweep(B, 2, lower, `+`)
-  colnames(A) <- colnames(B) <- paste0("X", seq_len(d))
-  list(A = A, B = B, lower = lower, upper = upper)
-}
-
-random_uniform <- function(n, d) {
-  matrix(stats::runif(n * d), nrow = n, ncol = d)
-}
-
-halton_sequence <- function(n, d) {
-  primes <- generate_primes(d)
-  seqs <- lapply(primes, function(base) halton_dimension(n, base))
-  do.call(cbind, seqs)
-}
-
-halton_dimension <- function(n, base) {
-  result <- numeric(n)
-  for (i in seq_len(n)) {
-    f <- 1
-    r <- i
-    value <- 0
-    while (r > 0) {
-      f <- f / base
-      value <- value + f * (r %% base)
-      r <- floor(r / base)
-    }
-    result[i] <- value
-  }
-  result
-}
-
-generate_primes <- function(k) {
-  primes <- c()
-  candidate <- 2
-  while (length(primes) < k) {
-    if (all(candidate %% primes != 0)) {
-      primes <- c(primes, candidate)
-    }
-    candidate <- candidate + 1
-  }
-  primes
 }

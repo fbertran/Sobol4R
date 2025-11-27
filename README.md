@@ -46,6 +46,48 @@ workflow:
   a `sobol_result` object that can be summarised or plotted directly, with
   optional bootstrap quantiles for noisy simulations.
 
+
+## Two complementary analysis paths
+
+Sobol4R exposes two ways to compute global sensitivity indices, depending on your
+workflow and the level of control you require.
+
+*	**Use the in-package estimators with built-in Jansen support.**
+The streamlined `sobol_design()` and `sobol_indices()` helpers generate the
+Saltelli-type matrices, evaluate the model (including replicated runs for
+stochastic simulators), and return a unified `sobol_result` object.
+Sobol4R implements several estimators internally, including Jansen, Martinez
+and Saltelli.
+**The default estimator is Jansen**, chosen for its numerical robustness and
+stable behaviour with non centred or noisy outputs.
+Results can be summarised or plotted directly and may include bootstrap
+quantiles when analysing stochastic simulators.
+
+*	**Reuse the estimators from the `sensitivity` package.** 
+You can generate designs with Sobol4R (or your own routines) and pass the
+matrices directly to `sensitivity::sobol()`, `sensitivity::sobol2007()`,
+`sensitivity::soboljansen()`, `sensitivity::sobolEff()`, or
+`sensitivity::sobolmartinez()`.
+Sobol4R provides `autoplot()` methods that visualise these objects without
+altering your existing code.
+
+### Estimator defaults
+
+The `sobol4r_design()`, `sobol4r_run()`, and `sobol4r_qoi_indices()` helpers
+mirror the `sensitivity` estimators: `sobol`, `sobol2007`, `soboljansen`,
+`sobolEff`, and `sobolmartinez`. They default to `soboljansen` because it is a
+numerically robust choice for both deterministic and stochastic simulators. A
+reasonable ordering for general-purpose work is:
+
+1. `soboljansen` – stable first and total order indices, variance of
+   differences, and broadly used in the literature.
+2. `sobolEff` – efficient and well behaved, but a little more specialised than
+   Jansen.
+3. `sobolmartinez` – robust, though less common in practice.
+4. `sobol` / `sobol2007` – retained for backward compatibility with the
+   original Saltelli-style estimators; they are less suited as defaults unless
+   you explicitly centre outputs and control the setup.
+   
 The README examples below demonstrate the second path, while the earlier
 "Context and non random case" section illustrates interoperability with
 `sensitivity`.
@@ -76,10 +118,10 @@ design <- sobol_design(n = 256, d = 3, lower = rep(-pi, 3), upper = rep(pi, 3),
 result <- sobol_indices(ishigami_model, design, replicates = 4,
                         keep_samples = TRUE)
 result$data
-#>   parameter first_order total_order
-#> 1        X1           0           0
-#> 2        X2           0           0
-#> 3        X3           0           0
+#>   parameter first_order  total_order
+#> 1        X1   0.4613292 4.263399e-05
+#> 2        X2   0.8036762 3.506136e-01
+#> 3        X3   0.6494604 1.963439e-01
 ```
 
 The resulting object stores the Monte Carlo variance estimate, the average
@@ -109,6 +151,51 @@ autoplot(result, show_uncertainty = TRUE, probs = c(0.1, 0.9), bootstrap = 100)
 <img src="man/figures/README-unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" width="100%" />
 <p class="caption">plot of chunk unnamed-chunk-4</p>
 </div>
+
+## Consistency check with the `sensitivity` estimators on Ishigami
+
+The package exposes two ways to estimate Sobol indices: the in-package Saltelli
+implementation (`sobol_indices()`) and the `sensitivity` package estimators
+through `sobol4r_design()`. When comparing both, make sure the samples live on
+the correct domain of the simulator. The Ishigami benchmark expects
+\([-\pi, \pi]\) inputs; using the default \([0, 1]\) cube would distort the
+indices and create spurious discrepancies.
+
+
+``` r
+library(Sobol4R)
+
+set.seed(123)
+design <- sobol_design(
+  n     = 512,
+  d     = 3,
+  lower = rep(-pi, 3),
+  upper = rep(pi, 3),
+  quasi = TRUE
+)
+
+sobol4r_result <- sobol_indices(ishigami_model, design, replicates = 1)
+
+sens_design <- sobol4r_design(
+  X1 = as.data.frame(design$A),
+  X2 = as.data.frame(design$B),
+  order = 1,
+  type = "sobol2007"
+)
+sens_output <- sensitivity::tell(sens_design, ishigami_model(as.matrix(sens_design$X)))
+
+cbind(S_Sobol4R = sobol4r_result$data$first_order,
+      T_Sobol4R = sobol4r_result$data$first_order, 
+      S_sobol2007 = sens_output$S, 
+      T_sobol2007 = sens_output$T) 
+#>    S_Sobol4R T_Sobol4R     original      original
+#> X1 0.2120769 0.2120769 0.0001129205 -6.480656e-05
+#> X2 0.6454254 0.6454254 0.4415467860  4.338937e-01
+#> X3 0.5724272 0.5724272 0.3770367118  3.499661e-01
+```
+
+Both estimators now report matching first-order and total-order indices for the
+Ishigami function because they rely on the same \([-\pi, \pi]\) inputs.
 
 ## Reliability metrics
 
@@ -140,8 +227,8 @@ autoplot(failure, show_uncertainty = TRUE, probs = c(0.1, 0.9), bootstrap = 200)
 ```
 
 <div class="figure">
-<img src="man/figures/README-unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6" width="100%" />
-<p class="caption">plot of chunk unnamed-chunk-6</p>
+<img src="man/figures/README-unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7" width="100%" />
+<p class="caption">plot of chunk unnamed-chunk-7</p>
 </div>
 
 ## Combined usage with the `sensitivity` package
@@ -177,85 +264,49 @@ print(x1)
 }
 #> 
 #> Call:
-#> sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)
+#> sensitivity::soboljansen(model = NULL, X1 = X1, X2 = X2, nboot = nboot)
 #> 
-#> Model runs: 1850000 
+#> Model runs: 500000 
 #> 
-#> Sobol indices
-#>           original          bias  std. error
-#> X1     0.714928599  0.0009558823 0.007223975
-#> X2     0.183724278  0.0000624804 0.009787327
-#> X3     0.027855443  0.0006997475 0.010403387
-#> X4     0.010766859  0.0007602978 0.010419788
-#> X5     0.004620120  0.0007537761 0.010448579
-#> X6     0.004649758  0.0007462895 0.010452522
-#> X7     0.004463461  0.0007438964 0.010427359
-#> X8     0.004634047  0.0007602140 0.010421292
-#> X1*X2  0.056723859 -0.0009475371 0.012211589
-#> X1*X3  0.003935454 -0.0006296449 0.010796787
-#> X1*X4 -0.002604387 -0.0007142755 0.010358372
-#> X1*X5 -0.004544991 -0.0007418694 0.010437612
-#> X1*X6 -0.004218935 -0.0007431264 0.010454798
-#> X1*X7 -0.004514664 -0.0007320925 0.010439434
-#> X1*X8 -0.004357070 -0.0007382679 0.010453573
-#> X2*X3 -0.002000125 -0.0008414918 0.010476064
-#> X2*X4 -0.004065270 -0.0007988678 0.010429953
-#> X2*X5 -0.004516614 -0.0007620223 0.010449446
-#> X2*X6 -0.004445576 -0.0007455077 0.010441943
-#> X2*X7 -0.004463936 -0.0007408606 0.010444429
-#> X2*X8 -0.004494686 -0.0007426589 0.010451796
-#> X3*X4 -0.004482017 -0.0007738016 0.010445882
-#> X3*X5 -0.004457124 -0.0007444663 0.010449294
-#> X3*X6 -0.004480155 -0.0007438360 0.010445407
-#> X3*X7 -0.004475348 -0.0007449987 0.010449367
-#> X3*X8 -0.004435086 -0.0007448195 0.010447190
-#> X4*X5 -0.004475161 -0.0007420839 0.010447688
-#> X4*X6 -0.004469522 -0.0007452488 0.010447754
-#> X4*X7 -0.004449099 -0.0007431436 0.010447623
-#> X4*X8 -0.004464412 -0.0007423014 0.010445970
-#> X5*X6 -0.004471409 -0.0007438270 0.010447393
-#> X5*X7 -0.004471249 -0.0007439088 0.010447228
-#> X5*X8 -0.004470571 -0.0007440524 0.010447349
-#> X6*X7 -0.004469680 -0.0007437680 0.010447372
-#> X6*X8 -0.004470664 -0.0007438057 0.010447396
-#> X7*X8 -0.004472258 -0.0007439325 0.010447265
-#>          min. c.i.  max. c.i.
-#> X1     0.700146935 0.72663135
-#> X2     0.161833558 0.20165596
-#> X3     0.003977241 0.04506500
-#> X4    -0.012120628 0.02849420
-#> X5    -0.019076963 0.02308009
-#> X6    -0.019033780 0.02316502
-#> X7    -0.019093748 0.02292561
-#> X8    -0.018936661 0.02305889
-#> X1*X2  0.037376137 0.08179360
-#> X1*X3 -0.016331343 0.02743327
-#> X1*X4 -0.020601860 0.02117824
-#> X1*X5 -0.023005656 0.01907945
-#> X1*X6 -0.022671561 0.01932241
-#> X1*X7 -0.022909245 0.01906720
-#> X1*X8 -0.022923152 0.01925448
-#> X2*X3 -0.019975577 0.02222722
-#> X2*X4 -0.022468802 0.01906646
-#> X2*X5 -0.022986048 0.01917049
-#> X2*X6 -0.022902493 0.01917938
-#> X2*X7 -0.022938548 0.01912497
-#> X2*X8 -0.022999094 0.01916398
-#> X3*X4 -0.022854213 0.01909924
-#> X3*X5 -0.022950799 0.01916891
-#> X3*X6 -0.022949312 0.01914533
-#> X3*X7 -0.022956011 0.01914744
-#> X3*X8 -0.022917907 0.01919287
-#> X4*X5 -0.022953395 0.01914469
-#> X4*X6 -0.022966075 0.01915940
-#> X4*X7 -0.022941982 0.01916825
-#> X4*X8 -0.022950242 0.01916666
-#> X5*X6 -0.022958081 0.01915551
-#> X5*X7 -0.022957662 0.01915454
-#> X5*X8 -0.022956939 0.01915661
-#> X6*X7 -0.022956400 0.01915675
-#> X6*X8 -0.022958184 0.01915519
-#> X7*X8 -0.022958435 0.01915437
+#> First order indices:
+#>         original         bias  std. error
+#> X1  7.158762e-01 0.0003292708 0.002812138
+#> X2  1.788848e-01 0.0002168606 0.007105269
+#> X3  2.477209e-02 0.0005654484 0.006774502
+#> X4  6.589111e-03 0.0004831405 0.006838746
+#> X5 -1.211742e-04 0.0005313759 0.006681976
+#> X6  3.030053e-04 0.0005629356 0.006669775
+#> X7  1.020259e-05 0.0005726937 0.006679191
+#> X8  2.148300e-04 0.0005568268 0.006667389
+#>       min. c.i.  max. c.i.
+#> X1  0.710251368 0.72240556
+#> X2  0.163947268 0.19201201
+#> X3  0.009567471 0.03720730
+#> X4 -0.008588815 0.01938342
+#> X5 -0.015365761 0.01157217
+#> X6 -0.015078821 0.01199152
+#> X7 -0.015407550 0.01182783
+#> X8 -0.015109380 0.01171543
+#> 
+#> Total indices:
+#>        original          bias   std. error
+#> X1 0.7935715807  7.383122e-05 5.720433e-03
+#> X2 0.2415268270 -2.515680e-04 2.236182e-03
+#> X3 0.0346698446  2.384117e-05 3.501189e-04
+#> X4 0.0104714634  1.848957e-05 9.239132e-05
+#> X5 0.0001052321 -2.571588e-08 9.742721e-07
+#> X6 0.0001040942  1.012299e-07 1.107125e-06
+#> X7 0.0001055571  8.766826e-08 8.914437e-07
+#> X8 0.0001050610 -4.257143e-08 1.135505e-06
+#>       min. c.i.    max. c.i.
+#> X1 0.7816440833 0.8050569537
+#> X2 0.2375455362 0.2463777104
+#> X3 0.0340534615 0.0355355888
+#> X4 0.0102682431 0.0106360252
+#> X5 0.0001033743 0.0001069438
+#> X6 0.0001021112 0.0001067899
+#> X7 0.0001034028 0.0001068167
+#> X8 0.0001028082 0.0001069985
 ```
 
 
@@ -281,85 +332,49 @@ print(ex1_results)
 }
 #> 
 #> Call:
-#> sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)
+#> sensitivity::soboljansen(model = NULL, X1 = X1, X2 = X2, nboot = nboot)
 #> 
-#> Model runs: 1850000 
+#> Model runs: 500000 
 #> 
-#> Sobol indices
-#>            original          bias  std. error
-#> X1     0.7245997507  1.318649e-04 0.006865099
-#> X2     0.1852412158 -6.379462e-04 0.009725422
-#> X3     0.0321041221 -3.943572e-04 0.009939738
-#> X4     0.0150373622 -3.716233e-04 0.009571601
-#> X5     0.0073639355 -5.240577e-04 0.009690646
-#> X6     0.0073304377 -5.140176e-04 0.009697496
-#> X7     0.0072934310 -5.369366e-04 0.009679297
-#> X8     0.0070625492 -5.292390e-04 0.009661789
-#> X1*X2  0.0459216617  8.939108e-05 0.010932749
-#> X1*X3 -0.0006600465  6.814819e-04 0.010010933
-#> X1*X4 -0.0056037444  4.901684e-04 0.009860488
-#> X1*X5 -0.0070363484  5.187023e-04 0.009676301
-#> X1*X6 -0.0071411552  5.319393e-04 0.009690812
-#> X1*X7 -0.0072518362  5.303046e-04 0.009672163
-#> X1*X8 -0.0070777721  5.186929e-04 0.009676468
-#> X2*X3 -0.0051274794  5.279125e-04 0.009702252
-#> X2*X4 -0.0060860874  5.210190e-04 0.009681757
-#> X2*X5 -0.0071063957  5.147476e-04 0.009680715
-#> X2*X6 -0.0071163219  5.256144e-04 0.009679855
-#> X2*X7 -0.0070620281  5.299198e-04 0.009678650
-#> X2*X8 -0.0071567767  5.166541e-04 0.009686683
-#> X3*X4 -0.0073116996  5.314332e-04 0.009671714
-#> X3*X5 -0.0071206761  5.265249e-04 0.009682280
-#> X3*X6 -0.0071350887  5.241734e-04 0.009680955
-#> X3*X7 -0.0071632203  5.264482e-04 0.009681046
-#> X3*X8 -0.0071109279  5.241054e-04 0.009682418
-#> X4*X5 -0.0071437469  5.248274e-04 0.009679986
-#> X4*X6 -0.0071379129  5.276560e-04 0.009680886
-#> X4*X7 -0.0071596546  5.255998e-04 0.009681341
-#> X4*X8 -0.0071300368  5.260610e-04 0.009682262
-#> X5*X6 -0.0071348129  5.263360e-04 0.009681340
-#> X5*X7 -0.0071382804  5.262539e-04 0.009681217
-#> X5*X8 -0.0071340327  5.262561e-04 0.009681110
-#> X6*X7 -0.0071357204  5.261516e-04 0.009681295
-#> X6*X8 -0.0071339651  5.264348e-04 0.009681123
-#> X7*X8 -0.0071370385  5.263348e-04 0.009681299
-#>          min. c.i.  max. c.i.
-#> X1     0.711583661 0.73855259
-#> X2     0.163919891 0.20792418
-#> X3     0.012874359 0.05265936
-#> X4    -0.002765501 0.03471590
-#> X5    -0.010879190 0.02837068
-#> X6    -0.010964117 0.02838793
-#> X7    -0.010989042 0.02830642
-#> X8    -0.010934969 0.02789333
-#> X1*X2  0.026094148 0.06869013
-#> X1*X3 -0.022980303 0.01844932
-#> X1*X4 -0.026644889 0.01263961
-#> X1*X5 -0.027999214 0.01120229
-#> X1*X6 -0.028192638 0.01110205
-#> X1*X7 -0.028265971 0.01093724
-#> X1*X8 -0.028051234 0.01119551
-#> X2*X3 -0.026495177 0.01365939
-#> X2*X4 -0.027207071 0.01195456
-#> X2*X5 -0.028066083 0.01115791
-#> X2*X6 -0.028098511 0.01109647
-#> X2*X7 -0.028017158 0.01116083
-#> X2*X8 -0.028157933 0.01108562
-#> X3*X4 -0.028275534 0.01102687
-#> X3*X5 -0.028100457 0.01114042
-#> X3*X6 -0.028110685 0.01112504
-#> X3*X7 -0.028151981 0.01111060
-#> X3*X8 -0.028109093 0.01117038
-#> X4*X5 -0.028127750 0.01111732
-#> X4*X6 -0.028127090 0.01112126
-#> X4*X7 -0.028150168 0.01109302
-#> X4*X8 -0.028120750 0.01114550
-#> X5*X6 -0.028121862 0.01112445
-#> X5*X7 -0.028124558 0.01111832
-#> X5*X8 -0.028120227 0.01112288
-#> X6*X7 -0.028121656 0.01112018
-#> X6*X8 -0.028121004 0.01112360
-#> X7*X8 -0.028124733 0.01112035
+#> First order indices:
+#>        original          bias  std. error
+#> X1  0.711999848  2.759449e-05 0.002631360
+#> X2  0.171069444 -3.243317e-04 0.006964257
+#> X3  0.019197160  2.380097e-04 0.006570602
+#> X4  0.004399632  6.982094e-05 0.006591532
+#> X5 -0.001721617  2.932782e-05 0.006368456
+#> X6 -0.001881114  5.734953e-05 0.006392574
+#> X7 -0.002045248  6.137792e-05 0.006369883
+#> X8 -0.001850079  3.301663e-05 0.006399314
+#>       min. c.i.  max. c.i.
+#> X1  0.707005109 0.71676704
+#> X2  0.156977789 0.18629660
+#> X3  0.005519545 0.03206075
+#> X4 -0.009336102 0.01681319
+#> X5 -0.014976702 0.01081698
+#> X6 -0.015225964 0.01075163
+#> X7 -0.015444700 0.01055871
+#> X8 -0.015159481 0.01093466
+#> 
+#> Total indices:
+#>        original          bias   std. error
+#> X1 0.7904857363  4.208462e-04 6.178943e-03
+#> X2 0.2444730973  2.926195e-04 2.151611e-03
+#> X3 0.0340828543  4.398558e-05 3.338495e-04
+#> X4 0.0103959879 -3.029215e-06 8.915942e-05
+#> X5 0.0001065903  1.171617e-07 9.079141e-07
+#> X6 0.0001057113  1.810632e-07 9.735431e-07
+#> X7 0.0001059162 -3.643364e-08 9.103740e-07
+#> X8 0.0001042162  4.693930e-08 9.855479e-07
+#>       min. c.i.    max. c.i.
+#> X1 0.7787869014 0.8025046920
+#> X2 0.2399293818 0.2482734385
+#> X3 0.0334363304 0.0347126444
+#> X4 0.0102354937 0.0105765331
+#> X5 0.0001045168 0.0001082466
+#> X6 0.0001037793 0.0001075022
+#> X7 0.0001040602 0.0001081730
+#> X8 0.0001021336 0.0001062003
 ```
 
 
@@ -370,8 +385,8 @@ autoplot(ex1_results, ncol = 1)
 ```
 
 <div class="figure">
-<img src="man/figures/README-unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9" width="100%" />
-<p class="caption">plot of chunk unnamed-chunk-9</p>
+<img src="man/figures/README-unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" width="100%" />
+<p class="caption">plot of chunk unnamed-chunk-10</p>
 </div>
 
 

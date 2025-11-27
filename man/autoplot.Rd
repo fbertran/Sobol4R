@@ -6,6 +6,9 @@
 \alias{autoplot.sobol_result}
 \alias{autoplot.sobol}
 \alias{autoplot.sobol2007}
+\alias{autoplot.soboljansen}
+\alias{autoplot.sobolEff}
+\alias{autoplot.sobolmartinez}
 \alias{autoplot.sobol_summary}
 \title{Autoplot implementations}
 \usage{
@@ -22,6 +25,12 @@ autoplot(object, ...)
 \method{autoplot}{sobol}(object, separate_panels = TRUE, ncol = 2, ...)
 
 \method{autoplot}{sobol2007}(object, ...)
+
+\method{autoplot}{soboljansen}(object, ...)
+
+\method{autoplot}{sobolEff}(object, ...)
+
+\method{autoplot}{sobolmartinez}(object, ...)
 
 \method{autoplot}{sobol_summary}(object, ...)
 }

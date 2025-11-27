@@ -9,7 +9,7 @@ sobol4r_design(
   X2,
   order = 2,
   nboot = 0,
-  type = c("sobol", "sobol2007"),
+  type = c("soboljansen", "sobol", "sobol2007", "sobolEff", "sobolmartinez"),
   ...
 )
 }
@@ -23,7 +23,11 @@ sobol4r_design(
 \item{nboot}{Number of bootstrap replicates for confidence intervals.}
 
 \item{type}{Type of Monte Carlo Estimation of Sobol' Indices to be used.
-At the moment, either \code{sensitivity::sobol()} or \code{sensitivity::sobol2007()}.}
+Supported estimators mirror the \pkg{sensitivity} helpers: \code{sobol},
+\code{sobol2007}, \code{soboljansen}, \code{sobolEff}, and
+\code{sobolmartinez}. Defaults to \code{"soboljansen"}, which is the
+safest general-purpose choice for both deterministic and stochastic
+simulators.}
 
 \item{...}{Additional arguments passed to \code{sensitivity::sobol}.}
 }

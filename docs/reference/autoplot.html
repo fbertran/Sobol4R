@@ -24,7 +24,8 @@ sensitivity::sobol objects."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Choosing_Sobol_Estimator_in_Sobol4R.html">Choosing a Sobol Estimator in Sobol4R</a></li>
+    <li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol_RV_five_examples.html">Exploring Sobol indices and randomness with Sobol4R</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_process.html">Sobol4R: Sobol indices for a stochastic process model</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_stochastic.html">Sobol4R: Sobol indices for stochastic models</a></li>
@@ -70,6 +71,15 @@ used in this package, compact <code>sobol_summary</code> data frames, and
 <span><span class="fu">autoplot</span><span class="op">(</span><span class="va">object</span>, separate_panels <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'sobol2007'</span></span>
+<span><span class="fu">autoplot</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'soboljansen'</span></span>
+<span><span class="fu">autoplot</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'sobolEff'</span></span>
+<span><span class="fu">autoplot</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'sobolmartinez'</span></span>
 <span><span class="fu">autoplot</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'sobol_summary'</span></span>

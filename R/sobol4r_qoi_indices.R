@@ -13,8 +13,10 @@
 #'   design point.
 #' @param order Maximum interaction order (1 or 2).
 #' @param nboot Number of bootstrap replicates for Sobol indices.
-#' @param type Which estimator to use, either \code{"sobol"} or
-#'   \code{"sobol2007"}.
+#' @param type Which estimator to use. Any \pkg{sensitivity} Sobol helper is
+#'   supported: \code{"sobol"}, \code{"sobol2007"}, \code{"soboljansen"},
+#'   \code{"sobolEff"}, or \code{"sobolmartinez"}. Defaults to
+#'   \code{"soboljansen"}, the most robust general-purpose choice.
 #' @param ... Additional arguments passed to \code{model}.
 #'
 #' @return An object of class \code{"sobol"} with QoI-based Sobol indices.
@@ -26,10 +28,14 @@ sobol4r_qoi_indices <- function(model,
                                 nrep    = 1000,
                                 order   = 2,
                                 nboot   = 0,
-                                type    = c("sobol", "sobol2007"),
+                                type    = c("soboljansen", "sobol", "sobol2007", "sobolEff", "sobolmartinez"),
                                 ...) {
-  type = match.arg(type, c("sobol", "sobol2007"))
-  gensol <- sobol4r_design(X1 = X1, X2 = X2, order = order, nboot = nboot, type = type)
+  type = match.arg(type, c("soboljansen", "sobol", "sobol2007", "sobolEff", "sobolmartinez"))
+  if(type == "sobol2007"){
+    gensol <- sobol4r_design(X1 = X1, X2 = X2, nboot = nboot, type = type)
+  } else {
+    gensol <- sobol4r_design(X1 = X1, X2 = X2, order = order, nboot = nboot, type = type)
+  } 
   X_all  <- as.matrix(gensol$X)
   
   n_all <- nrow(X_all)
@@ -45,14 +51,18 @@ sobol4r_qoi_indices <- function(model,
   # Evaluate the stochastic model nrep times without using replicate
   sims_list <- vector("list", nrep)
   for (i in seq_len(nrep)) {
-    sims_i <- model(X_all, ...)
-    if (!is.numeric(sims_i)) {
+    sims_i_raw <- model(X_all, ...)
+    if (!is.numeric(sims_i_raw)) {
       stop("sobol4r_qoi_indices: model must return a numeric vector.")
     }
-    if (length(sims_i) != n_all) {
+    if (length(sims_i_raw) != n_all) {
       stop("sobol4r_qoi_indices: model output length must equal nrow(gensol$X).")
     }
-    sims_list[[i]] <- sims_i
+    if(type == "sobol2007"){
+      sims_list[[i]] <- sims_i_raw - mean(sims_i_raw)
+    } else {
+    sims_list[[i]] <- sims_i_raw
+    }
   }
   
   sims <- do.call(cbind, sims_list)

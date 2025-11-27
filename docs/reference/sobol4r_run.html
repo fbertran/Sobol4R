@@ -9,7 +9,7 @@ of the original scripts. It never writes to disk."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Sobol4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,8 @@ of the original scripts. It never writes to disk."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Choosing_Sobol_Estimator_in_Sobol4R.html">Choosing a Sobol Estimator in Sobol4R</a></li>
+    <li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol_RV_five_examples.html">Exploring Sobol indices and randomness with Sobol4R</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_process.html">Sobol4R: Sobol indices for a stochastic process model</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_stochastic.html">Sobol4R: Sobol indices for stochastic models</a></li>
@@ -57,7 +58,7 @@ of the original scripts. It never writes to disk.</p>
 <span>  nboot <span class="op">=</span> <span class="fl">100L</span>,</span>
 <span>  qoi_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  nrep <span class="op">=</span> <span class="fl">1L</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sobol"</span>, <span class="st">"sobol2007"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"soboljansen"</span>, <span class="st">"sobol"</span>, <span class="st">"sobol2007"</span>, <span class="st">"sobolEff"</span>, <span class="st">"sobolmartinez"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -94,7 +95,11 @@ the model is evaluated repeatedly and QoI is computed row wise.</p></dd>
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Type of Monte Carlo Estimation of Sobol' Indices to be used.
-At the moment, either <code><a href="https://rdrr.io/pkg/sensitivity/man/sobol.html" class="external-link">sensitivity::sobol()</a></code> or <code><a href="https://rdrr.io/pkg/sensitivity/man/sobol2007.html" class="external-link">sensitivity::sobol2007()</a></code>.</p></dd>
+Supported estimators mirror the <span class="pkg">sensitivity</span> helpers: <code>sobol</code>,
+<code>sobol2007</code>, <code>soboljansen</code>, <code>sobolEff</code>, and
+<code>sobolmartinez</code>. Defaults to <code>"soboljansen"</code> because it offers
+robust first and total order indices on both centred and non-centred
+outputs.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

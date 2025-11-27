@@ -12,7 +12,7 @@ sobol4r_run(
   nboot = 100L,
   qoi_fun = NULL,
   nrep = 1L,
-  type = c("sobol", "sobol2007"),
+  type = c("soboljansen", "sobol", "sobol2007", "sobolEff", "sobolmartinez"),
   ...
 )
 }
@@ -32,7 +32,11 @@ the model is evaluated repeatedly and QoI is computed row wise.}
 \item{nrep}{Number of replications per design row when \code{qoi} is not NULL.}
 
 \item{type}{Type of Monte Carlo Estimation of Sobol' Indices to be used.
-At the moment, either \code{sensitivity::sobol()} or \code{sensitivity::sobol2007()}.}
+Supported estimators mirror the \pkg{sensitivity} helpers: \code{sobol},
+\code{sobol2007}, \code{soboljansen}, \code{sobolEff}, and
+\code{sobolmartinez}. Defaults to \code{"soboljansen"} because it offers
+robust first and total order indices on both centred and non-centred
+outputs.}
 
 \item{...}{Extra arguments passed to \code{model}.}
 }

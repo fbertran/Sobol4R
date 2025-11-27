@@ -11,7 +11,7 @@ input point, such as the mean of repeated runs."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Sobol4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,8 @@ input point, such as the mean of repeated runs."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Choosing_Sobol_Estimator_in_Sobol4R.html">Choosing a Sobol Estimator in Sobol4R</a></li>
+    <li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol_RV_five_examples.html">Exploring Sobol indices and randomness with Sobol4R</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_process.html">Sobol4R: Sobol indices for a stochastic process model</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_stochastic.html">Sobol4R: Sobol indices for stochastic models</a></li>
@@ -60,7 +61,7 @@ input point, such as the mean of repeated runs.</p>
 <span>  nrep <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  order <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  nboot <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sobol"</span>, <span class="st">"sobol2007"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"soboljansen"</span>, <span class="st">"sobol"</span>, <span class="st">"sobol2007"</span>, <span class="st">"sobolEff"</span>, <span class="st">"sobolmartinez"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -97,8 +98,10 @@ design point.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Which estimator to use, either <code>"sobol"</code> or
-<code>"sobol2007"</code>.</p></dd>
+<dd><p>Which estimator to use. Any <span class="pkg">sensitivity</span> Sobol helper is
+supported: <code>"sobol"</code>, <code>"sobol2007"</code>, <code>"soboljansen"</code>,
+<code>"sobolEff"</code>, or <code>"sobolmartinez"</code>. Defaults to
+<code>"soboljansen"</code>, the most robust general-purpose choice.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

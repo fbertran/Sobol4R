@@ -33,7 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
+<li><a class="dropdown-item" href="../articles/Choosing_Sobol_Estimator_in_Sobol4R.html">Choosing a Sobol Estimator in Sobol4R</a></li>
+    <li><a class="dropdown-item" href="../articles/simmer_MM1_Sobol_example.html">Sobol sensitivity analysis of an M/M/1 queue in simmer</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol_RV_five_examples.html">Exploring Sobol indices and randomness with Sobol4R</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_process.html">Sobol4R: Sobol indices for a stochastic process model</a></li>
     <li><a class="dropdown-item" href="../articles/Sobol4R_vignette_stochastic.html">Sobol4R: Sobol indices for stochastic models</a></li>
@@ -67,7 +68,7 @@ Bertrand</h4>
 Paris<br><a class="author_email" href="mailto:#"></a><a href="mailto:frederic.bertrand@lecnam.net" class="email">frederic.bertrand@lecnam.net</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2025-11-26</h4>
+            <h4 data-toc-skip class="date">2025-11-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/fbertran/Sobol4R/blob/HEAD/vignettes/Sobol4R_vignette_stochastic.Rmd" class="external-link"><code>vignettes/Sobol4R_vignette_stochastic.Rmd</code></a></small>
       <div class="d-none name"><code>Sobol4R_vignette_stochastic.Rmd</code></div>
@@ -118,48 +119,31 @@ interest wrapper <code>sobol4r_qoi</code>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sob_det</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
-<span><span class="co">#&gt; sensitivity::sobol(model = NULL, X1 = X1, X2 = X2, order = order,     nboot = nboot)</span></span>
+<span><span class="co">#&gt; sensitivity::soboljansen(model = NULL, X1 = X1, X2 = X2, nboot = nboot)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model runs: 370000 </span></span>
+<span><span class="co">#&gt; Model runs: 100000 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sobol indices</span></span>
-<span><span class="co">#&gt;           original         bias std. error    min. c.i.  max. c.i.</span></span>
-<span><span class="co">#&gt; X1     0.729316561 -0.001275439 0.01545021  0.697616109 0.75539527</span></span>
-<span><span class="co">#&gt; X2     0.196090766 -0.001421671 0.02154300  0.149982732 0.24012332</span></span>
-<span><span class="co">#&gt; X3     0.023981516 -0.003065429 0.02254195 -0.022845225 0.06862620</span></span>
-<span><span class="co">#&gt; X4     0.020825373 -0.001493134 0.02304567 -0.030743385 0.06770798</span></span>
-<span><span class="co">#&gt; X5     0.014039354 -0.001739104 0.02286833 -0.033429593 0.06035033</span></span>
-<span><span class="co">#&gt; X6     0.014708915 -0.001733720 0.02289314 -0.032962767 0.06076802</span></span>
-<span><span class="co">#&gt; X7     0.014340074 -0.001703916 0.02284889 -0.033229092 0.06040784</span></span>
-<span><span class="co">#&gt; X8     0.014309301 -0.001662739 0.02293222 -0.033269603 0.06032436</span></span>
-<span><span class="co">#&gt; X1*X2  0.046865217  0.002550570 0.02713540 -0.006026338 0.09871445</span></span>
-<span><span class="co">#&gt; X1*X3 -0.007464372  0.002580981 0.02266589 -0.055481253 0.03639582</span></span>
-<span><span class="co">#&gt; X1*X4 -0.012404646  0.001762228 0.02312736 -0.058467170 0.03691738</span></span>
-<span><span class="co">#&gt; X1*X5 -0.014058843  0.001714964 0.02288889 -0.060132470 0.03373491</span></span>
-<span><span class="co">#&gt; X1*X6 -0.014241259  0.001687695 0.02286621 -0.060184648 0.03336696</span></span>
-<span><span class="co">#&gt; X1*X7 -0.014157446  0.001683380 0.02286251 -0.059923900 0.03328664</span></span>
-<span><span class="co">#&gt; X1*X8 -0.013976941  0.001747537 0.02286627 -0.059862035 0.03358057</span></span>
-<span><span class="co">#&gt; X2*X3 -0.014705090  0.001886857 0.02316433 -0.061183556 0.03236541</span></span>
-<span><span class="co">#&gt; X2*X4 -0.011390929  0.001646346 0.02302253 -0.056859886 0.03564363</span></span>
-<span><span class="co">#&gt; X2*X5 -0.014127670  0.001736261 0.02286688 -0.060043209 0.03352002</span></span>
-<span><span class="co">#&gt; X2*X6 -0.014110288  0.001714867 0.02288131 -0.060001925 0.03356799</span></span>
-<span><span class="co">#&gt; X2*X7 -0.014205955  0.001744655 0.02289871 -0.060152873 0.03353539</span></span>
-<span><span class="co">#&gt; X2*X8 -0.014017457  0.001746709 0.02287928 -0.059955448 0.03372764</span></span>
-<span><span class="co">#&gt; X3*X4 -0.014248428  0.001739508 0.02291249 -0.060842516 0.03370856</span></span>
-<span><span class="co">#&gt; X3*X5 -0.014110240  0.001724878 0.02287689 -0.059965627 0.03358561</span></span>
-<span><span class="co">#&gt; X3*X6 -0.014073724  0.001716482 0.02288471 -0.059961372 0.03366554</span></span>
-<span><span class="co">#&gt; X3*X7 -0.014101779  0.001732930 0.02287970 -0.059981310 0.03364722</span></span>
-<span><span class="co">#&gt; X3*X8 -0.014116726  0.001720118 0.02288282 -0.060001796 0.03358277</span></span>
-<span><span class="co">#&gt; X4*X5 -0.014141193  0.001723617 0.02288695 -0.060047751 0.03358634</span></span>
-<span><span class="co">#&gt; X4*X6 -0.014170593  0.001730109 0.02288030 -0.060094990 0.03351575</span></span>
-<span><span class="co">#&gt; X4*X7 -0.014136512  0.001728798 0.02287319 -0.060018980 0.03354256</span></span>
-<span><span class="co">#&gt; X4*X8 -0.014114087  0.001730295 0.02288118 -0.060019126 0.03357095</span></span>
-<span><span class="co">#&gt; X5*X6 -0.014134265  0.001724749 0.02287874 -0.060037134 0.03356052</span></span>
-<span><span class="co">#&gt; X5*X7 -0.014132876  0.001725326 0.02287857 -0.060034674 0.03355894</span></span>
-<span><span class="co">#&gt; X5*X8 -0.014133657  0.001724984 0.02287906 -0.060041703 0.03355821</span></span>
-<span><span class="co">#&gt; X6*X7 -0.014133660  0.001724777 0.02287928 -0.060041776 0.03356007</span></span>
-<span><span class="co">#&gt; X6*X8 -0.014132645  0.001725332 0.02287910 -0.060038087 0.03355843</span></span>
-<span><span class="co">#&gt; X7*X8 -0.014134667  0.001725199 0.02287888 -0.060038360 0.03356007</span></span>
+<span><span class="co">#&gt; First order indices:</span></span>
+<span><span class="co">#&gt;       original          bias  std. error    min. c.i.  max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.717660678 -0.0009932676 0.006036444  0.704737206 0.73253886</span></span>
+<span><span class="co">#&gt; X2 0.185342302 -0.0020706753 0.014354599  0.154165726 0.21333266</span></span>
+<span><span class="co">#&gt; X3 0.024134416 -0.0025884308 0.014211364 -0.007872698 0.05741629</span></span>
+<span><span class="co">#&gt; X4 0.013559153 -0.0038402521 0.014099271 -0.016977087 0.04874150</span></span>
+<span><span class="co">#&gt; X5 0.005864082 -0.0037560690 0.014028598 -0.022414985 0.04106775</span></span>
+<span><span class="co">#&gt; X6 0.005796217 -0.0038042037 0.014036002 -0.022355436 0.04105654</span></span>
+<span><span class="co">#&gt; X7 0.005778092 -0.0037573736 0.013989862 -0.022549033 0.04100004</span></span>
+<span><span class="co">#&gt; X8 0.006151195 -0.0036990459 0.014049146 -0.021865015 0.04120230</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Total indices:</span></span>
+<span><span class="co">#&gt;        original          bias   std. error    min. c.i.    max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.7684270334  1.348517e-03 1.095303e-02 7.451818e-01 0.7922941591</span></span>
+<span><span class="co">#&gt; X2 0.2391940077  2.015426e-04 4.097996e-03 2.302565e-01 0.2478394129</span></span>
+<span><span class="co">#&gt; X3 0.0333164459  6.195538e-05 6.267740e-04 3.199008e-02 0.0346766967</span></span>
+<span><span class="co">#&gt; X4 0.0104979835  2.557619e-05 2.824431e-04 9.884158e-03 0.0109966841</span></span>
+<span><span class="co">#&gt; X5 0.0001033816  1.375728e-09 1.732832e-06 1.000611e-04 0.0001068481</span></span>
+<span><span class="co">#&gt; X6 0.0001053492 -1.117878e-07 2.656393e-06 9.829080e-05 0.0001102474</span></span>
+<span><span class="co">#&gt; X7 0.0001039507  7.510483e-08 2.285392e-06 9.790305e-05 0.0001085273</span></span>
+<span><span class="co">#&gt; X8 0.0001006685  2.460455e-07 2.009040e-06 9.605339e-05 0.0001040869</span></span>
 <span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_det</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-det-plot-1.png" width="1050"></p>
 </div>
@@ -324,14 +308,14 @@ is approximated by repeated calls to the stochastic model.</p>
 <span><span class="co">#&gt; Model runs: 40000 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; First order indices:</span></span>
-<span><span class="co">#&gt;     original        bias std. error min. c.i. max. c.i.</span></span>
-<span><span class="co">#&gt; X1 0.7569676 0.005520727 0.02420193 0.7014583 0.8274716</span></span>
-<span><span class="co">#&gt; X2 0.1676229 0.002125275 0.01531202 0.1349189 0.1963376</span></span>
+<span><span class="co">#&gt;    original         bias  std. error min. c.i. max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.778753 0.0041844030 0.013385447 0.7510859 0.8136224</span></span>
+<span><span class="co">#&gt; X2 0.187627 0.0005980994 0.007046389 0.1712593 0.2009642</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Total indices:</span></span>
-<span><span class="co">#&gt;     original          bias std. error min. c.i. max. c.i.</span></span>
-<span><span class="co">#&gt; X1 0.8418682  0.0009028623 0.02325515 0.7957662 0.8900772</span></span>
-<span><span class="co">#&gt; X2 0.2740287 -0.0025875328 0.01601914 0.2449723 0.3176801</span></span>
+<span><span class="co">#&gt;     original         bias  std. error min. c.i. max. c.i.</span></span>
+<span><span class="co">#&gt; X1 0.8200828  0.002239187 0.009360912 0.7983630 0.8358809</span></span>
+<span><span class="co">#&gt; X2 0.2540245 -0.001060357 0.006998130 0.2466031 0.2736040</span></span>
 <span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_noise_const_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-const-qoi-plot-2007-1.png" width="1050"></p>
 </div>
@@ -399,16 +383,16 @@ fixed.</p>
 <span><span class="co">#&gt; Model runs: 50000 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; First order indices:</span></span>
-<span><span class="co">#&gt;         original          bias   std. error     min. c.i.    max. c.i.</span></span>
-<span><span class="co">#&gt; C1  0.0003333998 -2.935862e-05 0.0007910252 -0.0012618253 0.0017225779</span></span>
-<span><span class="co">#&gt; C2 -0.0001240202  1.224430e-05 0.0003261510 -0.0009422672 0.0005263487</span></span>
-<span><span class="co">#&gt; C3  0.9683764786 -4.004989e-03 0.0299272215  0.9093569619 1.0351947827</span></span>
+<span><span class="co">#&gt;        original          bias   std. error     min. c.i.    max. c.i.</span></span>
+<span><span class="co">#&gt; C1 0.0003628503 -4.418472e-05 0.0002554395 -0.0001224899 0.0008875878</span></span>
+<span><span class="co">#&gt; C2 0.0001646244  6.080073e-07 0.0001352320 -0.0001857294 0.0004557450</span></span>
+<span><span class="co">#&gt; C3 0.9961673645  8.634919e-04 0.0198365066  0.9575067469 1.0521474300</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Total indices:</span></span>
 <span><span class="co">#&gt;        original          bias   std. error     min. c.i.    max. c.i.</span></span>
-<span><span class="co">#&gt; C1 0.0007208594 -7.186279e-05 0.0007702269 -0.0009344723 0.0023805464</span></span>
-<span><span class="co">#&gt; C2 0.0003281183  1.261821e-05 0.0003896499 -0.0006923641 0.0009725581</span></span>
-<span><span class="co">#&gt; C3 1.0310911191  6.028381e-03 0.0287721499  0.9591583461 1.0980545363</span></span>
+<span><span class="co">#&gt; C1 0.0006914089 -5.703669e-05 0.0002709640  0.0002575406 0.0012294616</span></span>
+<span><span class="co">#&gt; C2 0.0000394737  2.425451e-05 0.0001823106 -0.0005339253 0.0002984852</span></span>
+<span><span class="co">#&gt; C3 1.0033002332  1.159900e-03 0.0119244876  0.9775140354 1.0294582460</span></span>
 <span><span class="fu">Sobol4R</span><span class="fu">::</span><span class="fu"><a href="../reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sob_cov_qoi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/sobol-stochastic-g-noise-cov-qoi-plot-1.png" width="1050"></p>
 </div>

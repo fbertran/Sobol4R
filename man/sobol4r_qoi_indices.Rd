@@ -12,7 +12,7 @@ sobol4r_qoi_indices(
   nrep = 1000,
   order = 2,
   nboot = 0,
-  type = c("sobol", "sobol2007"),
+  type = c("soboljansen", "sobol", "sobol2007", "sobolEff", "sobolmartinez"),
   ...
 )
 }
@@ -32,8 +32,10 @@ design point.}
 
 \item{nboot}{Number of bootstrap replicates for Sobol indices.}
 
-\item{type}{Which estimator to use, either \code{"sobol"} or
-\code{"sobol2007"}.}
+\item{type}{Which estimator to use. Any \pkg{sensitivity} Sobol helper is
+supported: \code{"sobol"}, \code{"sobol2007"}, \code{"soboljansen"},
+\code{"sobolEff"}, or \code{"sobolmartinez"}. Defaults to
+\code{"soboljansen"}, the most robust general-purpose choice.}
 
 \item{...}{Additional arguments passed to \code{model}.}
 }
